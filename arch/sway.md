@@ -35,9 +35,7 @@ chmod +x /sbin/clamshell
 Firefox can run nativally on Wayland with the following tweak:
 
 ```
-cat <<EOF >/etc/environment
-MOZ_ENABLE_FIREFOX=1
-EOF
+echo MOX_ENABLE_FIREFOX=1 | sudo tee -a /etc/environment
 ```
 
 ## shotman
@@ -77,3 +75,14 @@ yay vmware-workstation
 Some good documentation about it: https://wiki.archlinux.org/title/VMware#Launching_the_application.
 
 Not actually sure what of that I will implement but surely some of it.
+
+TODO: set correct environment variables so that vmware launches
+
+## KeePassXC
+Install it:
+
+```
+yay keepassxc
+```
+
+TODO: set correct environment variables so that keepassxc launches
