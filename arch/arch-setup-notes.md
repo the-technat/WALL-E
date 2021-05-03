@@ -130,16 +130,6 @@ sudo pacman -S go
 makepkg -si
 ```
 
-## Sway & Ly 
-Setting up `swaywm` with a minimalistic window manager named `ly`:
-
-```
-sudo pacman -S sway alacritty sway-launcher-desktop
-yay ly-git
-systemctl enable ly
-reboot
-```
-
 ## oh-my-zsh
 I'm using zsh with the [oh-my-zsh](https://ohmyz.sh/) framework. Install it like that:
 
