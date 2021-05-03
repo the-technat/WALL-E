@@ -50,3 +50,11 @@ yay shotman
 
 Config is placed in sway's config. 
 Software Repo: https://gitlab.com/WhyNotHugo/shotman/-/tree/main
+
+## QT Applications
+From https://github.com/swaywm/sway/wiki#disabling-client-side-qt-decorations:
+
+```
+echo QT_QPA_PLATFORM=wayland |sudo tee -a /etc/environment
+echo QT_WAYLAND_DISABLE_WINDOWDECORATION="1" | sudo tee -a /etc/environment
+```
