@@ -46,6 +46,7 @@ Screenshot tool
 ```
 sudo pamcan -S python-pip python-setuptools
 yay shotman
-cd ../
-stow shotman
 ```
+
+Config is placed in sway's config. 
+Software Repo: https://gitlab.com/WhyNotHugo/shotman/-/tree/main
