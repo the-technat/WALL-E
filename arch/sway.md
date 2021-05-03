@@ -15,6 +15,22 @@ stow sway
 
 Whit that you link my sway config and have the basis things already working.
 
+## Clamshell mode
+In the config clamshell mode is already set up accordingly to [the docs](https://github.com/swaywm/sway/wiki#clamshell-mode). But you still need to run the following for it to work perfectly:
+
+
+```
+cat <<EOF >/sbin/clamshell
+#!/usr/bin/bash
+if grep -q open /proc/acpi/button/lid/LID/state; then
+    swaymsg output eDP-1 enable
+else
+    swaymsg output eDP-1 disable
+fi
+EOF
+chmod +x /sbin/clamshell
+```
+
 ## Firefox
 Firefox can run nativally on Wayland with the following tweak:
 
