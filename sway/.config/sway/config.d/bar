@@ -1,0 +1,9 @@
+# Technat's config for sway
+# stored in ~/.config/sway/config
+
+###### Status Bar (waybar) ######
+bar {
+    swaybar_command waybar
+}
+
+

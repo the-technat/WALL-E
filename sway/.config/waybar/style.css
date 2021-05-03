@@ -1,0 +1,323 @@
+/* =============================================================================
+ *
+ * Waybar configuration
+ *
+ * Configuration reference: https://github.com/Alexays/Waybar/wiki/Configuration
+ *
+ * =========================================================================== */
+
+/* -----------------------------------------------------------------------------
+ * Keyframes
+ * -------------------------------------------------------------------------- */
+
+@keyframes blink-warning {
+    70% {
+        color: @light;
+    }
+
+    to {
+        color: @light;
+        background-color: @warning;
+    }
+}
+
+@keyframes blink-critical {
+    70% {
+      color: @light;
+    }
+
+    to {
+        color: @light;
+        background-color: @critical;
+    }
+}
+
+
+/* -----------------------------------------------------------------------------
+ * Styles
+ * -------------------------------------------------------------------------- */
+
+/* COLORS */
+/*
+$base03:    #002b36;
+$base02:    #073642;
+$base01:    #586e75;
+$base00:    #657b83;
+$base0:     #839496;
+$base1:     #93a1a1;
+$base2:     #eee8d5;
+$base3:     #fdf6e3;
+$yellow:    #b58900;
+$orange:    #cb4b16;
+$red:       #dc322f;
+$magenta:   #d33682;
+$violet:    #6c71c4;
+$blue:      #268bd2;
+$cyan:      #2aa198;
+$green:     #859900;
+*/
+
+/* Solarized Dark */
+@define-color background #002b36;
+@define-color text #839496;
+@define-color alttext #073642;
+@define-color workspaces #073642;
+@define-color workspacesfocused #073642;
+@define-color warning #cb4b16;
+@define-color critical #dc322f;
+@define-color sound #268bd2;
+@define-color network #859900;
+@define-color mode #268bd2;
+@define-color memory #268bd2;
+@define-color cpu #859900;
+@define-color temp #268bd2;
+@define-color layout #2aa198;
+@define-color battery #859900;
+@define-color date #268bd2;
+@define-color time #b58900;
+
+/* Solarized Light */
+/*
+@define-color background #fdf6e3;
+@define-color text #657b83;
+@define-color alttext #073642;
+@define-color warning #cb4b16;
+@define-color critical #dc322f;
+@define-color mode #b58900;
+@define-color workspaces #eee8d5;
+@define-color workspacesfocused #eee8d5;
+@define-color sound #2aa198;
+@define-color network #b58900;
+@define-color memory #2aa198;
+@define-color cpu #b58900;
+@define-color temp #2aa198;
+@define-color layout #2aa198;
+@define-color battery #b58900;
+@define-color date #2aa198;
+@define-color time #6c71c4;
+*/
+
+
+/* Reset all styles */
+* {
+    border: none;
+    border-radius: 0;
+    font-family: FiraCode, Monospace, Noto Sans;
+    font-weight: bold;
+    font-size: 10pt;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* The whole bar */
+#waybar {
+    background-color: @background;
+    color: @text;
+}
+
+/* Each module */
+#battery,
+#clock,
+#cpu,
+#custom-layout,
+#memory,
+#mode,
+#network,
+#pulseaudio,
+#temperature,
+#custom-alsa,
+#tray {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+/* Each module that should blink */
+#mode,
+#memory,
+#temperature,
+#battery {
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+/* Each critical module */
+#memory.critical,
+#cpu.critical,
+#temperature.critical,
+#battery.critical {
+    color: @critical;
+}
+
+/* Each critical that should blink */
+#mode,
+#memory.critical,
+#temperature.critical,
+#battery.critical.discharging {
+    animation-name: blink-critical;
+    animation-duration: 2s;
+}
+
+/* Each warning */
+#network.disconnected,
+#memory.warning,
+#cpu.warning,
+#temperature.warning,
+#battery.warning {
+    color: @warning;
+}
+
+/* Each warning that should blink */
+#battery.warning.discharging {
+    animation-name: blink-warning;
+    animation-duration: 3s;
+}
+
+/* And now modules themselves in their respective order */
+
+#mode { /* Shown current Sway mode (resize etc.) */
+	color: @alttext;
+	background: @mode;
+}
+
+/* Workspaces stuff */
+#workspaces button {
+	font-weight: bold; /* Somewhy the bar-wide setting is ignored*/
+	padding-left: 5px;
+	padding-right: 5px;
+	color: @text;
+	background: @workspaces;
+}
+
+#workspaces button.focused {
+    background: @workspacesfocused;
+}
+
+/*#workspaces button.urgent {
+	border-color: #c9545d;
+	color: #c9545d;
+}*/
+
+#window {
+	margin-right: 40px;
+	margin-left: 40px;
+}
+
+#custom-alsa {
+	background: @sound;
+	color: @alttext;
+}
+
+#network {
+    background: @network;
+    color: @alttext;
+}
+
+#memory {
+    background: @memory;
+    color: @alttext;
+}
+
+#cpu {
+    background: @cpu;
+    color: @alttext;
+}
+
+#temperature {
+    background: @temp;
+    color: @alttext;
+}
+
+#custom-layout {
+    background: @layout;
+    color: @alttext;
+}
+
+#battery {
+    background: @battery;
+    color: @alttext;
+}
+
+#tray {
+    background: @date;
+}
+
+#clock.date {
+    background: @date;
+    color: @alttext;
+}
+
+#clock.time {
+    background: @time;
+    color: @alttext;
+}
+
+#pulseaudio { /* Unsused but kept for those who needs it */
+    background: @sound;
+    color: @alttext
+}
+
+#pulseaudio.muted {
+    /* No styles */
+}
+
+#custom-arrow1 {
+    font-size: 16px;
+    color: @sound;
+    background: transparent;
+}
+
+#custom-arrow2 {
+    font-size: 16px;
+    color: @network;
+    background: @sound;
+}
+
+#custom-arrow3 {
+    font-size: 16px;
+    color: @memory;
+    background: @network;
+}
+
+#custom-arrow4 {
+    font-size: 16px;
+    color: @cpu;
+    background: @memory;
+}
+
+#custom-arrow5 {
+    font-size: 16px;
+    color: @temp;
+    background: @cpu;
+}
+
+#custom-arrow6 {
+    font-size: 16px;
+    color: @layout;
+    background: @temp;
+}
+
+#custom-arrow7 {
+    font-size: 16px;
+    color: @battery;
+    background: @temp;
+}
+
+#custom-arrow8 {
+    font-size: 16px;
+    color: @date;
+    background: @battery;
+}
+
+#custom-arrow9 {
+    font-size: 16px;
+    color: @time;
+    background: @date;
+}
+
+#custom-arrow10 {
+    font-size: 16px;
+    color: @workspaces;
+    background: transparent;
+}

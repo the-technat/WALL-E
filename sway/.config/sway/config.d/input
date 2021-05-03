@@ -1,0 +1,10 @@
+# Technat's config for sway
+# stored in ~/.config/sway/config
+
+###### Inputs ######
+
+# define us layout with variant intl as default is only plain us layout 
+input "type:keyboard" {
+    xkb_layout "us"
+    xkb_variant "intl"
+}

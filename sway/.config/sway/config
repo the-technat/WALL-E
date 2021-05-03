@@ -1,0 +1,4 @@
+# Technat's config for sway
+# stored in ~/.config/sway/config and ~/.config/sway/config.d/
+
+include ~/.config/sway/config.d/*

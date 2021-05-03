@@ -1,0 +1,21 @@
+# Technat's config for sway
+# stored in ~/.config/sway/config
+
+###### Variables ######
+# super-key is modifier
+set $mod Mod4
+
+# swap arrow keys with home row keys like vim
+set $left h
+set $down j
+set $up k
+set $right l
+
+# application launcher
+set $menu exec $term --class=launcher -e /sbin/sway-launcher-desktop
+
+# terminal emulator
+set $term kitty
+
+# laptop built-in display
+set $laptop eDP-1
