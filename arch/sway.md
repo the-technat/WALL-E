@@ -58,3 +58,11 @@ From https://github.com/swaywm/sway/wiki#disabling-client-side-qt-decorations:
 echo QT_QPA_PLATFORM=wayland |sudo tee -a /etc/environment
 echo QT_WAYLAND_DISABLE_WINDOWDECORATION="1" | sudo tee -a /etc/environment
 ```
+
+## Waybar
+The waybar config is already stowed when stowing sway config, and waybar is also executed, but there are some fonts missing:
+
+```
+yay Iosevka
+yay ttf-font-awesome
+```
