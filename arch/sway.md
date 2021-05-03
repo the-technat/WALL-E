@@ -66,3 +66,14 @@ The waybar config is already stowed when stowing sway config, and waybar is also
 yay Iosevka
 yay ttf-font-awesome
 ```
+
+## vmware-workstation
+Install it:
+
+```
+yay vmware-workstation
+```
+
+Some good documentation about it: https://wiki.archlinux.org/title/VMware#Launching_the_application.
+
+Not actually sure what of that I will implement but surely some of it.
