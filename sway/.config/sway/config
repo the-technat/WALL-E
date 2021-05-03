@@ -26,6 +26,10 @@ set $right l
 # Clipman 
 exec wl-paste -t text --watch clipman store
 
+# Shotman
+bindsym $mod+Shift+s exec shotman area
+for_window [title="shotman"] move posititon 30 30, floating enable
+
 
 ############################
 # Outputs
@@ -49,7 +53,7 @@ exec_always /sbin/clamshell
 # define us layout with variant intl as default is only plain us layout 
 input "type:keyboard" {
     xkb_layout "us"
-    xkb_variant "intl"
+    # xkb_variant "intl"
 }
 
 
@@ -65,6 +69,9 @@ font pango: FiraCode Regular 11
 
 # set wallpaper
 output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+
+# disable title bars
+default_border none
 
 ############################
 # Keybindings
@@ -83,7 +90,7 @@ output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
     bindsym $mod+q kill
 
     # Start clipman
-    bindsym ctrl+alt+h exec clipman pick -t sway-launcher-desktop
+    bindsym Shift+Ctrl+h exec clipman pick -t sway-launcher-desktop
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
