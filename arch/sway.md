@@ -40,4 +40,12 @@ MOZ_ENABLE_FIREFOX=1
 EOF
 ```
 
-## 
+## shotman
+Screenshot tool
+
+```
+sudo pamcan -S python-pip python-setuptools
+yay shotman
+cd ../
+stow shotman
+```
