@@ -50,12 +50,18 @@ Config is placed in sway's config.
 Software Repo: https://gitlab.com/WhyNotHugo/shotman/-/tree/main
 
 ## QT Applications
-From https://github.com/swaywm/sway/wiki#disabling-client-side-qt-decorations:
+To run QT Applications under wayland, the following is required:
+
 
 ```
+sudo pacman -S qt5-wayland 
+sudo pacman -S qt6-wayland
+sudo pacman -S qt5ct
+echo QT_QPA_PLATFORMTHEME=qt5ct | sudo teee -a /etc/environment
 echo QT_QPA_PLATFORM=wayland |sudo tee -a /etc/environment
 echo QT_WAYLAND_DISABLE_WINDOWDECORATION="1" | sudo tee -a /etc/environment
 ```
+From https://wiki.archlinux.org/title/Wayland#GUI_libraries.
 
 ## Waybar
 The waybar config is already stowed when stowing sway config, and waybar is also executed, but there are some fonts missing:
@@ -77,12 +83,3 @@ Some good documentation about it: https://wiki.archlinux.org/title/VMware#Launch
 Not actually sure what of that I will implement but surely some of it.
 
 TODO: set correct environment variables so that vmware launches
-
-## KeePassXC
-Install it:
-
-```
-yay keepassxc
-```
-
-TODO: set correct environment variables so that keepassxc launches
