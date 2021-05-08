@@ -35,10 +35,10 @@ for_window [title="shotman"] move posititon 30 30, floating enable
 # Outputs
 ############################
 # Dell monitor 21" (left)
-# output DP-2 pos 0 0 res 1920x1080
+output DP-1 pos 0 0 res 1920x1080
 
 # Dell monitor 27" (right)
-# output HDMI-A-1  pos 1920 0 res 1920x1080
+output DP-2  pos 1920 0 res 2560x1440
 
 # built-in display (clamshel mode)
 bindswitch --reload --locked lid:on output $laptop disable
