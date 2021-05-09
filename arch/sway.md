@@ -50,6 +50,18 @@ yay Iosevka
 yay ttf-font-awesome
 ```
 
+## Brightness
+Well how to change the brightness on sway?
+
+First we need some tools:
+```
+yay brightnessctl
+yay wob
+```
+
+The necessary lines for it to work are already in the sway config. So it should work now.
+More Infos: https://github.com/francma/wob
+
 ## Philosohpy about Wayland and XWayland
 Wayland aims to be the new replacement for X. But X is over 20 years old and it's very deep rooted in linux. So a switch is not easy. When using wayland these days you will almost all times run in situations where applicatons don't support wayland or not by default. Luckily there is [XWayland](https://wiki.archlinux.org/title/Wayland#XWayland). But those applications that support wayland should run on wayland right?
 
