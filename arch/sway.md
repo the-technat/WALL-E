@@ -15,6 +15,13 @@ stow sway
 
 Whit that you link my sway config and have the basis things already working.
 
+## Environment variables
+I realized one day that there is no common sense on where to put environment variables. Especially for graphical environments it seems like `/etc/environment` is not the only place to store them.
+
+Read more: https://wiki.archlinux.org/title/Environment_variables#Graphical_environment
+Decided what we should use and adjust the entier sway guide accordingly.
+
+
 ## Clamshell mode
 In the config clamshell mode is already set up accordingly to [the docs](https://github.com/swaywm/sway/wiki#clamshell-mode). But you still need to run the following for it to work perfectly:
 
