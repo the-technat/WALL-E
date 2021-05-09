@@ -201,12 +201,17 @@ tmux # prefix + I to install plugins
 
 Note: You need to adjust the terminal colors of your terminal emulator to match solarized dark theme. Otherwise the colors aren't okay.
 
-## Touchpad (WIP)
-Read [Touchpad Synaptics](https://wiki.archlinux.org/index.php/Touchpad_Synaptics) for informations about the drivers used for the trackpad
 
 ## Audio (WIP)
-See https://wiki.archlinux.org/index.php/Sound_system
+For [general purpose audio](https://wiki.archlinux.org/index.php/Sound_system) `pulseaudio` in combination with `alsa` is used.
 
+```
+sudo pacman -S pulseaudio pavucontrol pulseaudio-equzlier-ladspa
+```
+
+
+## Touchpad (WIP)
+Read [Touchpad Synaptics](https://wiki.archlinux.org/index.php/Touchpad_Synaptics) for informations about the drivers used for the trackpad
 ## Install Desktop Environment (WIP)
 Until now we haven't done anything related to Graphics, DE, WindowManager and so on. Depending on your use case for this machine and your preferences this topic is completly different. I'm experienced with gnome so I would install gnome, but I'm also interested in projects like [i3](https://wiki.archlinux.org/index.php/I3) or DE's like [budgie](https://ubuntubudgie.org/) so I don't know what to install currenlty.
 
