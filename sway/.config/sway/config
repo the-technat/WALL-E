@@ -46,20 +46,20 @@ bindswitch --reload --locked lid:off output $laptop enable
 # helps to preserve clamshell mode if sway is reloaded while using clamshell mode
 exec_always /sbin/clamshell
 
-# Brightness controll
-bindsym XF86MonBrightnessDown exec brightnessctl set 5%- | sed -En 's/.*\(([0-9]+)%\).*/\1/p' > $SWAYSOCK.wob
-bindsym XF86MonBrightnessUp exec brightnessctl set +5% | sed -En 's/.*\(([0-9]+)%\).*/\1/p' > $SWAYSOCK
-
 # overlay bar for brightness and volume controll
 exec mkfifo $SWAYSOCK.wob && tail -f $SWAYSOCK.wob | wob
+
+# Brightness control
+bindsym XF86MonBrightnessDown exec brightnessctl set 5%- | sed -En 's/.*\(([0-9]+)%\).*/\1/p' > $SWAYSOCK.wob
+bindsym XF86MonBrightnessUp exec brightnessctl set +5% | sed -En 's/.*\(([0-9]+)%\).*/\1/p' > $SWAYSOCK
 
 ############################
 # Inputs
 ############################
 # define us layout with variant intl as default is only plain us layout 
 input "type:keyboard" {
-    xkb_layout "us"
-    # xkb_variant "intl"
+    xkb_layout "us,us"
+    xkb_variant ",intl"
 }
 
 
