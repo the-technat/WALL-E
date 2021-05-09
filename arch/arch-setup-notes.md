@@ -91,6 +91,7 @@ My output was as following:
 There is a "yes" by soft blocked bluetooth. I fixed this by running `rkfill unblock bluetooth`.
 
 From now bluetooth should work. You can use `bluetoothctl` to pair bluetooth devices or use any GUI Application that uses it unter the hood. 
+To power on the bluetooth controller on startup see https://wiki.archlinux.org/title/Bluetooth#Auto_power-on_after_boot.
 
 ## Sudo
 To issue commands as root without chaning the user to root we need `sudo`. On arch it's not installed by default. So let's install it:
