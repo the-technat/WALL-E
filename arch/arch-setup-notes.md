@@ -47,6 +47,22 @@ You should see at least one network interface listed. My output is as follows:
 
 If the NIC's are not listed you need to find the correct drivers manually. See [here](https://wiki.archlinux.org/index.php/Network_configuration/Ethernet#Device_driver) or [here](https://wiki.archlinux.org/index.php/Network_configuration/Wireless#Device_driver) for more information on how to get network drivers and load them.
 
+### DNS
+NetworkManager has multiple ways to resolve Names. One is to delegate DNS to the `systemd-resolved` service. For this the following has to be set:
+
+```
+sudo cat <<EOF >/etc/NetworkManager/conf.d/dns.conf
+[main]
+dns=systemd-resolved
+EOF
+sudo systemctl enable --now systemd-resolved
+```
+
+From now on DNS is completly managed by `systemd-resolved`.
+
+### Captive portals
+See https://wiki.archlinux.org/title/NetworkManager#Configuration for a list of solutions to make networkamanger open a browser window when you connect to a network that has a captive portal.
+
 ## Bluetooth
 From the official arch linux wiki, the following steps are required to setup bluetooth very generic on linux
 
