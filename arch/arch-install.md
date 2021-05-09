@@ -338,6 +338,15 @@ Set the hostname of the machine (chose your own):
 echo WALL-E > /etc/hostane
 ```
 
+And adjust the /etc/hosts file accordingly:
+```
+cat <<EOF >/etc/hosts
+127.0.0.1 localhost
+::1   localhost
+127.0.1.1 WALL-E.fritz.box WALL-E
+EOF
+```
+
 ## bootloader 
 At the beginning of the tutorial I said that this installation is a UEFI installation and that I'm going to use systemd-boot as my bootloader. There are mutliple options depending on your preference and your setup. See [here](https://wiki.archlinux.org/index.php/Arch_boot_process) for more information on other options.
 

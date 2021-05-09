@@ -6,7 +6,7 @@ Obviously this has to be done at the beginning:
 
 ```
 sudo pacman -S sway alacritty sway-launcher-desktop
-yay ly-git
+yay ly-git clipman
 systemctl enable ly
 reboot
 cd WALL-E
@@ -38,6 +38,8 @@ Firefox can run nativally on Wayland with the following tweak:
 echo MOX_ENABLE_FIREFOX=1 | sudo tee -a /etc/environment
 ```
 
+For more informations and known problems see [here](https://wiki.archlinux.org/title/Firefox#Firefox_startup_takes_very_long).
+
 ## shotman
 Screenshot tool
 
@@ -46,12 +48,11 @@ sudo pamcan -S python-pip python-setuptools
 yay shotman
 ```
 
-Config is placed in sway's config. 
+Config is placed in sway's config so it's alreadt stowed. 
 Software Repo: https://gitlab.com/WhyNotHugo/shotman/-/tree/main
 
 ## QT Applications
 To run QT Applications under wayland, the following is required:
-
 
 ```
 sudo pacman -S qt5-wayland 
@@ -62,6 +63,13 @@ echo QT_QPA_PLATFORM=wayland |sudo tee -a /etc/environment
 echo QT_WAYLAND_DISABLE_WINDOWDECORATION="1" | sudo tee -a /etc/environment
 ```
 From https://wiki.archlinux.org/title/Wayland#GUI_libraries.
+
+## XWayland
+XWayland is enabled by default in sway, but seems like the `sway` package doesn't install xwayland. So you have to install it:
+
+```
+sudo pacman -S xorg-xwayland
+```
 
 ## Waybar
 The waybar config is already stowed when stowing sway config, and waybar is also executed, but there are some fonts missing:
