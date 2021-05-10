@@ -124,6 +124,18 @@ cp /usr/share/applications/org.keepassxc.KeePassXC.desktop ~/.local/share/applic
 sed -i 's/Exec=/Exec=env QT_QPA_PLATFORMTHEME=qt5ct /g' ~/.local/share/applications/org.keepassxc.KeePassXC.desktop
 ```
 
+### Dropbox
+Dropbox can be installed like so:
+
+```
+yay dropbox -a
+yay dropbox-cli -a
+```
+
+The `dropbox-cli autostart y` command places a .desktop file in `~.config/autostart` which will execute dropbox when sway instance is started. This is because the sway-launcher-desktop application is told to execute .desktop files in this directory when sway starts. See the end of the sway config for more details
+
+Docs and further informations: https://wiki.archlinux.org/title/Dropbox
+
 ## Further reading
 * [https://wiki.archlinux.org/title/Wayland#GUI_libraries](https://wiki.archlinux.org/title/Wayland#GUI_libraries)
 * [https://wiki.archlinux.org/title/List_of_applications/Documents](https://wiki.archlinux.org/title/List_of_applications/Documents) 

@@ -240,3 +240,8 @@ bindsym $mod+r mode "resize"
 #
 
 
+############################
+# sway-launcher-desktop autostart applications
+############################
+# Docs: https://github.com/Biont/sway-launcher-desktop
+swaymsg exec "$(sway-launcher-desktop autostart)"
