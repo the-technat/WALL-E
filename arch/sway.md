@@ -62,6 +62,17 @@ yay wob
 The necessary lines for it to work are already in the sway config. So it should work now.
 More Infos: https://github.com/francma/wob
 
+
+## Volume
+In the [arch setup notes](./arch-setup-notes.md) I installed `pulseaudio`, `pavucontrol` and `pamixer`. With the last tool it is possible to adjust the volume usiong shortcuts.
+The appropriate lines are of course in the sway config.
+
+## Application launcher
+The installation section installs `sway-launcher-desktop`. It's mapped to $mod+Space and can launch applications. At the end of the sway config it is also executed to startup applications on login that have their .desktop file in `~/.config/autostart`
+
+## GTK+ aplpications take 20 seconds to start
+See https://github.com/swaywm/sway/wiki#gtk-applications-take-20-seconds-to-start
+
 ## Philosohpy about Wayland and XWayland
 Wayland aims to be the new replacement for X. But X is over 20 years old and it's very deep rooted in linux. So a switch is not easy. When using wayland these days you will almost all times run in situations where applicatons don't support wayland or not by default. Luckily there is [XWayland](https://wiki.archlinux.org/title/Wayland#XWayland). But those applications that support wayland should run on wayland right?
 

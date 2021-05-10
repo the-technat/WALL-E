@@ -202,11 +202,11 @@ tmux # prefix + I to install plugins
 Note: You need to adjust the terminal colors of your terminal emulator to match solarized dark theme. Otherwise the colors aren't okay.
 
 
-## Audio (WIP)
-For [general purpose audio](https://wiki.archlinux.org/index.php/Sound_system) `pulseaudio` in combination with `alsa` is used.
+## Audio
+For [general purpose audio](https://wiki.archlinux.org/index.php/Sound_system) `pulseaudio` in combination with `alsa` is used:
 
 ```
-sudo pacman -S pulseaudio pavucontrol pulseaudio-equzlier-ladspa
+sudo pacman -S pulseaudio pavucontrol pulseaudio-equzlier-ladspa pamixer
 ```
 
 
