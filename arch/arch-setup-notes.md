@@ -63,6 +63,51 @@ From now on DNS is completly managed by `systemd-resolved`.
 ### Captive portals
 See https://wiki.archlinux.org/title/NetworkManager#Configuration for a list of solutions to make networkamanger open a browser window when you connect to a network that has a captive portal.
 
+### WPA2_Enterprise Networks
+Universities and schools often use wpa2-enterprise networks where you have to authenticate yourself with credentials instead of a pre-shared-key.
+NetworkManager can connect to such WiFi's but seems like you have to do it via a manual added connection.
+
+So create a file in `/etc/NetworkManager/system-connections/[CONNECTION_NAME].nmconnection` and place the following content in it:
+
+```
+[connection]
+id=[CONNECTION_NAME]
+uuid=[UUID]
+type=wifi
+interface-name=[WIFI-INTERFACE NAME]
+permissions=
+
+[wifi]
+mac-address-blacklist=
+mode=infrastructure
+ssid=[SSID]
+
+[wifi-security]
+auth-alg=open
+key-mgmt=wpa-eap
+
+[802-1x]
+eap=peap;
+identity=[USERNAME]
+password=[PASSWORD]
+phase2-auth=mschapv2
+
+[ipv4]
+dns-search=
+method=auto
+
+[ipv6]
+addr-gen-mode=stable-privacy
+dns-search=
+method=auto
+
+[proxy]
+```
+
+Replace the [] place holder with the correct values. An UUID can be generated with `uuidgen`.
+
+Source: https://github.com/wylermr/NetworkManager-WPA2-Enterprise-Setup 
+
 ## Bluetooth
 From the official arch linux wiki, the following steps are required to setup bluetooth very generic on linux
 
@@ -208,7 +253,6 @@ For [general purpose audio](https://wiki.archlinux.org/index.php/Sound_system) `
 ```
 sudo pacman -S pulseaudio pavucontrol pulseaudio-equzlier-ladspa pamixer
 ```
-
 
 ## Touchpad (WIP)
 Read [Touchpad Synaptics](https://wiki.archlinux.org/index.php/Touchpad_Synaptics) for informations about the drivers used for the trackpad
