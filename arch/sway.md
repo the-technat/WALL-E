@@ -67,6 +67,21 @@ More Infos: https://github.com/francma/wob
 In the [arch setup notes](./arch-setup-notes.md) I installed `pulseaudio`, `pavucontrol` and `pamixer`. With the last tool it is possible to adjust the volume usiong shortcuts.
 The appropriate lines are of course in the sway config.
 
+## File Manager
+I use thunar as my file manager. 
+Installed like so:
+
+```
+sudo pacman -S thunar gvfs thunar-volman
+```
+
+A shortcut to launch it with $mod+f is already set in my sway config
+
+The "Open Terminal Here" action needs to be fixed in the menu where it says "edit Custom Actions".
+The correct command is `alacritty --working-directory %f`
+
+Another action to unzip a file can be added.
+
 ## Application launcher
 The installation section installs `sway-launcher-desktop`. It's mapped to $mod+Space and can launch applications. At the end of the sway config it is also executed to startup applications on login that have their .desktop file in `~/.config/autostart`
 
