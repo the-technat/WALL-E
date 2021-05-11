@@ -73,6 +73,31 @@ The installation section installs `sway-launcher-desktop`. It's mapped to $mod+S
 ## GTK+ aplpications take 20 seconds to start
 See https://github.com/swaywm/sway/wiki#gtk-applications-take-20-seconds-to-start
 
+## Dropbox
+Dropbox can be installed like so:
+
+```
+yay dropbox -a
+yay dropbox-cli -a
+```
+
+The `dropbox-cli autostart y` command places a .desktop file in `~.config/autostart` which will execute dropbox when sway instance is started. This is because the sway-launcher-desktop application is told to execute .desktop files in this directory when sway starts. See the end of the sway config for more details
+
+Docs and further informations: https://wiki.archlinux.org/title/Dropbox
+
+## Nextcloud sync client
+Can be installed like so:
+
+```
+sudo pacman -S nextcloud-client
+```
+
+There may be an issue that nextcloud client asks to login after every reboot. That can be fixed by installing the following package:
+
+```
+sudo pacman -S libgnome-keyring
+```
+
 ## Philosohpy about Wayland and XWayland
 Wayland aims to be the new replacement for X. But X is over 20 years old and it's very deep rooted in linux. So a switch is not easy. When using wayland these days you will almost all times run in situations where applicatons don't support wayland or not by default. Luckily there is [XWayland](https://wiki.archlinux.org/title/Wayland#XWayland). But those applications that support wayland should run on wayland right?
 
@@ -134,18 +159,6 @@ sudo pacman -S qt5ct
 cp /usr/share/applications/org.keepassxc.KeePassXC.desktop ~/.local/share/applications/org.keepassxc.KeePassXC.desktop
 sed -i 's/Exec=/Exec=env QT_QPA_PLATFORMTHEME=qt5ct /g' ~/.local/share/applications/org.keepassxc.KeePassXC.desktop
 ```
-
-### Dropbox
-Dropbox can be installed like so:
-
-```
-yay dropbox -a
-yay dropbox-cli -a
-```
-
-The `dropbox-cli autostart y` command places a .desktop file in `~.config/autostart` which will execute dropbox when sway instance is started. This is because the sway-launcher-desktop application is told to execute .desktop files in this directory when sway starts. See the end of the sway config for more details
-
-Docs and further informations: https://wiki.archlinux.org/title/Dropbox
 
 ## Further reading
 * [https://wiki.archlinux.org/title/Wayland#GUI_libraries](https://wiki.archlinux.org/title/Wayland#GUI_libraries)

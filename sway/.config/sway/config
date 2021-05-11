@@ -51,8 +51,7 @@ exec mkfifo $SWAYSOCK.wob && tail -f $SWAYSOCK.wob | wob
 
 # fix startup delay for GTK+ applications (https://github.com/swaywm/sway/wiki#gtk-applications-take-20-seconds-to-start)
 exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
-exec hash dbus-update-activation-environment 2>/dev/null && \
-     dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
+exec hash dbus-update-activation-environment 2>/dev/null && dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
 
 ############################
 # Inputs
@@ -60,7 +59,7 @@ exec hash dbus-update-activation-environment 2>/dev/null && \
 # define us layout with variant intl as default is only plain us layout 
 input "type:keyboard" {
     xkb_layout "us,us"
-    xkb_variant ",intl"
+    xkb_variant "intl,"
 }
 
 ############################
@@ -97,6 +96,9 @@ default_border none
 
     # Start clipman
     bindsym Shift+Ctrl+h exec clipman pick -t sway-launcher-desktop
+
+    # Start thunar
+    bindsym $mod+f exec thunar
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -191,7 +193,7 @@ default_border none
     bindsym $mod+e layout toggle split
 
     # Make the current focus fullscreen
-    bindsym $mod+f fullscreen
+    bindsym Ctrl+Alt+f fullscreen
 
     # Toggle the current focus between tiling and floating mode
     bindsym $mod+Shift+space floating toggle
