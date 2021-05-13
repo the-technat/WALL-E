@@ -240,8 +240,8 @@ From now we are ready to get a system on our disk. In arch there is a tool calle
 To start be install the `base` package alongside the `linux` package (which is the actual kernel). Then be also install `lvm2` because the system needs lvm support. The `linux-firmware` package contains drivers for many hardware and is in my case used to get the correct wifi drivers. The last `base-devel` package conains multiple tools for development and compiling. It's required for package from the AUR.
 
 ```
-pacstrap -i /mnt base base-devel linux linux-firmware lvm2
-# pacstrap -i /mnt base base-devdl linux-lts linux-firmware lvm2
+pacstrap -i /mnt base base-devel linux linux-firmware lvm2 linux-headers
+# pacstrap -i /mnt base base-devdl linux-lts linux-firmware lvm2 linux-lts-headers
 ```
 
 Note the second commented line, you can either install the normal kernel, or the LTS-kernel or both. The LTS or Long-Time-Support kernel is known for it's focus on stability and it's security updates over many years. It can be a good idea to install both so you always have a fallback if your main kernel breaks something on an update. Note that if something is wrong with your installation (if you mixed up your init-ramfs or you forgot to remove a mount from fstab for example) the LTS entry won't help you as the root disk is still the same.

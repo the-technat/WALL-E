@@ -110,8 +110,10 @@ sudo pacman -S nextcloud-client
 There may be an issue that nextcloud client asks to login after every reboot. That can be fixed by installing the following package:
 
 ```
-sudo pacman -S libgnome-keyring
+sudo pacman -S gnome-keyring
 ```
+
+It's possible that then a popup will ask you to set a password for the Default keyring which is created by the nextcloud-client.
 
 ## Philosohpy about Wayland and XWayland
 Wayland aims to be the new replacement for X. But X is over 20 years old and it's very deep rooted in linux. So a switch is not easy. When using wayland these days you will almost all times run in situations where applicatons don't support wayland or not by default. Luckily there is [XWayland](https://wiki.archlinux.org/title/Wayland#XWayland). But those applications that support wayland should run on wayland right?
@@ -151,7 +153,28 @@ Enter the license:
 sudo /usr/lib/vmware/bin/vmware-vmx-debug --new-sn XXXXX-XXXXX-XXXXX-XXXXX-XXXXX
 ```
 
+And enable the networking service:
+```
+sudo systemctl enable vmware-networks --now
+```
+
 Note: To enter the license you need to be root. But launching vmware with wayland means that you cannot run vmware as root. So how do you enter the license? Because even when vmware launches on your desktop, the licence can not be entered as there are root privileges requied. So entering it on the command line fixed that problem for me.
+
+Note2: If you get an error saying that `vmmon` is not loaded. This can probably be because the package `linux-headers` is not installed on the system
+
+#### Workaround for vmware-netcfg
+When running vmware-netcfg as root, the following error appears:
+```
+Authorization required, but no authorization protocol specified
+
+(vmware-netcfg:1617): Gtk-WARNING : 12:08:44.302: cannot open display: :0
+```
+
+This can be temporarly fixed by installing `xorg-xhost` and running the following command:
+
+```
+xhost si:localuser:root
+```
 
 More informations on running vmware: https://wiki.archlinux.org/title/VMware.
 

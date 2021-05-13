@@ -251,7 +251,12 @@ Note: You need to adjust the terminal colors of your terminal emulator to match 
 For [general purpose audio](https://wiki.archlinux.org/index.php/Sound_system) `pulseaudio` in combination with `alsa` is used:
 
 ```
-sudo pacman -S pulseaudio pavucontrol pulseaudio-equzlier-ladspa pamixer
+sudo pacman -S pulseaudio pavucontrol pulseaudio-equzlier-ladspa pamixer pulseaudio-bluetooth
+cat <<EOF >>/etc/pulse/system.pa
+### Load bluetooth modules
+load-module module-bluetooth-policy
+load-module module-bluetooth-discover
+EOF
 ```
 
 ## Touchpad (WIP)
