@@ -68,7 +68,7 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git sudo helm kubectl kube-ps1 cp extract)
+plugins=(git sudo helm kubectl ssh-agent kube-ps1 cp extract)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -105,4 +105,4 @@ alias ll="ls -lahF"
 alias k="kubectl"
 alias kak="kubectl apply -k"
 alias kaf="kubectl apply -f"
-
+alias amend="git commit --amend --no-edit"

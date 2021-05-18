@@ -56,10 +56,10 @@ exec hash dbus-update-activation-environment 2>/dev/null && dbus-update-activati
 ############################
 # Inputs
 ############################
-# define us layout with variant intl as default is only plain us layout 
+# define us layout aswell as us(intl) layout and switch using the following:
+# swaymsg input type:keyboard xkb_switch_layout next
 input "type:keyboard" {
-    xkb_layout "us,us"
-    xkb_variant "intl,"
+    xkb_layout "us,us(intl)"
 }
 
 ############################
@@ -99,6 +99,14 @@ default_border none
 
     # Start thunar
     bindsym $mod+f exec thunar
+
+    # Switch between keyboard layouts
+    # bindsym Alt+Space input type:keyboard xkb_switch_layout next 
+    # Not working: https://github.com/swaywm/sway/issues/6011
+    # Workaroung:
+    bindsym Alt+Space exec swaymsg -t get_inputs -r \
+      | jq '[.[] | select(.type == "keyboard") | .xkb_active_layout_index][0] - 1 | fabs' \
+        | xargs swaymsg 'input type:keyboard xkb_switch_layout'
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.

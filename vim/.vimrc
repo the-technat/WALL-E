@@ -135,6 +135,13 @@ colorscheme solarized
 " lightline theme
 let g:lightline = {'colorscheme': 'solarized',}
 
+" sync theme with alacritty
+" https://github.com/toggle-corp/alacritty-colorscheme
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256          " Remove this line if not necessary
+  source ~/.vimrc_background
+endif
+
 """"""""""""""""""""""""""""""""
 " Tabs and spaces
 """"""""""""""""""""""""""""""""
