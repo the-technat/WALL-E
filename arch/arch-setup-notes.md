@@ -25,6 +25,13 @@ More information about `nmcli` can be found [here](https://wiki.archlinux.org/in
 
 Well not always everything works expected. So let's take a step back and go through all the things that should be checked before running the above commands.
 
+### Network Manager Applet
+If you like a GUI:
+
+```
+sudo pacman -S network-manager-applet
+```
+
 ### Check drivers
 The most important thing is to see wether the system has detected our network interface and can use it by loading the correct driver for it. Normally the linux kernel does a good job by picking the correct default driver for your network interface. Let's check if he did:
 
