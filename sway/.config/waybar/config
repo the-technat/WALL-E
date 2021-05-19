@@ -30,8 +30,8 @@
 	"modules-right": [
 		"custom/arrow1",
 		"custom/alsa",
-		//"pulseaudio",
-		//"sndio",
+		"pulseaudio",
+		"sndio",
 		"custom/arrow2",
 		"network",
 		"custom/arrow3",
