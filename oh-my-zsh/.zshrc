@@ -102,7 +102,6 @@ fi
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias ll="ls -lahF"
-alias k="kubectl"
 alias kak="kubectl apply -k"
 alias kaf="kubectl apply -f"
-alias amend="git commit --amend --no-edit"
+# PROMPT='$(kube_ps1)'$PROMPT
