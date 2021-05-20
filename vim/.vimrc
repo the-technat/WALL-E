@@ -27,6 +27,21 @@ set encoding=utf8
 set ffs=unix,dos,mac
 
 """"""""""""""""""""""""""""""""
+" vim-plug
+""""""""""""""""""""""""""""""""
+" install if not present
+if empty(glob('~/.vim/autoload/plug.vim'))
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+            \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall | source ~/.vimrc 
+endif
+
+" Run PlugInstall if there are missing plugins
+autocmd VimEnter * if len(filter(values(g:plugs),'!isdirectory(v:val.dir)'))
+  \| PlugInstall --sync | source $MYVIMRC
+\| endif
+
+""""""""""""""""""""""""""""""""
 " Plugins (vim-plug)
 """"""""""""""""""""""""""""""""
 " start plugin list, define directory
@@ -133,18 +148,11 @@ syntax enable
 set laststatus=2 " fix lightline not showing statusline
 set noshowmode "remove current mode status bar at bottom
 
-set background=light " or dark
+set background=light " or light
 colorscheme solarized
 
 " lightline theme
 let g:lightline = {'colorscheme': 'solarized',}
-
-" sync theme with alacritty
-" https://github.com/toggle-corp/alacritty-colorscheme
-if filereadable(expand("~/.vimrc_background"))
-  let base16colorspace=256          " Remove this line if not necessary
-  source ~/.vimrc_background
-endif
 
 """"""""""""""""""""""""""""""""
 " Tabs and spaces
