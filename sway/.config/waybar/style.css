@@ -1,10 +1,58 @@
 /* =============================================================================
  *
- * Waybar configuration
+ * Technat's Waybar configuration (https://git.technat.ch)
  *
  * Configuration reference: https://github.com/Alexays/Waybar/wiki/Configuration
+ * Configuration base: 
  *
  * =========================================================================== */
+
+/* -----------------------------------------------------------------------------
+ * Styles
+ * -------------------------------------------------------------------------- */
+
+/* Solarized Dark */
+/*----------------*/
+/* General */
+/* @define-color background #002b36; */ 
+/* @define-color dark #586e75; */  
+/* @define-color light #93a1a1; */  
+/* @define-color warning #cb4b16; */ 
+/* @define-color critical #dc322f; */ 
+/* Modules */
+/* @define-color mode #073642; */ 
+/* @define-color workspaces #073642; */ 
+/* @define-color tray #073642; */
+/* @define-color sound #2aa198; */
+/* @define-color network #073642; */
+/* @define-color memory #859900; */
+/* @define-color cpu #073642; */
+/* @define-color temp #b58900; */
+/* @define-color battery #073642; */ 
+/* @define-color date #d33682; */
+/* @define-color time #073642; */ 
+
+
+/* Solarized Light */
+/*-----------------*/
+/* General */
+@define-color background #fdf6e3;
+@define-color dark #657b83;  
+@define-color light #839496;  
+@define-color warning #cb4b16; 
+@define-color critical #dc322f; 
+/* Modules */
+@define-color mode #eee8d5; 
+@define-color workspaces #eee8d5; 
+@define-color tray #eee8d5;
+@define-color sound #2aa198;
+@define-color network #eee8d5;
+@define-color memory #859900;
+@define-color cpu #eee8d5;
+@define-color temp #b58900;
+@define-color battery #eee8d5; 
+@define-color date #d33682;
+@define-color time #eee8d5; 
 
 /* -----------------------------------------------------------------------------
  * Keyframes
@@ -32,48 +80,9 @@
 	}
 }
 
-
 /* -----------------------------------------------------------------------------
- * Styles
+ * General styling
  * -------------------------------------------------------------------------- */
-
-/* COLORS */
-
-/* Nord */
-/*@define-color light #eceff4;
-@define-color dark #2e3440;
-@define-color warning #ebcb8b;
-@define-color critical #d08770;
-@define-color mode #4c566a;
-@define-color workspaces #5e81ac;
-@define-color workspacesfocused #81a1c1;
-@define-color sound #d8dee9;
-@define-color network #4c566a;
-@define-color memory #88c0d0;
-@define-color cpu #434c5e;
-@define-color temp #d8dee9;
-@define-color layout #5e81ac;
-@define-color battery #88c0d0;
-@define-color date #2e3440;
-@define-color time #eceff4;*/
-
-/* Gruvbox */
-@define-color light #ebdbb2;
-@define-color dark #282828;
-@define-color warning #fabd2f;
-@define-color critical #cc241d;
-@define-color mode #a89984;
-@define-color workspaces #458588;
-@define-color workspacesfocused #83a598;
-@define-color sound #d3869b;
-@define-color network #b16286;
-@define-color memory #8ec07c;
-@define-color cpu #98971a;
-@define-color temp #b8bb26;
-@define-color layout #689d6a;
-@define-color battery #fabd2f;
-@define-color date #282828;
-@define-color time #ebdbb2;
 
 /* Reset all styles */
 * {
@@ -86,14 +95,14 @@
 
 /* The whole bar */
 #waybar {
-	background: transparent;
+	background: @background;
 	color: @light;
-	font-family: Terminus, FiraCode, Noto Sans;
+	font-family: FiraCode, Terminus, Noto Sans;
 	font-size: 10pt;
 	font-weight: bold;
 }
 
-/* Each module */
+/* Each module default styling */
 #battery,
 #clock,
 #cpu,
@@ -110,10 +119,12 @@
 	padding-right: 10px;
 }
 
+/* -----------------------------------------------------------------------------
+ * Animations
+ * -------------------------------------------------------------------------- */
+
 /* Each module that should blink */
 #mode,
-#memory,
-#temperature,
 #battery {
 	animation-timing-function: linear;
 	animation-iteration-count: infinite;
@@ -130,8 +141,6 @@
 
 /* Each critical that should blink */
 #mode,
-#memory.critical,
-#temperature.critical,
 #battery.critical.discharging {
 	animation-name: blink-critical;
 	animation-duration: 2s;
@@ -152,10 +161,12 @@
 	animation-duration: 3s;
 }
 
-/* And now modules themselves in their respective order */
+/* -----------------------------------------------------------------------------
+ * Module styling
+ * -------------------------------------------------------------------------- */
 
 #mode { /* Shown current Sway mode (resize etc.) */
-	color: @light;
+	color: @dark;
 	background: @mode;
 }
 
@@ -167,80 +178,43 @@
 	color: @dark;
 	background: @workspaces;
 }
-
 #workspaces button.focused {
-	background: @workspacesfocused;
+	color: @light;
 }
 
-/*#workspaces button.urgent {
-	border-color: #c9545d;
-	color: #c9545d;
-}*/
+#custom-arrow10 {
+	font-size: 16px;
+	color: @workspaces;
+	background: @background;
+}
 
 #window {
 	margin-right: 40px;
 	margin-left: 40px;
 }
 
-#custom-alsa,
-#pulseaudio,
-#sndio {
-	background: @sound;
-	color: @dark;
-}
-
-#network {
-	background: @network;
-	color: @light;
-}
-
-#memory {
-	background: @memory;
-	color: @dark;
-}
-
-#cpu {
-	background: @cpu;
-	color: @light;
-}
-
-#temperature {
-	background: @temp;
-	color: @dark;
-}
-
-#language {
-	background: @layout;
-	color: @light;
-}
-
-#battery {
-	background: @battery;
-	color: @dark;
+#custom-arrow0 {
+	font-size: 16px;
+	color: @tray;
+	background: @background;
 }
 
 #tray {
-	background: @date;
-}
-
-#clock.date {
-	background: @date;
-	color: @light;
-}
-
-#clock.time {
-	background: @time;
-	color: @dark;
-}
-
-#pulseaudio.muted {
-	/* No styles */
+	background: @tray;
 }
 
 #custom-arrow1 {
 	font-size: 16px;
 	color: @sound;
-	background: transparent;
+	background: @tray;
+}
+
+#pulseaudio {
+	background: @sound;
+	color: @dark;
+}
+#pulseaudio.muted {
+	/* No styles */
 }
 
 #custom-arrow2 {
@@ -249,10 +223,20 @@
 	background: @sound;
 }
 
+#network {
+	background: @network;
+	color: @light;
+}
+
 #custom-arrow3 {
 	font-size: 16px;
 	color: @memory;
 	background: @network;
+}
+
+#memory {
+	background: @memory;
+	color: @dark;
 }
 
 #custom-arrow4 {
@@ -261,38 +245,52 @@
 	background: @memory;
 }
 
+#cpu {
+	background: @cpu;
+	color: @light;
+}
+
 #custom-arrow5 {
 	font-size: 16px;
 	color: @temp;
 	background: @cpu;
 }
 
+#temperature {
+	background: @temp;
+	color: @dark;
+}
+
 #custom-arrow6 {
 	font-size: 16px;
-	color: @layout;
+	color: @battery;
 	background: @temp;
 }
 
-#custom-arrow7 {
-	font-size: 16px;
-	color: @battery;
-	background: @layout;
+#battery {
+	background: @battery;
+	color: @light;
 }
 
-#custom-arrow8 {
+#custom-arrow7 {
 	font-size: 16px;
 	color: @date;
 	background: @battery;
 }
 
-#custom-arrow9 {
+#clock.date {
+	background: @date;
+	color: @light;
+}
+
+#custom-arrow8 {
 	font-size: 16px;
 	color: @time;
 	background: @date;
 }
 
-#custom-arrow10 {
-	font-size: 16px;
-	color: @workspaces;
-	background: transparent;
+#clock.time {
+	background: @time;
+	color: @light;
 }
+

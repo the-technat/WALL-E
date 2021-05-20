@@ -29,6 +29,19 @@ set ffs=unix,dos,mac
 """"""""""""""""""""""""""""""""
 " Plugins (vim-plug)
 """"""""""""""""""""""""""""""""
+" install vim-plug if not present
+" https://devel.tech/snippets/n/vIMmz8vZ/minimal-vim-configuration-with-vim-plug
+if empty(glob('~/.vim/autoload/plug.vim'))
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+            \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+      autocmd VimEnter * PlugInstall | source $MYVIMRC
+endif
+
+" Run PlugInstall if there are missing plugins
+autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+  \| PlugInstall --sync | source $MYVIMRC
+\| endif
+
 " start plugin list, define directory
 call plug#begin('~/.vim/plugged')
 
@@ -40,46 +53,12 @@ Plug 'altercation/vim-colors-solarized'
 " https://github.com/itchyny/lightline.vim
 Plug 'itchyny/lightline.vim'
 
-" go-vim
-" https://github.com/fatih/vim-go
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-
-" coc
-" https://github.com/neoclide/coc.nvim
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-" vim-terraform
-" https://github.com/hashivim/vim-terraform
-Plug 'hashivim/vim-terraform'
-
 " vim-commentary
 " https://github.com/tpope/vim-commentary
 Plug 'tpope/vim-commentary'
 
-" editorconfig-vim
-" https://github.com/editorconfig/editorconfig-vim#readme
-Plug 'editorconfig/editorconfig-vim'
-
-" Jenkinsfile-vim-syntax
-" https://github.com/martinda/Jenkinsfile-vim-syntax
-Plug 'martinda/Jenkinsfile-vim-syntax'
-
 " Initialize plugin system
 call plug#end()
-
-
-""""""""""""""""""""""""""""""""
-" coc language servers
-""""""""""""""""""""""""""""""""
-" https://github.com/josa42/coc-go
-" CocInstall coc-go
-
-""""""""""""""""""""""""""""""""
-" Plugin Configs
-""""""""""""""""""""""""""""""""
-" vim-terraform
-let g:terraform_align=1 " align equal sings when saving
-let g:terraform_fmt_on_save=1 " run fmt when saving
 
 """"""""""""""""""""""""""""""""
 " Keybindings
@@ -139,13 +118,6 @@ colorscheme solarized
 " lightline theme
 let g:lightline = {'colorscheme': 'solarized',}
 
-" sync theme with alacritty
-" https://github.com/toggle-corp/alacritty-colorscheme
-if filereadable(expand("~/.vimrc_background"))
-  let base16colorspace=256          " Remove this line if not necessary
-  source ~/.vimrc_background
-endif
-
 """"""""""""""""""""""""""""""""
 " Tabs and spaces
 """"""""""""""""""""""""""""""""
@@ -155,9 +127,9 @@ set expandtab
 " Be smart when using tabs ;)
 set smarttab
 
-" 1 tab == 2 spaces
-set shiftwidth=2
-set tabstop=2
+" 1 tab == 24spaces
+set shiftwidth=4
+set tabstop=4
 
 set ai "Auto indent
 set si "Smart indent
