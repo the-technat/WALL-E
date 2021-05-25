@@ -9,7 +9,7 @@ set $mod Mod4
 
 # sway-launcher-desktop is used as application launcher
 set $menu exec $term --class=launcher -e /sbin/sway-launcher-desktop
-for_window [app_id="^launcher$"] floating enable, sticky enable, resize set 30 ppt 60 ppt, border pixel 10
+for_window [app_id="^launcher$"] floating enable, sticky enable, resize set 30 ppt 60 ppt, border pixel 1
 
 # terminal emulator
 set $term alacritty
