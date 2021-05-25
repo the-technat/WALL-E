@@ -96,6 +96,9 @@ call plug#end()
 let g:terraform_align=1 " align equal sings when saving
 let g:terraform_fmt_on_save=1 " run fmt when saving
 
+" coc
+let g:coc_disable_startup_warning  = 1
+
 """"""""""""""""""""""""""""""""
 " Keybindings
 """"""""""""""""""""""""""""""""
