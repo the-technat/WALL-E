@@ -162,6 +162,36 @@ Note: To enter the license you need to be root. But launching vmware with waylan
 
 Note2: If you get an error saying that `vmmon` is not loaded. This can probably be because the package `linux-headers` is not installed on the system
 
+#### Networking in vmware
+If you have a vmnet that is host-only, you can only set a fixed ip subnet in the `vmware-netcfg` (where vmware will take the first address of the subnet for the host!). But there's no way to set dns or any other ip than the first one. So here's how you can create a NetworkManager connection to make this host-only adapter configurable by NetworkManager:
+
+```
+[connection]
+id=smartlearn
+uuid=39372746-0e7d-4391-87bd-118e64196848
+type=ethernet
+interface-name=vmnet1
+permissions=
+
+[ethernet]
+mac-address=00:50:56:C0:00:01
+mac-address-blacklist=
+
+[ipv4]
+address1=192.168.210.254/24,192.168.210.1
+dns=192.168.220.12;
+dns-search=smartlearn.lan;smartlearn.dmz;
+method=manual
+route1=192.168.220.0/24,192.168.210.1
+
+[ipv6]
+addr-gen-mode=stable-privacy
+dns-search=
+method=auto
+
+[proxy]
+```
+
 #### Workaround for vmware-netcfg
 When running vmware-netcfg as root, the following error appears:
 ```
