@@ -75,6 +75,10 @@ Plug 'tpope/vim-commentary'
 " https://github.com/editorconfig/editorconfig-vim#readme
 Plug 'editorconfig/editorconfig-vim'
 
+" vim-system-copy
+" https://github.com/christoomey/vim-system-copy
+Plug 'christoomey/vim-system-copy'
+
 " Jenkinsfile-vim-syntax
 " https://github.com/martinda/Jenkinsfile-vim-syntax
 Plug 'martinda/Jenkinsfile-vim-syntax'
@@ -148,7 +152,7 @@ syntax enable
 set laststatus=2 " fix lightline not showing statusline
 set noshowmode "remove current mode status bar at bottom
 
-set background=light " or light
+set background=dark " or light
 colorscheme solarized
 
 " lightline theme

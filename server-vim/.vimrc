@@ -57,6 +57,10 @@ Plug 'itchyny/lightline.vim'
 " https://github.com/tpope/vim-commentary
 Plug 'tpope/vim-commentary'
 
+" vim-system-copy
+" https://github.com/christoomey/vim-system-copy
+Plug 'christoomey/vim-system-copy'
+
 " Initialize plugin system
 call plug#end()
 
