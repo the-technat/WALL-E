@@ -1,6 +1,5 @@
 # config for sway of Technat (https://technat.ch)
 
-
 ############################
 # General
 ############################
@@ -30,6 +29,11 @@ exec wl-paste -t text --watch clipman store
 bindsym $mod+Shift+s exec shotman area
 for_window [title="shotman"] move posititon 30 30, floating enable
 
+# swayidle
+exec swayidle -w \
+	timeout 360 'swaylock' \
+	timeout 365 'swaymsg "output * dpms off"' \
+	resume 'swaymsg "output * dpms on"'
 
 ############################
 # Outputs
@@ -38,9 +42,9 @@ for_window [title="shotman"] move posititon 30 30, floating enable
 output DP-1 pos 0 0 res 1920x1080
 
 # Dell monitor 27" (right)
-output DP-2  pos 1920 0 res 2560x1440
+output DP-2 pos 1920 0 res 2560x1440
 
-# built-in display (clamshel mode)
+# built-in display (clamshell mode)
 bindswitch --reload --locked lid:on output $laptop disable
 bindswitch --reload --locked lid:off output $laptop enable
 # helps to preserve clamshell mode if sway is reloaded while using clamshell mode
@@ -63,7 +67,7 @@ input "type:keyboard" {
 }
 
 ############################
-# Apperane
+# Apperance
 ############################
 bar {
     swaybar_command waybar
@@ -103,7 +107,7 @@ default_border none
     # Switch between keyboard layouts
     # bindsym Alt+Space input type:keyboard xkb_switch_layout next 
     # Not working: https://github.com/swaywm/sway/issues/6011
-    # Workaroung:
+    # Workaround:
     bindsym Alt+Space exec swaymsg -t get_inputs -r \
       | jq '[.[] | select(.type == "keyboard") | .xkb_active_layout_index][0] - 1 | fabs' \
         | xargs swaymsg 'input type:keyboard xkb_switch_layout'
@@ -127,7 +131,6 @@ default_border none
     bindsym XF86AudioLowerVolume exec pamixer -ud 2 && pamixer --get-volume > $SWAYSOCK.wob
     bindsym XF86AudioMute exec pamixer --toggle-mute && ( pamixer --get-mute && echo 0 > $SWAYSOCK.wob ) || pamixer --get-volume > $SWAYSOCK.wob
     bindsym $mod+Alt+Ctrl+Space exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
-
 
     # Exit sway (logs you out of your Wayland session)
     bindsym $mod+Ctrl+q exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
@@ -209,7 +212,6 @@ default_border none
     # Swap focus between the tiling area and the floating area
     # bindsym $mod+space focus mode_toggle
 
-
     # Move focus to the parent container
     bindsym $mod+a focus parent
 #
@@ -248,7 +250,6 @@ mode "resize" {
     bindsym Escape mode "default"
 }
 bindsym $mod+r mode "resize"
-
 
 ############################
 # sway-launcher-desktop autostart applications
