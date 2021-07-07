@@ -83,6 +83,10 @@ Plug 'christoomey/vim-system-copy'
 " https://github.com/martinda/Jenkinsfile-vim-syntax
 Plug 'martinda/Jenkinsfile-vim-syntax'
 
+" vim-php-cs-fixer
+" https://github.com/stephpy/vim-php-cs-fixer
+Plug 'stephpy/vim-php-cs-fixer'
+
 " Initialize plugin system
 call plug#end()
 
@@ -92,6 +96,7 @@ call plug#end()
 """"""""""""""""""""""""""""""""
 " https://github.com/josa42/coc-go
 " CocInstall coc-go
+" CocInstall coc-phpls
 
 """"""""""""""""""""""""""""""""
 " Plugin Configs
