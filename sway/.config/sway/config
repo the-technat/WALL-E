@@ -24,6 +24,7 @@ set $right l
 
 # Clipman 
 exec wl-paste -t text --watch clipman store
+exec wl-paste -p -t text --watch clipman store -P --histpath="~/.local/share/clipman-primary.json"
 
 # Shotman
 bindsym $mod+Shift+s exec shotman area
@@ -103,7 +104,7 @@ default_border none
     bindsym $mod+q kill
 
     # Start clipman
-    bindsym Shift+Ctrl+h exec clipman pick -t sway-launcher-desktop
+    bindsym Shift+Ctrl+h exec clipman pick -t wofi
 
     # Start thunar
     bindsym $mod+f exec thunar

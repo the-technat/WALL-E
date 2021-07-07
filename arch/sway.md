@@ -42,6 +42,13 @@ yay shotman
 Config is placed in sway's config so it's alreadt stowed. 
 Software Repo: https://gitlab.com/WhyNotHugo/shotman/-/tree/main
 
+## clipman
+The clipboard manager used in my config. You can see your clipboard history using Ctrl+Shift+h. It uses `wofi` in the background to display your history so make sure it's installed:
+
+```
+sudo pacman -S wofi
+```
+
 ## Waybar
 The waybar config is already stowed when stowing sway config, and waybar is also executed, but there are some fonts missing:
 
@@ -61,7 +68,6 @@ yay wob
 
 The necessary lines for it to work are already in the sway config. So it should work now.
 More Infos: https://github.com/francma/wob
-
 
 ## Volume
 In the [arch setup notes](./arch-setup-notes.md) I installed `pulseaudio`, `pavucontrol` and `pamixer`. With the last tool it is possible to adjust the volume usiong shortcuts.
