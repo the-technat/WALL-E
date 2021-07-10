@@ -15,6 +15,16 @@ stow sway
 
 With that you link my sway config and have the basis things already working.
 
+## Alacritty
+One of the most important things to do is to install and configure alacritty (the default terminal mutliplexer for arch) in order to be able to further configure the system.
+
+It's already installed but some fonts are missing:
+```
+yay -a nerd-fonts-complete
+```
+
+Those fonts are also necessary if using my vim config.
+
 ## Clamshell mode
 In the config clamshell mode is already set up accordingly to [the docs](https://github.com/swaywm/sway/wiki#clamshell-mode). But you still need to run the following for it to work perfectly:
 

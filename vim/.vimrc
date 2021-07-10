@@ -47,45 +47,45 @@ autocmd VimEnter * if len(filter(values(g:plugs),'!isdirectory(v:val.dir)'))
 " start plugin list, define directory
 call plug#begin('~/.vim/plugged')
 
-" vim-colors-solarized
+"------ Styling Plugins ------
 " https://github.com/altercation/vim-colors-solarized
 Plug 'altercation/vim-colors-solarized'
-
-" lightline
 " https://github.com/itchyny/lightline.vim
 Plug 'itchyny/lightline.vim'
+" https://github.com/airblade/vim-gitgutter
+Plug 'airbalde/vim-gitgutter'
 
-" go-vim
-" https://github.com/fatih/vim-go
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-
-" coc
-" https://github.com/neoclide/coc.nvim
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-" vim-terraform
-" https://github.com/hashivim/vim-terraform
-Plug 'hashivim/vim-terraform'
-
-" vim-commentary
+"------ Editor Plugins ------
+" https://github.com/preservim/nerdtree
+Plug 'preservim/nerdtree'
 " https://github.com/tpope/vim-commentary
 Plug 'tpope/vim-commentary'
-
-" editorconfig-vim
 " https://github.com/editorconfig/editorconfig-vim#readme
 Plug 'editorconfig/editorconfig-vim'
-
-" vim-system-copy
 " https://github.com/christoomey/vim-system-copy
 Plug 'christoomey/vim-system-copy'
 
-" Jenkinsfile-vim-syntax
+"------ IDE Plugins ------
+" https://github.com/neoclide/coc.nvim
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" https://github.com/dense-analysis/ale
+Plug 'dense-analysis/ale'
+
+"------ Language Support Plugins ------
+" https://github.com/fatih/vim-go
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+" https://github.com/hashivim/vim-terraform
+Plug 'hashivim/vim-terraform'
 " https://github.com/martinda/Jenkinsfile-vim-syntax
 Plug 'martinda/Jenkinsfile-vim-syntax'
-
-" vim-php-cs-fixer
 " https://github.com/stephpy/vim-php-cs-fixer
 Plug 'stephpy/vim-php-cs-fixer'
+" https://github.com/mattn/emmet-vim
+Plug 'mattn/emmet-vim'
+
+"------ last plugin ------
+" https://github.com/ryanoasis/vim-devicons
+Plug 'ryanoasis/vim-devicons'
 
 " Initialize plugin system
 call plug#end()
@@ -108,6 +108,16 @@ let g:terraform_fmt_on_save=1 " run fmt when saving
 " coc
 let g:coc_disable_startup_warning  = 1
 
+" nerdtree
+" Start NERDTree when Vim starts with a directory argument.
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') |
+    \ execute 'NERDTree' argv()[0] | wincmd p | enew | execute 'cd '.argv()[0] | endif
+
+" ale
+" Set this variable to 1 to fix files when you save them.
+let g:ale_fix_on_save = 1
+
 """"""""""""""""""""""""""""""""
 " Keybindings
 """"""""""""""""""""""""""""""""
@@ -124,6 +134,9 @@ command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
 
 " Toggle paste mode on and off
 map <leader>pp :setlocal paste!<cr>
+ 
+" Open Nerdtree
+map <C-o> :NERDTreeToggle<CR>
 
 " Move a line of text using ALT+[jk] or Command+[jk] on mac
 " not working right now
@@ -182,4 +195,3 @@ set tabstop=2
 set ai "Auto indent
 set si "Smart indent
 set wrap "Wrap lines
-
