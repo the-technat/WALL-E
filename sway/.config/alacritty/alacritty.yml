@@ -80,7 +80,7 @@ live_config_reload: true
 
 shell:
   program: /sbin/zsh
-  # args: 
+  # args: "-c " 
 
 key_bindings:
   - { key: V,    mods: Control, mode: ~Vi, action: Paste }
