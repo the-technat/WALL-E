@@ -4,14 +4,17 @@
 """"""""""""""""""""""""""""""""
 " General
 """"""""""""""""""""""""""""""""
-set number " show line numbers
-
+" Set utf8 as standard encoding
+set encoding=utf8
+" Use Unix as the standard file type
+set ffs=unix,dos,mac
+" show line numbers
+set number 
 " detect the filetype and set the option
 " https://vi.stackexchange.com/questions/10124/what-is-the-difference-between-filetype-plugin-indent-on-and-filetype-indent
 filetype on
 filetype plugin on
 filetype indent on
-
 " Set to auto read when a file is changed from the outside
 set autoread
 " trigger autoread when vim get's focus or when buffer is switched
@@ -19,12 +22,6 @@ set autoread
 au FocusGained,BufEnter * checktime
 " also save files when focus is lost of buffer is left
 au FocusLost,WinLeave * :silent! w
-
-" Set utf8 as standard encoding
-set encoding=utf8
-
-" Use Unix as the standard file type
-set ffs=unix,dos,mac
 
 """"""""""""""""""""""""""""""""
 " vim-plug
@@ -92,6 +89,7 @@ call plug#end()
 
 """"""""""""""""""""""""""""""""
 " coc language servers
+" TODO: find good language server package
 """"""""""""""""""""""""""""""""
 " https://github.com/josa42/coc-go
 " CocInstall coc-go
@@ -123,7 +121,7 @@ let g:lightline = {'colorscheme': 'solarized',}
 """"""""""""""""""""""""""""""""
 " Keybindings
 """"""""""""""""""""""""""""""""
-" Awesome: https://alldrops.info/posts/vim-drops/2018-05-15_understand-vim-mappings-and-create-your-own-shortcuts/
+" Awesome article: https://alldrops.info/posts/vim-drops/2018-05-15_understand-vim-mappings-and-create-your-own-shortcuts/
 " With a map leader it's possible to do extra key combinations
 let mapleader = ","
 
@@ -141,7 +139,12 @@ noremap <leader>pp :setlocal paste!<cr>
 " ------ Editor ------
 " clear search results
 noremap ,<space> :nohlsearch<CR>
- 
+" Move a line of text using <leader>+[jk] 
+vnoremap <leader>k :m'>+<cr>`<my`>mzgv`yo`z
+nnoremap <leader>k mz:m-2<cr>`z
+vnoremap <leader>j :m'<-2<cr>`>my`<mzgv`yo`z
+nnoremap <leader>j mz:m+<cr>`z
+
 " ------ Nerdtree ------
 " Open Nerdtree
 noremap <silent> <leader>o :NERDTreeToggle<CR>
@@ -180,34 +183,23 @@ noremap <silent> <C-j> <C-W>j
 noremap <silent> <C-k> <C-W>k
 noremap <silent> <C-h> <C-W>h
 noremap <silent> <C-l> <C-W>l
-
 " Scroll the window next to the current one
 " (especially useful for two-window splits)
 noremap <silent> <leader>wj <c-w>w<c-d><c-w>W
 noremap <silent> <leader>wk <c-w>w<c-u><c-w>W
 
-" Move a line of text using ALT+[jk] 
-" not working right now
-vnoremap <leader>k :m'>+<cr>`<my`>mzgv`yo`z
-nnoremap <leader>k mz:m-2<cr>`z
-vnoremap <leader>j :m'<-2<cr>`>my`<mzgv`yo`z
-nnoremap <leader>j mz:m+<cr>`z
 
 """"""""""""""""""""""""""""""""
 " VIM user interface
 """"""""""""""""""""""""""""""""
 " Ignore case when searching
 set ignorecase
-
 " When searching try to be smart about cases 
 set smartcase
-
 " Highlight search results
 set hlsearch
-
 " Makes search act like search in modern browsers
 set incsearch 
-
 " Return to last edit position when opening files (You want this!)
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
@@ -216,10 +208,10 @@ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g
 """"""""""""""""""""""""""""""""
 " Enable syntax highlighting
 syntax enable 
-
-set laststatus=2 " fix lightline not showing statusline
-set noshowmode "remove current mode status bar at bottom
-
+" fix lightline not showing statusline
+set laststatus=2 
+"remove current mode status bar at bottom
+set noshowmode 
 set background=dark " or light
 colorscheme solarized
 
@@ -228,14 +220,11 @@ colorscheme solarized
 """"""""""""""""""""""""""""""""
 " Use spaces instead of tabs
 set expandtab
-
 " Be smart when using tabs ;)
 set smarttab
-
 " 1 tab == 2 spaces
 set shiftwidth=2
 set tabstop=2
-
 set ai "Auto indent
 set si "Smart indent
 set wrap "Wrap lines
