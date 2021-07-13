@@ -104,5 +104,6 @@ fi
 alias ll="ls -lahF"
 alias kak="kubectl apply -k"
 alias kaf="kubectl apply -f"
-alias webdev="sshfs technat.cyon.site:/home/technatc/public_html/ ~/workspace/public_html"
+alias webdev="sshfs technat.cyon.site:/home/technatc/public_html/ ~/public_html"
+alias webdevu="fusermount3 -u ~/public_html"
 # PROMPT='$(kube_ps1)'$PROMPT
