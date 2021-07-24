@@ -1,6 +1,0 @@
-[submodule "alacritty-theme"]
-	path = alacritty-theme
-	url = https://github.com/eendroroy/alacritty-theme.git
-[submodule "sway/.config/alacritty/alacritty-theme"]
-	path = sway/.config/alacritty/alacritty-theme
-	url = https://github.com/eendroroy/alacritty-theme.git
