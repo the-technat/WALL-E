@@ -108,7 +108,7 @@ default_border none
     bindsym Shift+Ctrl+h exec clipman pick -t wofi
 
     # Start thunar
-    bindsym $mod+f exec thunar
+    bindsym $mod+f exec ll
     
     # Switch between keyboard layouts
     # bindsym Alt+Space input type:keyboard xkb_switch_layout next 
