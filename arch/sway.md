@@ -84,19 +84,26 @@ In the [arch setup notes](./arch-setup-notes.md) I installed `pulseaudio`, `pavu
 The appropriate lines are of course in the sway config.
 
 ## File Manager
-I use thunar as my file manager. 
+I use nnn as my file manager. 
 Installed like so:
 
 ```
-sudo pacman -S thunar gvfs thunar-volman
+sudo pacman -S nnn
 ```
 
 A shortcut to launch it with $mod+f is already set in my sway config
 
-The "Open Terminal Here" action needs to be fixed in the menu where it says "edit Custom Actions".
-The correct command is `alacritty --working-directory %f`
+We need to download some plugins:
 
-Another action to unzip a file can be added.
+```
+cd ~/.config/nnn/plugings
+curl -Ls https://raw.githubusercontent.com/jarun/nnn/master/plugins/getplugs | sh
+```
+
+and set some environment variables:
+```
+
+```
 
 ## Application launcher
 The installation section installs `sway-launcher-desktop`. It's mapped to $mod+Space and can launch applications. At the end of the sway config it is also executed to startup applications on login that have their .desktop file in `~/.config/autostart`
