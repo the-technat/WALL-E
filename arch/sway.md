@@ -67,6 +67,14 @@ yay Iosevka
 yay ttf-font-awesome
 ```
 
+## Sound Management
+The swayconfig introduces some keybindings to increase / decrease volume, mute sinks or skip to the next track. Those things are all done using `pactl` or `playerctl`. The first one beeing a CLI for PulseAudio, the other one beeing a CTL to control media players. 
+
+We need to install `playerctl` as it's not comming as a dependency of `pulseaudio`:
+```
+sudo pacman -S playerctl
+```
+
 ## Brightness
 Well how to change the brightness on sway?
 
