@@ -101,7 +101,8 @@ fi
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias ll="nnn"
+alias ll="ls -lahF"
+alias n="nnn"
 alias kak="kubectl apply -k"
 alias kaf="kubectl apply -f"
 alias webdev="sshfs technat.cyon.site:/home/technatc/public_html/ ~/public_html"

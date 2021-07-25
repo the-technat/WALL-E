@@ -427,8 +427,203 @@ So this is it for the installation. Now you can `exit` the arch-chroot environme
 If the installation fails to boot I recommend you boot back into the live system, decrypt the LUKS partition, mount the volumes again and take another look at your boot entry. 
 From my experience typos are the most common cause of problems :=) 
 
-## Further configs
-We haven't configured `NetworkManager`, we don't have a Desktop Environment or other graphical interface and we don't have `bluetooth`. For those things to work I recommend you to read my [Arch Setup Notes](./arch-setup-notes.md) blog entry. There I noted how to do these things and much more.
+## Recommended first steps
+Before using your system I recommend you do some basic steps, some of them are optional, some of them are quite important.
+
+## Personal user
+There are reasons why we shouldn't work with `root` day by day:
+
+```
+useradd -m -g users -G wheel,storage,power -s /usr/bin/zsh technat
+passwd technat
+```
+
+## Networking
+When following my Arch Install Guide there isn't any network manager or dhcp client running. But we installed `NetworkManager` during the installation. 
+
+So to get network connectivity it's as simple as running the following commands:
+
+```
+systemctl enable --now NetworkManager
+nmcli device wifi list
+nmcli device wifi connect SSID password password
+```
+
+More information about `nmcli` can be found [here](https://wiki.archlinux.org/index.php/NetworkManager#nmcli_examples). Note that there is a GUI like application called `nmtui` that can also be used to interact with `NetworkManager`
+
+Well not always everything works expected. So let's take a step back and go through all the things that should be checked before running the above commands.
+
+### Check drivers
+The most important thing is to see wether the system has detected our network interface and can use it by loading the correct driver for it. Normally the linux kernel does a good job by picking the correct default driver for your network interface. Let's check if he did:
+
+```
+lspci -k | grep -i net -A 3
+```
+You should see at least one network interface listed. My output is as follows:
+
+```
+00:1f.6 Ethernet controller: Intel Corporation Ethernet Connection I219-LM (rev 21)
+        Subsystem: Fujitsu Limited. Device 192c
+        Kernel driver in use: e1000e
+        Kernel modules: e1000e
+02:00.0 Network controller: Intel Corporation Wireless 8260 (rev 3a)
+        Subsystem: Intel Corporation Dual Band Wireless-AC 8260
+        Kernel driver in use: iwlwifi
+        Kernel modules: iwlwifi
+```
+
+If the NIC's are not listed you need to find the correct drivers manually. See [here](https://wiki.archlinux.org/index.php/Network_configuration/Ethernet#Device_driver) or [here](https://wiki.archlinux.org/index.php/Network_configuration/Wireless#Device_driver) for more information on how to get network drivers and load them.
+
+### DNS
+NetworkManager has multiple ways to resolve Names. One is to delegate DNS to the `systemd-resolved` service. For this the following has to be set:
+
+```
+sudo cat <<EOF >/etc/NetworkManager/conf.d/dns.conf
+[main]
+dns=systemd-resolved
+EOF
+sudo systemctl enable --now systemd-resolved
+```
+
+From now on DNS is completly managed by `systemd-resolved`.
+
+### Captive portals
+See https://wiki.archlinux.org/title/NetworkManager#Configuration for a list of solutions to make networkamanger open a browser window when you connect to a network that has a captive portal.
+
+### WPA2_Enterprise Networks
+Universities and schools often use wpa2-enterprise networks where you have to authenticate yourself with credentials instead of a pre-shared-key.
+NetworkManager can connect to such WiFi's but seems like you have to do it via a manual added connection.
+
+So create a file in `/etc/NetworkManager/system-connections/[CONNECTION_NAME].nmconnection` and place the following content in it:
+
+```
+[connection]
+id=[CONNECTION_NAME]
+uuid=[UUID]
+type=wifi
+interface-name=[WIFI-INTERFACE NAME]
+permissions=
+
+[wifi]
+mac-address-blacklist=
+mode=infrastructure
+ssid=[SSID]
+
+[wifi-security]
+auth-alg=open
+key-mgmt=wpa-eap
+
+[802-1x]
+eap=peap;
+identity=[USERNAME]
+password=[PASSWORD]
+phase2-auth=mschapv2
+
+[ipv4]
+dns-search=
+method=auto
+
+[ipv6]
+addr-gen-mode=stable-privacy
+dns-search=
+method=auto
+
+[proxy]
+```
+
+Replace the [] place holder with the correct values. An UUID can be generated with `uuidgen`.
+
+Source: https://github.com/wylermr/NetworkManager-WPA2-Enterprise-Setup 
+
+## Bluetooth
+From the official arch linux wiki, the following steps are required to setup bluetooth very generic on linux
+
+>   1. Install the bluez package, providing the Bluetooth protocol stack.
+    2. Install the bluez-utils package, providing the bluetoothctl utility.
+    3. The generic Bluetooth driver is the btusb kernel module. Check whether that module is loaded. If it's not, then load the module.
+    4. Start/enable bluetooth.service.
+
+Simple right?
+
+The bluez and bluez-utils packages can be installed with pacman:
+
+```
+pacman -S bluez bluez-utils
+```
+
+To check where btusb is loaded and used run a `lsmod | grep btusb`
+
+You should see that bluetooth is using it:
+```
+bluetooth             720896  43 btrtl,btintel,btbcm,bnep,btusb,rfcomm
+```
+
+The last step is to enable and start the bluetooth systemd service:
+
+```
+systemctl enable --now bluetooth.service
+```
+
+It's possible that rfkill blocks the bluetooth module which can cause special behaviour. Check that with `rfkill list`:
+
+My output was as following:
+```
+0: hci0: Bluetooth
+        Soft blocked: yes
+        Hard blocked: no
+1: phy0: Wireless LAN
+        Soft blocked: no
+        Hard blocked: no
+```
+
+There is a "yes" by soft blocked bluetooth. I fixed this by running `rkfill unblock bluetooth`.
+
+From now bluetooth should work. You can use `bluetoothctl` to pair bluetooth devices or use any GUI Application that uses it unter the hood. 
+To power on the bluetooth controller on startup see https://wiki.archlinux.org/title/Bluetooth#Auto_power-on_after_boot.
+
+### Bluetooth Headsets
+For bluetooth headsets see this [wiki page](https://wiki.archlinux.org/title/Bluetooth_headset#Disable_auto_switching_headset_to_HSP/HFP)
+
+## Sudo
+To issue commands as root without chaning the user to root we need `sudo`. On arch it's not installed by default. So let's install it:
+
+```
+pacman -S sudo
+```
+
+On arch the `sudo` group is called `wheel`. So we can configure all users of the wheel group to allow running sudo. We edit the sudoers file with `EDITOR=vim visudo` and uncomment the following:
+
+```
+%wheel ALL=(ALL) ALL --> will prompt for password when using sudo
+%wheel ALL=(ALL) NOPASSWD: ALL --> won't prompt for password when using sudo
+```
+
+## Swapfile
+My Arch Installation has no SWAP partition. That's because swapfiles are also good and they are way more flexible. Configure one like that:
+
+```
+fallocate -l 2G /swapfile
+chmod 600 /swapfile
+mkswap /swapfile
+cp /etc/fstab /etc/fstab.bak
+echo '/swapfile none swap sw 0 0' | tee -a /etc/fstab
+cat /etc/fstab
+```
+
+Tipp: Read about SWAP in the [arch linux wiki](https://wiki.archlinux.org/title/Swap).
+
+## AUR Helper
+To install packages from the Arch User Repository you'll either need to do it manually or install a helper which get's your new package manager. It will be able to compile packages from the AUR as well as us pacman in the back to install regular packages. I use yay for that but there are other options as well:
+
+```
+git clone https://aur.archlinux.org/yay.git
+cd yay
+sudo pacman -S go
+makepkg -si
+```
+
+## What's next?
+Okay now you have a decent system which you can work with. But there is still no graphical interface. Depending on your use case for the machine this might be fine. For me I need some sort of a graphical environment to work. If you are interested on how I have done that see  my [Sway-DE Guide](./sway-de.md). There I noted how to do these things and much more.
 
 ## Fruther Reading
 * [https://paedubucher.ch/articles/2020-09-26-arch-linux-setup-with-disk-encryption.html](https://paedubucher.ch/articles/2020-09-26-arch-linux-setup-with-disk-encryption.html)

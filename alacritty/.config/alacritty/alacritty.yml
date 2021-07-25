@@ -4,8 +4,8 @@
 # Import additional configuration files
 import:
   # Import color scheme
-  - ~/.config/alacritty/alacritty-themes/themes/solarized_dark.yaml
-  # - ~/.config/alacritty/alacritty-themes/themes/solarized_light.yaml
+  - ~/.config/alacritty/alacritty-themes/themes/Solarized-Dark.yml
+  # - ~/.config/alacritty/alacritty-themes/themes/Solarized-Light.yml
 
 # env:
   # TERM variable
