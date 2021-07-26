@@ -102,9 +102,11 @@ fi
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias ll="ls -lahF"
-alias n="nnn"
 alias kak="kubectl apply -k"
 alias kaf="kubectl apply -f"
 alias webdev="sshfs technat.cyon.site:/home/technatc/public_html/ ~/public_html"
 alias webdevu="fusermount3 -u ~/public_html"
-# PROMPT='$(kube_ps1)'$PROMPT
+# use n instead of nnn to invoke nnn and cd on quit
+if [ -f /usr/share/nnn/quitcd/quitcd.bash_zsh ]; then
+      source /usr/share/nnn/quitcd/quitcd.bash_zsh
+fi

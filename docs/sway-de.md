@@ -70,6 +70,16 @@ sudo pacman -S pulseaudio pavucontrol pamixer pulseaudio-bluetooth playerctl
 yay -aS nerd-fonts-complete shotman clipman wob brightnessctl dropbox dropbox-cli vmware-workstation
 ```
 
+nnn dependencies:
+```
+yay -aS bat viu ffmpegthumbnailer file pdftoppm fontpreview glow sxiv tabbed xdotool jq trash-cli vidir
+```
+
+vim plugin dependencies:
+```
+sudo pacman -S npm nodejs yarn go
+```
+
 This could take a while...
 
 ### Alacritty
@@ -105,10 +115,7 @@ stow vim
 
 For plugins to be used we need [vim-plug](https://github.com/junegunn/vim-plug). It will install itself when starting vim for the first time as well as installing all the plugins.
 
-Note: Some of the plugins have external dependencies that have to be installed first:
-```
-sudo pacman -S npm nodejs yarn go
-```
+Note: Some of the plugins have external dependencies that have to be installed first. But this was already done at the beginning of this chapter.
 
 #### tmux
 With a tiling window manager like swaywm it's not really necessary to use tmux but let's set it up:
@@ -185,16 +192,27 @@ Source: https://github.com/francma/wob
 ### File Manager
 I use nnn as my file manager as it can handle image previews and much more while beeing fast. 
 
-$mod+f launches it using alacritty
-
 But just installing nnn is not enough, it needs to be configured. This is done using some environment variables. If you have stowed my zsh config the vars are already set.
 
-And we need the nnn plugins to be in `~/.config/nnn/plugins/`:
+Otherwise export them somewhere in rc file:
 
 ```
-cd ~/.config/nnn/plugings
+cat ~/WALL-E/zsh/.zshenv | grep "nnn Vars" -A 20
+```
+
+nnn itself is not very spectacular. What makes it really interesting are the plugins you can use. So for my config I use the plugins. You can find them [here](https://github.com/jarun/nnn/tree/master/plugins) and in this directory you will also find a neat one-liner to download them:
+
+```
 curl -Ls https://raw.githubusercontent.com/jarun/nnn/master/plugins/getplugs | sh
 ```
+
+Now you can find the plugins in `~/.config/nnn/plugins`. Start using them by exporting the `NNN_PLUG` variable. 
+
+While setting up my own nnn config I realized that most of the nnn plugins are just helpers to integrate with other programms out there. That's why you end up installing some more tools to work perfectly with nnn. They are listed in a separated install command at the top of this chapter.
+
+#### Plugins
+* `p:preview-tui` - File preview in terminal or tmux pane, very basic 
+* `t:preview-tabbed` - File preview with correct programm - usefull for image sorting
 
 Source: https://github.com/jarun/nnn
 
