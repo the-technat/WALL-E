@@ -622,6 +622,18 @@ sudo pacman -S go
 makepkg -si
 ```
 
+## USB Drives automount
+The following articles are helpful:
+- https://github.com/coldfix/udiskie/wiki/Usage
+- https://wiki.archlinux.org/title/Udisks
+
+Install the following packages:
+```
+yay -S udisks2 udiskie
+```
+
+TODO: How to start udiskie from sway's config
+
 ## What's next?
 Okay now you have a decent system which you can work with. But there is still no graphical interface. Depending on your use case for the machine this might be fine. For me I need some sort of a graphical environment to work. If you are interested on how I have done that see  my [Sway-DE Guide](./sway-de.md). There I noted how to do these things and much more.
 
