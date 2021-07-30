@@ -3,6 +3,7 @@ export BROWSER=/sbin/firefox
 export TERMINAL=/sbin/alacritty
 export PAGER=/sbin/less
 export SHELL=/usr/bin/zsh
+export ZSH_TMUX_AUTOSTART=true
 
 ### nnn Vars
 # export NNN_OPTS="exdP"
@@ -17,3 +18,4 @@ export ICONLOOKUP=1
 export GUI=1
 export NNN_TRASH=1
 export NNN_OPENER="/home/technat/.config/nnn/plugins/nuke"
+
