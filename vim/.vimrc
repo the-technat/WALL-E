@@ -170,10 +170,10 @@ noremap <silent> <leader>l :exe "tabn ".g:lasttab<cr>
 
 " ------ Windows ------
 " Window splitting
-noremap <silent> <leader>wl :leftabove vnew<cr>
-noremap <silent> <leader>wr :rightbelow vnew<cr>
-noremap <silent> <leader>wa :leftabove new<cr>
-noremap <silent> <leader>wb :rightbelow new<cr>
+noremap <silent> <leader>nl :leftabove vnew<cr>
+noremap <silent> <leader>nr :rightbelow vnew<cr>
+noremap <silent> <leader>na :leftabove new<cr>
+noremap <silent> <leader>nb :rightbelow new<cr>
 " noremap <silent> <leader>swh :topleft vnew<cr>
 " noremap <silent> <leader>swl :botright vnew<cr>
 " noremap <silent> <leader>swk :topleft new<cr>
@@ -181,13 +181,12 @@ noremap <silent> <leader>wb :rightbelow new<cr>
 " moving around between windows
 noremap <silent> <C-j> <C-W>j
 noremap <silent> <C-k> <C-W>k
-noremap <silent> <C-h> <C-W>h
 noremap <silent> <C-l> <C-W>l
+noremap <silent> <C-h> <C-W>h
 " Scroll the window next to the current one
 " (especially useful for two-window splits)
-noremap <silent> <leader>wj <c-w>w<c-d><c-w>W
-noremap <silent> <leader>wk <c-w>w<c-u><c-w>W
-
+noremap <silent> <leader>jj <c-w>w<c-d><c-w>W
+noremap <silent> <leader>kk <c-w>w<c-u><c-w>W
 
 """"""""""""""""""""""""""""""""
 " VIM user interface

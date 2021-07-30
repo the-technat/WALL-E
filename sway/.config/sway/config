@@ -132,7 +132,7 @@ default_border none
     bindsym $mod+Shift+c reload
 
     # lock screen
-    bindsym Shift+Alt+q exec $lockman
+    bindsym $mod+Shift+q exec $lockman
     
     # Exit sway (logs you out of your Wayland session)
     bindsym $mod+Ctrl+q exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
