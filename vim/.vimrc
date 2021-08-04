@@ -61,6 +61,8 @@ Plug 'tpope/vim-commentary'
 Plug 'editorconfig/editorconfig-vim'
 " https://github.com/christoomey/vim-system-copy
 Plug 'christoomey/vim-system-copy'
+" https://github.com/mcchrish/nnn.vim
+Plug 'mcchrish/nnn.vim'
 
 "------ IDE Plugins ------
 " https://github.com/neoclide/coc.nvim
@@ -105,18 +107,25 @@ let g:terraform_fmt_on_save=1 " run fmt when saving
 " coc
 let g:coc_disable_startup_warning  = 1
 
-" nerdtree
-" Start NERDTree when Vim starts with a directory argument.
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') |
-    \ execute 'NERDTree' argv()[0] | wincmd p | enew | execute 'cd '.argv()[0] | endif
-
 " ale
 " Set this variable to 1 to fix files when you save them.
 let g:ale_fix_on_save = 1
 
 " lightline
 let g:lightline = {'colorscheme': 'solarized',}
+
+" nnn
+" Start n³ in the current file's directory
+nnoremap <leader>n :NnnPicker %:p:h<CR>
+" Floating window.
+let g:nnn#layout = { 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Debug' } }
+" Open files in tabs and windows
+let g:nnn#action = {
+        \ '<leader>lt': 'tab split',
+      \ '<leader>lr': 'split',
+      \ '<leader>lb': 'vsplit' }
+" use the same n³ session within a vim session
+let g:nnn#session = 'local'
 
 """"""""""""""""""""""""""""""""
 " Keybindings
@@ -211,7 +220,7 @@ syntax enable
 set laststatus=2 
 "remove current mode status bar at bottom
 set noshowmode 
-set background=dark " or light
+set background=light " or dark
 colorscheme solarized
 
 """"""""""""""""""""""""""""""""

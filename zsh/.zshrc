@@ -68,7 +68,7 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git sudo helm kubectl ssh-agent kube-ps1 cp extract terraform tmux)
+plugins=(git sudo helm kubectl ssh-agent kube-ps1 cp extract terraform krb5)
 
 source $ZSH/oh-my-zsh.sh
 
