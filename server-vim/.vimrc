@@ -24,6 +24,43 @@ au FocusGained,BufEnter * checktime
 au FocusLost,WinLeave * :silent! w
 
 """"""""""""""""""""""""""""""""
+" vim-plug
+""""""""""""""""""""""""""""""""
+" install if not present
+if empty(glob('~/.vim/autoload/plug.vim'))
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+            \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall | source ~/.vimrc 
+endif
+
+" Run PlugInstall if there are missing plugins
+autocmd VimEnter * if len(filter(values(g:plugs),'!isdirectory(v:val.dir)'))
+  \| PlugInstall --sync | source $MYVIMRC
+\| endif
+
+""""""""""""""""""""""""""""""""
+" Plugins (vim-plug)
+""""""""""""""""""""""""""""""""
+" start plugin list, define directory
+call plug#begin('~/.vim/plugged')
+
+"------ Styling Plugins ------
+" https://github.com/altercation/vim-colors-solarized
+Plug 'altercation/vim-colors-solarized'
+
+"------ Editor Plugins ------
+" https://github.com/tpope/vim-commentary
+Plug 'tpope/vim-commentary'
+
+" Initialize plugin system
+call plug#end()
+
+
+""""""""""""""""""""""""""""""""
+" Plugin Configs
+""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""""""
 " Keybindings
 """"""""""""""""""""""""""""""""
 " Awesome article: https://alldrops.info/posts/vim-drops/2018-05-15_understand-vim-mappings-and-create-your-own-shortcuts/
@@ -108,7 +145,8 @@ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g
 """"""""""""""""""""""""""""""""
 " Enable syntax highlighting
 syntax enable 
-colorscheme zellner
+set background=light " or dark
+colorscheme solarized
 
 """"""""""""""""""""""""""""""""
 " Tabs and spaces

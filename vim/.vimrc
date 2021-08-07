@@ -53,8 +53,6 @@ Plug 'itchyny/lightline.vim'
 Plug 'airblade/vim-gitgutter'
 
 "------ Editor Plugins ------
-" https://github.com/preservim/nerdtree
-Plug 'preservim/nerdtree'
 " https://github.com/tpope/vim-commentary
 Plug 'tpope/vim-commentary'
 " https://github.com/editorconfig/editorconfig-vim#readme
@@ -153,10 +151,6 @@ vnoremap <leader>k :m'>+<cr>`<my`>mzgv`yo`z
 nnoremap <leader>k mz:m-2<cr>`z
 vnoremap <leader>j :m'<-2<cr>`>my`<mzgv`yo`z
 nnoremap <leader>j mz:m+<cr>`z
-
-" ------ Nerdtree ------
-" Open Nerdtree
-noremap <silent> <leader>o :NERDTreeToggle<CR>
 
 " ------ Tabs ------
 " new tab
