@@ -111,7 +111,8 @@ default_border none
 		bindsym $mod+Shift+s exec shotman area
 
     # Start nnn
-    bindsym $mod+f exec nnn
+    # bindsym $mod+f exec nnn
+    bindsym $mod+f exec thunar
     
     # Switch between keyboard layouts
     # bindsym Alt+Space input type:keyboard xkb_switch_layout next 

@@ -320,6 +320,22 @@ cp /usr/share/applications/org.keepassxc.KeePassXC.desktop ~/.local/share/applic
 sed -i 's/Exec=/Exec=env QT_QPA_PLATFORMTHEME=qt5ct /g' ~/.local/share/applications/org.keepassxc.KeePassXC.desktop
 ```
 
+### p3x-onenote
+An electron app for OneNote.
+Source: https://github.com/patrikx3/onenote
+Downloaded the AppImage as described and put a desktop file in `~/.local/share/applications/p3x-onenote.desktop`:
+```
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=P3X Onenote
+Icon=p3x-onenote
+Exec=/home/technat/opt/P3X-OneNote-2021.10.109.AppImage
+Comment=Linux Electron Onenote
+Categories=Office;
+Terminal=false
+```
+
 ## Known Issues and fixes
 ### GTK+ aplpications take 20 seconds to start
 See https://github.com/swaywm/sway/wiki#gtk-applications-take-20-seconds-to-start
