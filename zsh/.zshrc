@@ -68,7 +68,7 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git sudo helm kubectl ssh-agent kube-ps1 cp extract terraform krb5)
+plugins=(git sudo helm kubectl ssh-agent kube-ps1 cp extract terraform)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -104,8 +104,6 @@ fi
 alias ll="ls -lahF"
 alias kak="kubectl apply -k"
 alias kaf="kubectl apply -f"
-alias webdev="sshfs technat.cyon.site:/home/technatc/public_html/ ~/public_html"
-alias webdevu="fusermount3 -u ~/public_html"
 # use n instead of nnn to invoke nnn and cd on quit
 if [ -f /usr/share/nnn/quitcd/quitcd.bash_zsh ]; then
       source /usr/share/nnn/quitcd/quitcd.bash_zsh
