@@ -214,7 +214,7 @@ syntax enable
 set laststatus=2 
 "remove current mode status bar at bottom
 set noshowmode 
-set background=light " or dark
+set background=dark " or dark
 colorscheme solarized
 
 """"""""""""""""""""""""""""""""
