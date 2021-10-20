@@ -1,10 +1,15 @@
+##################
+# General
+##################
 export EDITOR=/sbin/vim
 export BROWSER=/sbin/firefox
 export TERMINAL=/sbin/alacritty
 export PAGER=/sbin/less
 export SHELL=/usr/bin/zsh
 
-### nnn Vars
+##################
+# NNN
+##################
 export NNN_OPTS="ecdx"
 export NNN_FCOLORS='000000000000000000000000'
 export NNN_FIFO="/tmp/nnn.fifo" # comment out and add "a" option to NNN_OPTS if you want multiple preview windows for multiple nnn instances.
@@ -14,4 +19,3 @@ export ICONLOOKUP=1
 export GUI=1
 export NNN_TRASH=1
 export NNN_OPENER="/home/technat/.config/nnn/plugins/nuke"
-
