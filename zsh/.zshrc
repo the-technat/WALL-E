@@ -101,9 +101,7 @@ fi
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias ll="ls -lahF"
-alias kak="kubectl apply -k"
-alias kaf="kubectl apply -f"
+
 # use n instead of nnn to invoke nnn and cd on quit
 if [ -f /usr/share/nnn/quitcd/quitcd.bash_zsh ]; then
       source /usr/share/nnn/quitcd/quitcd.bash_zsh
