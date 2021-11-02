@@ -625,34 +625,6 @@ makepkg -si
 
 Note: Once yay is installed it can update itself in the future ;).
 
-## USB Drives automount
-The following articles are helpful:
-- https://github.com/coldfix/udiskie/wiki/Usage
-- https://wiki.archlinux.org/title/Udisks
-
-Install the following packages:
-```bash
-yay -S udisks2 udiskie
-```
-
-There are two ways of running `udiskie`:
-1. Systemd-service as user
-2. Exec in sway config
-
-If you want option 1, install and enable the service:
-```bash
-yay -a udiskie-systemd-git
-systemctl --user enable --now udiskie.service
-```
-Note: This version does not support a tray icon unless you edit the service file.
-
-For option 2 add the following to your sway config:
-```
-exec udiskie -Nt &
-```
-
-If you notice that udiskie does not mount your thumb-driver you may want to check [here](https://github.com/coldfix/udiskie/wiki/Permissions) for permission errors.
-
 ## What's next?
 Okay now you have a decent system which you can work with. But there is still no graphical interface. Depending on your use case for the machine this might be fine. For me I need some sort of a graphical environment to work. If you are interested on how I have done that see  my [Sway-DE Guide](./sway-de.md). There I noted how to do these things and much more.
 

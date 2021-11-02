@@ -98,7 +98,7 @@
 #waybar {
 	background: @background;
 	color: @light;
-	font-family: FiraCode, Terminus, Noto Sans;
+	font-family: FiraCode Nerd Font, Terminus, Noto Sans;
 	font-size: 10pt;
 	font-weight: bold;
 }

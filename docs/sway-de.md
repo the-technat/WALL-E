@@ -1,12 +1,11 @@
 # Sway DE
-My Setup of a Wayland Compositor with all the tools needed to make more or less a full fleged Desktop Environment suited to my needs.
+My Setup of a Wayland Compositor with all the tools needed to be productive, while only having what is really necessary.
 
 ## Workflow
-My workflow for setting things up is to follow this guide with cloning the repo first. All the config files for different programms live in this repo so it's best practise to clone it first into my home folder so that is can be reached at `~/WALL-E`:
+My workflow for setting things up is to follow this guide with cloning the repo first. All the config files for different programms live in this repo so it's best to clone it first into my home folder so that is can be reached at `~/WALL-E`:
 
 ```
 git clone https://git.technat.ch/technat/WALL-E.git
-git clone ssh://git@git.technat.ch:9999/technat/WALL-E.git # if ssh is setup
 ```
 
 In order to use the config files from this repo I further use `stow` to symlink the files to the correct location, so it's a good idea to install that before starting:
@@ -15,32 +14,28 @@ sudo pacman -S stow
 ```
 
 ## Sway
-The first thing we need from a basic arch installation is sway (the wayland compositor) and ly which is my display manager of choice:
+The first thing we need from a basic arch installation is sway (the wayland compositor) and ly which is my [display manager](https://wiki.archlinux.org/title/Display_manager) of choice. Alacritty as the default terminal emulator should also be installed:
 
 ```
-sudo pacman -S sway 
+sudo pacman -S sway alacritty 
 yay -aS ly-git
 ```
 
 Once their installed we can enable the display manager to start at boot and symlink the sway config to it's place:
 ```
-systemctl enable ly
+sudo systemctl enable ly
 cd ~/WALL-E
 stow sway
 ```
 
-To activate the changes I reboot the system now.
+To activate the changes I reboot the system now. After you reboot you should see a terminal like display manager with a login prompt. 
+You can now login to sway. Use Super+Enter to get a terminal for further configs.
 
-After you reboot you should see a terminal like display manager with a login prompt. Login to the shell as for sway not everything is yet redady to use.
-
-
-### Sway configs
-
-#### Clamshell mode
+### Clamshell mode
 In the config clamshell mode is already set up accordingly to [the docs](https://github.com/swaywm/sway/wiki#clamshell-mode). But you still need to run the following for it to work perfectly:
 
 
-```
+```bash
 cat <<EOF >/sbin/clamshell
 #!/usr/bin/bash
 if grep -q open /proc/acpi/button/lid/LID/state; then
@@ -52,12 +47,14 @@ EOF
 chmod +x /sbin/clamshell
 ```
 
+Depending on your laptop the output name for your internal screen might be different. You can find the corret name when running `swaymsg -t get_outputs` and looking for your internal display. 
+
 ### Philosohpy about Wayland and XWayland
 Wayland aims to be the new replacement for X. But X is over 20 years old and it's very deep rooted in linux. So a switch is not easy. When using wayland these days you will almost all times run in situations where applicatons don't support wayland or not by default. Luckily there is [XWayland](https://wiki.archlinux.org/title/Wayland#XWayland). But those applications that support wayland should run on wayland right?
 
-So how to manage that. My first approach was to set environment variables in `/etc/environment` that forced applications to use wayland. But the you get an application that uses the same gui libary but doesn't support it. What do you do? You change the environment variable to force all application from this libary to use XWayland. Not pretty and not reliable as chaning an environment variable can help one application and refuse another one to start.
+So how to manage that. My first approach was to set environment variables in `/etc/environment` that forced applications to use wayland. But then you get an application that uses the same gui libary but doesn't support waylabd. What do you do? You change the same environment variable to force all applications from this libary to use XWayland. Not pretty and not reliable as chaning an environment variables can help one application and refuse another one to start.
 
-So what I like to do is take the .desktop file of an application that doesn't run with sway **default settings** and modify it so that is launches with the correct environment variables set. To prevent if from beeing overwritten by upgrade all custom .desktop files should be located in `~/.local/share/applications`. This helps keeping track of which applications needed modifications to run and which ones are working jst fine by default.
+So what I like to do is take the .desktop file of an application that doesn't run with sway **default settings** and modify it so that is launches with the correct environment variables set. To prevent if from beeing overwritten by upgrades. All custom .desktop files should be located in `~/.local/share/applications`. This helps keeping track of which applications needed modifications to run and which ones are working just fine by default. So when we go and configure system utilities now, remember this approach.
 
 ## System Utilities
 The sway config assumes that there are some programms for different functionalities already installed. This includes a tool for screenshots, clipboard-management or application launching. Of course you could change those tools in the sway config to the tools of your choice but most of the time you need to make some adjustments so that the tools work together. In this section we are going through all of these system utilities, the one I have choosen and how to make it work with sway.
@@ -65,7 +62,7 @@ The sway config assumes that there are some programms for different functionalit
 ### Installation
 Let's start by installing all the system utilities:
 ```
-sudo pacman -S alacritty sway-launcher-desktop rofi python-pip python-setuptools waybar nnn nextcloud-client gnome-keyring xorg-wayland firefox keepassxc qt5-wayland qt5ct tmux vim zsh
+sudo pacman -S sway-launcher-desktop rofi python-pip python-setuptools waybar nnn nextcloud-client gnome-keyring xorg-wayland firefox keepassxc qt5-wayland qt5ct tmux vim zsh
 sudo pacman -S pulseaudio pavucontrol pamixer pulseaudio-bluetooth playerctl 
 yay -aS nerd-fonts-complete shotman clipman wob brightnessctl dropbox dropbox-cli vmware-workstation
 ```
@@ -91,9 +88,7 @@ cd ~/WALL-E
 stow alacritty
 ```
 
-Note: The alacritty config uses firacode as the font for the terminal. If you have installed the `nerd-fonts-complete` package from above this will work, otherwise you may need to change the font or install firacode manually.
-
-Source: https://github.com/alacritty/alacritty
+Note: The alacritty config uses `FiraCode Nerd Font` as the font for the terminal. If you have installed the `nerd-fonts-complete` package from above, this will work. Otherwise you may need to change the font or install this font directly from [here](https://www.nerdfonts.com/font-downloads).
 
 #### zsh
 I'm using zsh with the [oh-my-zsh](https://ohmyz.sh/) framework. Let's install that too now.
@@ -144,7 +139,7 @@ Source: https://github.com/yory8/clipman
 ### Waybar
 Sway ships with a default bar which can be customized a bit. A much more customizable bar is `waybar`. 
 
-Waybar has a seperate config in `~/.config/waybar/`. The `config` file defines all the modules which are display and the `style.css` stylies the modules.
+Waybar has a seperate config in `~/.config/waybar/`. The `config` file defines all the modules which are displayed and the `style.css` stylies the modules.
 
 To link the config:
 ```
@@ -154,7 +149,7 @@ stow waybar
 
 Source: https://github.com/Alexays/Waybar
 
-Note: Waybar also uses FiraCode as it's font so make sure you have this installed. For icons it needs `ttf-font-awesome` or the patched nerdfont firacode.
+Note: Waybar also uses FiraCode Nerd Font as it's font so make sure you have this installed. 
 
 ### Audio
 If we want to play some music we need some software for sounds. 
@@ -225,7 +220,7 @@ Application which want autostart need to have a .desktop file in `~/.config/auto
 Source: https://github.com/Biont/sway-launcher-desktop
 
 ### Dropbox
-The `dropbox-cli autostart y` command places a .desktop file in `~.config/autostart` which will execute dropbox when sway instance is started. This is because the sway-launcher-desktop application is told to execute .desktop files in this directory when sway starts. See the end of the sway config for more details
+The `dropbox-cli autostart y` command places a .desktop file in `~.config/autostart` which will execute dropbox when sway instance is started. This is because the sway-launcher-desktop application is told to execute .desktop files in this directory when sway starts. See the end of the sway config for more details.
 
 Docs and further informations: https://wiki.archlinux.org/title/Dropbox
 
@@ -335,6 +330,36 @@ Comment=Linux Electron Onenote
 Categories=Office;
 Terminal=false
 ```
+
+### USB Drives automount
+The following articles are helpful:
+- https://github.com/coldfix/udiskie/wiki/Usage
+- https://wiki.archlinux.org/title/Udisks
+
+Install the following packages:
+```bash
+yay -S udisks2 udiskie
+```
+
+There are two ways of running `udiskie`:
+1. Systemd-service as user
+2. Exec in sway config
+
+If you want option 1, install and enable the service:
+```bash
+yay -a udiskie-systemd-git
+systemctl --user enable --now udiskie.service
+```
+Note: This version does not support a tray icon unless you edit the service file.
+
+For option 2 add the following to your sway config:
+```
+exec udiskie -Nt &
+```
+
+If you notice that udiskie does not mount your thumb-driver you may want to check [here](https://github.com/coldfix/udiskie/wiki/Permissions) for permission errors.
+
+
 
 ## Known Issues and fixes
 ### GTK+ aplpications take 20 seconds to start
