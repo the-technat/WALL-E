@@ -7,6 +7,13 @@ export TERMINAL=/sbin/alacritty
 export PAGER=/sbin/less
 export SHELL=/usr/bin/zsh
 
+
+##################
+# Go Env
+##################
+export GOROOT="/home/technat/go"
+export GOBIN=$GOROOT"bin"
+
 ##################
 # NNN
 ##################

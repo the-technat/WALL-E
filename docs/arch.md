@@ -208,7 +208,7 @@ Before bootstraping let's create a `fstab` file:
 genfstab -U -p /mnt >> /mnt/etc/fstab
 ```
 
-My final `/etc/fstab` file then looks like this:
+My `/etc/fstab` file then looks like this:
 
 
 ```
@@ -229,22 +229,22 @@ UUID=de61f80f-529b-4884-99e1-f034a2542f8f       /var            ext4            
 
 # /dev/sda1
 UUID=73FB-6274          /boot           vfat            rw,relatime,fmask=0022,dmask=0022,codepage=437,iocharset=ascii,shortname=mixed,utf8,errors=remount-ro   0 2
-
-/swapfile none swap sw 0 0
 ```
 
 Note: UUIDs are different on every system.
 
 ## Bootstrap system
 From now we are ready to get a system on our disk. In arch there is a tool called `pacstrap` that does the heavy lifting for us.
-To start be install the `base` package alongside the `linux` package (which is the actual kernel). Then be also install `lvm2` because the system needs lvm support. The `linux-firmware` package contains drivers for many hardware and is in my case used to get the correct wifi drivers. The last `base-devel` package conains multiple tools for development and compiling. It's required for package from the AUR.
+To start be install the `base` package alongside the `linux` package (which is the actual kernel). Then we also install `lvm2` because the system needs lvm support. The `linux-firmware` package contains drivers for many hardware and is in my case used to get the correct wifi drivers. The last `base-devel` package contains multiple tools for development and compiling. It's usually required for packages from the AUR (they are compiled locally).
 
 ```
 pacstrap -i /mnt base base-devel linux linux-firmware lvm2 linux-headers
 # pacstrap -i /mnt base base-devdl linux-lts linux-firmware lvm2 linux-lts-headers
 ```
 
-Note the second commented line, you can either install the normal kernel, or the LTS-kernel or both. The LTS or Long-Time-Support kernel is known for it's focus on stability and it's security updates over many years. It can be a good idea to install both so you always have a fallback if your main kernel breaks something on an update. Note that if something is wrong with your installation (if you mixed up your init-ramfs or you forgot to remove a mount from fstab for example) the LTS entry won't help you as the root disk is still the same.
+Note the second commented line. You can either install the normal kernel, or the LTS-kernel or both. The LTS or Long-Time-Support kernel is known for it's focus on stability and it's security updates over many years. It can be a good idea to install both so you always have a fallback if your main kernel breaks something on an update. Note that if something is wrong with your installation (if you mixed up your init-ramfs or you forgot to remove a mount from fstab for example) the LTS entry won't help you as the root disk is still the same.
+
+Does anyone notice that a Nerd (which uses Kernel 5.14.15 at the time of this writting) has written this description about LTS 🤣? 
 
 ### arch-chroot
 After we've installed the base system we can change our root to /mnt so that we can do further configurations to the os-disk:
@@ -264,9 +264,9 @@ pacman -S vim intel-ucode dialog terminus-font networkmanager zsh
 For networking you have multiple options which are very good [documented](https://wiki.archlinux.org/index.php/Network_configuration). I stick to `NetworkManager` but you can also choose something else. 
 
 ## Regional Settings
-Once the packages are there we go on and configure our regional stuff. We start be generating our locales in `/etc/locale.gen`. Uncomment your appropriate language and then generate the language pack:
+Once the packages are there we go on and configure our regional stuff. We start by generating our locales in `/etc/locale.gen`. Uncomment your appropriate language and then generate the language pack:
 
-```
+```bash
 locale-gen
 ```
 
@@ -307,7 +307,7 @@ KEYMAP=us
 ```
 
 ## initramfs
-As the documentation for arch linux says the initramfs should automatically be generated when installing the base system with pacstrap. But the default HOOKS in the initramfs don't contain support for LVM and the encryption, so wee add them.
+As the documentation for arch linux says the initramfs should automatically be generated when installing the base system with pacstrap. But the default HOOKS in the initramfs don't contain support for LVM and the encryption, so we add them.
 
 I edit `/etc/mkinitcpio.conf` and change the HOOKS line to match that:
 
@@ -317,11 +317,11 @@ HOOKS=(base systemd keyboard sd-vconsole autodetect modconf block sd-encrypt lvm
 
 If you want to know more about the order and the hooks for the initramfs I highly recommend reading [this page](https://wiki.archlinux.org/index.php/Mkinitcpio) from the arch linux wiki.
 
-If we change this we need to regenerate the initramfs:
+If we change something in this file, we need to regenerate the initramfs:
 
 ```
 mkinitcpio -p linux
-# mkinitcpio -p linux-lts
+mkinitcpio -p linux-lts # if you have an LTS kernel
 ```
 
 ## root password
@@ -350,20 +350,20 @@ EOF
 ## bootloader 
 At the beginning of the tutorial I said that this installation is a UEFI installation and that I'm going to use systemd-boot as my bootloader. There are mutliple options depending on your preference and your setup. See [here](https://wiki.archlinux.org/index.php/Arch_boot_process) for more information on other options.
 
-First we initizalie the bootloader:
+First we initialize the bootloader:
 
 ```
 systemd-machine-id-setup
 bootctl --path=/boot install
 ```
 
-Now we need to create a bootloader entry. For this we need to know the UUID for the root device. We get it with the following command:
+Now we need to create a bootloader entry. For this we need to know the UUID for the root device (the partition mounted on `/`). We get it with the following command:
 
 ```
 uuid=$(blkid --match-tag UUID -o value /dev/sda2)
 ```
 
-Note that we don't get the UUID of the `root` logical volume but instead of the LUKS parttion. This is fine as we specify the root volume to be used in the bootloader entry.
+Note that we don't get the UUID of the `root` logical volume but instead of the LUKS parttion. This is fine as we specify the LV to be used in the bootloader entry.
 
 So let's add an entry to our bootloader:
 
@@ -378,7 +378,7 @@ options rd.luks.name=${uuid}=cryptlvm root=/dev/vgcrypt/root
 EOF
 ```
 
-And we also change the bootloader config to default to our created entry:
+And we also change the bootloader config to use the above entry as default:
 
 ```
 cat <<EOF >/boot/loader/loader.conf
@@ -389,17 +389,17 @@ editor 0
 EOF
 ```
 
-The `editor 0` directive disabled the option to add kernel parameters during boot. The `timeout 0` specified to wait 0 seconds before continuing to boot. So you want see the bootloader with the different options if you don't press space during boot. 
+The `editor 0` directive disables the option to add kernel parameters during boot. The `timeout 0` specified to wait 0 seconds before continuing to boot. So you won't see the bootloader with the different options if you don't press space during boot. 
 
 ## Keyfile
-On my machine I have a problem which causes the keyboard to not work during the boot process even with the keyboard hook in initramfs. 
-So I used a workaround which uses a keyfile stored in the initramfs to unlock the LUKS partition. This is not very secure as the initramfs lies on the `/dev/sda1` partition which is not encrypted and anyone with access to the disk could extract the keyfile and then decrypt your data. A better option would be to store the keyfile on a thumb drive and insert this everytime you boot. But I'm not at a point where I think this is necessary for me. If you want to do it you can read everything about it [here](https://wiki.archlinux.org/title/Dm-crypt/Device_encryption).
+On my machine I have a problem which causes the keyboard to not work during the early boot process (BIOS problem) even with the keyboard hook in initramfs. 
+So I used a workaround which uses a keyfile stored in the initramfs to unlock the LUKS partition. This is not very secure as the initramfs is stored on the `/dev/sda1` partition which is not encrypted and anyone with access to the disk could extract the keyfile and then decrypt your data. A better option would be to store the keyfile on a thumb drive and insert this everytime you boot. But I'm not at a point where I think this is necessary for me. If you want to do it you can read everything about it [here](https://wiki.archlinux.org/title/Dm-crypt/Device_encryption).
 
 So that's what I did to fix my problem:
 
-```
+```bash
 dd bs=512 count=4 if=/dev/random of=/keyfile iflag=fullblock
-chmod 600 /etc/mykeyfile
+chmod 400 /etc/mykeyfile
 cryptsetup luksAddKey /dev/sda2 /keyfile
 ```
 
@@ -415,7 +415,7 @@ Regenerated the initramfs:
 mkinitcpio -p linux
 ```
 
-and then modified the options line in the boot entry:
+and then modifie the options line in the boot entry:
 
 ```
 options rd.luks.name=${uuid}=system rd.luks.key=${uuid}=/keyfile root=/dev/vgcrypt/root
@@ -425,7 +425,7 @@ options rd.luks.name=${uuid}=system rd.luks.key=${uuid}=/keyfile root=/dev/vgcry
 So this is it for the installation. Now you can `exit` the arch-chroot environment and `reboot` the system to proofe that you successfully installed a working arch linux!
 
 If the installation fails to boot I recommend you boot back into the live system, decrypt the LUKS partition, mount the volumes again and take another look at your boot entry. 
-From my experience typos are the most common cause of problems :=) 
+From my experience typos in the bootloader config are the most common cause of problems :=) 
 
 ## Recommended first steps
 Before using your system I recommend you do some basic steps, some of them are optional, some of them are quite important.
@@ -449,12 +449,12 @@ nmcli device wifi list
 nmcli device wifi connect SSID password password
 ```
 
-More information about `nmcli` can be found [here](https://wiki.archlinux.org/index.php/NetworkManager#nmcli_examples). Note that there is a GUI like application called `nmtui` that can also be used to interact with `NetworkManager`
+More information about `nmcli` can be found [here](https://wiki.archlinux.org/index.php/NetworkManager#nmcli_examples). Note that there is also a more user-firendly `nmtui` that can also be used to interact with `NetworkManager`.
 
-Well not always everything works expected. So let's take a step back and go through all the things that should be checked before running the above commands.
+Well not always Networking (and especially WiFi) works as expected. So let's take a step back and go through all the things that could go wrong.
 
 ### Check drivers
-The most important thing is to see wether the system has detected our network interface and can use it by loading the correct driver for it. Normally the linux kernel does a good job by picking the correct default driver for your network interface. Let's check if he did:
+The most important thing is to see wether the system has detected our network interface and can use it by loading the correct driver for it. Normally the linux kernel does a good job by picking the correct default driver for your network interface (that's why you have `linux-firmware` package). Let's check if he did:
 
 ```
 lspci -k | grep -i net -A 3
@@ -486,6 +486,7 @@ sudo systemctl enable --now systemd-resolved
 ```
 
 From now on DNS is completly managed by `systemd-resolved`.
+Note: `/etc/resolv.conf` is now also managed by `systemd-resolved`. See [this page](https://wiki.archlinux.org/title/NetworkManager#/etc/resolv.conf) for how NetworkManager uses or doesn't use the `/etc/resolv.conf` file.
 
 ### Captive portals
 See https://wiki.archlinux.org/title/NetworkManager#Configuration for a list of solutions to make networkamanger open a browser window when you connect to a network that has a captive portal.
@@ -533,10 +534,10 @@ method=auto
 
 Replace the [] place holder with the correct values. An UUID can be generated with `uuidgen`.
 
-Source: https://github.com/wylermr/NetworkManager-WPA2-Enterprise-Setup 
+[Wiki Page](https://github.com/wylermr/NetworkManager-WPA2-Enterprise-Setup)
 
 ## Bluetooth
-From the official arch linux wiki, the following steps are required to setup bluetooth very generic on linux
+From the official arch linux wiki, the following steps are required to setup bluetooth very generic on linux:
 
 >   1. Install the bluez package, providing the Bluetooth protocol stack.
     2. Install the bluez-utils package, providing the bluetoothctl utility.
@@ -547,7 +548,7 @@ Simple right?
 
 The bluez and bluez-utils packages can be installed with pacman:
 
-```
+```bash
 pacman -S bluez bluez-utils
 ```
 
@@ -560,7 +561,7 @@ bluetooth             720896  43 btrtl,btintel,btbcm,bnep,btusb,rfcomm
 
 The last step is to enable and start the bluetooth systemd service:
 
-```
+```bash
 systemctl enable --now bluetooth.service
 ```
 
@@ -579,29 +580,29 @@ My output was as following:
 There is a "yes" by soft blocked bluetooth. I fixed this by running `rkfill unblock bluetooth`.
 
 From now bluetooth should work. You can use `bluetoothctl` to pair bluetooth devices or use any GUI Application that uses it unter the hood. 
-To power on the bluetooth controller on startup see https://wiki.archlinux.org/title/Bluetooth#Auto_power-on_after_boot.
+To power on the bluetooth controller on startup see [here](https://wiki.archlinux.org/title/Bluetooth#Auto_power-on_after_boot).
 
 ### Bluetooth Headsets
-For bluetooth headsets see this [wiki page](https://wiki.archlinux.org/title/Bluetooth_headset#Disable_auto_switching_headset_to_HSP/HFP)
+For bluetooth headsets see this [wiki page](https://wiki.archlinux.org/title/Bluetooth_headset#Disable_auto_switching_headset_to_HSP/HFP).
 
 ## Sudo
 To issue commands as root without chaning the user to root we need `sudo`. On arch it's not installed by default. So let's install it:
 
-```
+```bash
 pacman -S sudo
 ```
 
 On arch the `sudo` group is called `wheel`. So we can configure all users of the wheel group to allow running sudo. We edit the sudoers file with `EDITOR=vim visudo` and uncomment the following:
 
 ```
-%wheel ALL=(ALL) ALL --> will prompt for password when using sudo
-%wheel ALL=(ALL) NOPASSWD: ALL --> won't prompt for password when using sudo
+%wheel ALL=(ALL) ALL #--> will prompt for password when using sudo
+%wheel ALL=(ALL) NOPASSWD: ALL #--> won't prompt for password when using sudo
 ```
 
 ## Swapfile
 My Arch Installation has no SWAP partition. That's because swapfiles are also good and they are way more flexible. Configure one like that:
 
-```
+```bash
 fallocate -l 2G /swapfile
 chmod 600 /swapfile
 mkswap /swapfile
@@ -615,12 +616,14 @@ Tipp: Read about SWAP in the [arch linux wiki](https://wiki.archlinux.org/title/
 ## AUR Helper
 To install packages from the Arch User Repository you'll either need to do it manually or install a helper which get's your new package manager. It will be able to compile packages from the AUR as well as us pacman in the back to install regular packages. I use yay for that but there are other options as well:
 
-```
+```bash
 git clone https://aur.archlinux.org/yay.git
 cd yay
 sudo pacman -S go
 makepkg -si
 ```
+
+Note: Once yay is installed it can update itself in the future ;).
 
 ## USB Drives automount
 The following articles are helpful:
@@ -628,41 +631,27 @@ The following articles are helpful:
 - https://wiki.archlinux.org/title/Udisks
 
 Install the following packages:
-```
+```bash
 yay -S udisks2 udiskie
 ```
 
-For correct permissions add the file `/etc/polkit-1/rules.d/50-udiskie.rules` with permissions 644 and the following content:
-```
-polkit.addRule(function(action, subject) {
-  var YES = polkit.Result.YES;
-  // NOTE: there must be a comma at the end of each line except for the last:
-  var permission = {
-    // required for udisks1:
-    "org.freedesktop.udisks.filesystem-mount": YES,
-    "org.freedesktop.udisks.luks-unlock": YES,
-    "org.freedesktop.udisks.drive-eject": YES,
-    "org.freedesktop.udisks.drive-detach": YES,
-    // required for udisks2:
-    "org.freedesktop.udisks2.filesystem-mount": YES,
-    "org.freedesktop.udisks2.encrypted-unlock": YES,
-    "org.freedesktop.udisks2.eject-media": YES,
-    "org.freedesktop.udisks2.power-off-drive": YES,
-    // required for udisks2 if using udiskie from another seat (e.g. systemd):
-    "org.freedesktop.udisks2.filesystem-mount-other-seat": YES,
-    "org.freedesktop.udisks2.filesystem-unmount-others": YES,
-    "org.freedesktop.udisks2.encrypted-unlock-other-seat": YES,
-    "org.freedesktop.udisks2.eject-media-other-seat": YES,
-    "org.freedesktop.udisks2.power-off-drive-other-seat": YES
-  };
-  if (subject.isInGroup("storage")) {
-    return permission[action.id];
-  }
-});
-```
-Source: https://github.com/coldfix/udiskie/wiki/Permissions
+There are two ways of running `udiskie`:
+1. Systemd-service as user
+2. Exec in sway config
 
-TODO: How to start udiskie from sway's config
+If you want option 1, install and enable the service:
+```bash
+yay -a udiskie-systemd-git
+systemctl --user enable --now udiskie.service
+```
+Note: This version does not support a tray icon unless you edit the service file.
+
+For option 2 add the following to your sway config:
+```
+exec udiskie -Nt &
+```
+
+If you notice that udiskie does not mount your thumb-driver you may want to check [here](https://github.com/coldfix/udiskie/wiki/Permissions) for permission errors.
 
 ## What's next?
 Okay now you have a decent system which you can work with. But there is still no graphical interface. Depending on your use case for the machine this might be fine. For me I need some sort of a graphical environment to work. If you are interested on how I have done that see  my [Sway-DE Guide](./sway-de.md). There I noted how to do these things and much more.

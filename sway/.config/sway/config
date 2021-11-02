@@ -33,6 +33,9 @@ exec mkfifo $WOBSOCK && tail -f $WOBSOCK | wob
 # Shotman
 for_window [title="shotman"] move posititon 30 30, floating enable
 
+# udiskie
+exec udiskie -Nt &
+
 # swayidle && swaylock
 # https://code.krister.ee/lock-screen-in-sway/
 set $lock swaylock --clock --indicator --screenshots --effect-scale 0.4 --effect-vignette 0.2:0.5 --effect-blur 4x2 --datestr "%a %e.%m.%Y" --timestr "%k:%M"
