@@ -24,6 +24,7 @@ yay -aS ly-git
 Once their installed we can enable the display manager to start at boot and symlink the sway config to it's place:
 ```
 sudo systemctl enable ly
+sudo systemctl disable getty@tty2.service
 cd ~/WALL-E
 stow sway
 ```
@@ -62,8 +63,8 @@ The sway config assumes that there are some programms for different functionalit
 ### Installation
 Let's start by installing all the system utilities:
 ```
-sudo pacman -S sway-launcher-desktop rofi python-pip python-setuptools waybar nnn nextcloud-client gnome-keyring xorg-wayland firefox keepassxc qt5-wayland qt5ct tmux vim zsh
-sudo pacman -S pulseaudio pavucontrol pamixer pulseaudio-bluetooth playerctl 
+sudo pacman -S sway-launcher-desktop rofi python-pip python-setuptools waybar nnn nextcloud-client gnome-keyring xorg-xwayland firefox keepassxc qt5-wayland qt5ct tmux vim zsh
+sudo pacman -S pulseaudio pavucontrol pamixer pulseaudio-bluetooth playerctl code 
 yay -aS nerd-fonts-complete shotman clipman wob brightnessctl dropbox dropbox-cli vmware-workstation
 ```
 
@@ -80,7 +81,7 @@ sudo pacman -S npm nodejs yarn go
 This could take a while...
 
 ### Alacritty
-The most important programm to configure is a terminal mutliplexer. My choice is `alacritty` as it's the default for swaywm and it has graphics acceleration which makes it super fast.
+The most important programm to configure is the terminal mutliplexer. My choice is `alacritty` as it's the default for swaywm and it has graphics acceleration which makes it super fast.
 It has a config file located at `~/.config/alacritty/alacritty.yml` and some themes in the same folder. We just symlink the entire config folder:
 
 ```
@@ -90,7 +91,7 @@ stow alacritty
 
 Note: The alacritty config uses `FiraCode Nerd Font` as the font for the terminal. If you have installed the `nerd-fonts-complete` package from above, this will work. Otherwise you may need to change the font or install this font directly from [here](https://www.nerdfonts.com/font-downloads).
 
-#### zsh
+### zsh
 I'm using zsh with the [oh-my-zsh](https://ohmyz.sh/) framework. Let's install that too now.
 
 ```
@@ -100,7 +101,7 @@ cd ~/WALL-E
 stow zsh
 ```
 
-#### vim
+### vim
 My favourite editor. Hopefully already installed, but my `.vimrc` is missing:
 
 ```
@@ -112,7 +113,38 @@ For plugins to be used we need [vim-plug](https://github.com/junegunn/vim-plug).
 
 Note: Some of the plugins have external dependencies that have to be installed first. But this was already done at the beginning of this chapter.
 
-#### tmux
+### Code (OSS)
+For coding it's sometimes easier to use an editor like vs code instead of vim.
+So here are the relevant configs I need:
+```json
+{
+    "workbench.startupEditor": "readme",
+    "workbench.colorTheme": "Solarized Dark",
+    "editor.fontFamily": "'FiraCode Nerd Font', 'monospace', monospace, 'Droid Sans Fallback'",
+    "editor.tabSize": 2,
+    "workbench.preferredDarkColorTheme": "Solarized Dark",
+    "workbench.preferredLightColorTheme": "Solarized Light",
+    "workbench.sideBar.location": "right",
+    "workbench.editor.closeOnFileDelete": true,
+    "go.autocompleteUnimportedPackages": true,
+    "workbench.enableExperiments": false,
+    "window.menuBarVisibility": "toggle",
+    "explorer.confirmDelete": false,
+    "git.confirmSync": false,
+    "redhat.telemetry.enabled": false
+}
+```
+
+And the extensions:
+- Go (golang)
+- Docker (ms-azuretools)
+- Git Graph (mhutchie)
+- GitLens (eamodio)
+- Terraform (hashicorp)
+- Vim (vscodevim)
+- YAML (Redhat)
+
+### tmux
 With a tiling window manager like swaywm it's not really necessary to use tmux but let's set it up:
 
 ```
@@ -358,7 +390,6 @@ exec udiskie -Nt &
 ```
 
 If you notice that udiskie does not mount your thumb-driver you may want to check [here](https://github.com/coldfix/udiskie/wiki/Permissions) for permission errors.
-
 
 
 ## Known Issues and fixes
