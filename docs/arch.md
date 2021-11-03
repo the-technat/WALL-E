@@ -335,7 +335,7 @@ passwd
 Set the hostname of the machine (chose your own):
 
 ```
-echo WALL-E > /etc/hostane
+echo WALL-E > /etc/hostname
 ```
 
 And adjust the /etc/hosts file accordingly:
@@ -617,9 +617,9 @@ Tipp: Read about SWAP in the [arch linux wiki](https://wiki.archlinux.org/title/
 To install packages from the Arch User Repository you'll either need to do it manually or install a helper which get's your new package manager. It will be able to compile packages from the AUR as well as us pacman in the back to install regular packages. I use yay for that but there are other options as well:
 
 ```bash
+sudo pacman -S git go
 git clone https://aur.archlinux.org/yay.git
 cd yay
-sudo pacman -S go
 makepkg -si
 ```
 
