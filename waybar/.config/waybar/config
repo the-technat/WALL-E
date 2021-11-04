@@ -12,8 +12,8 @@
 	// Global configuration
 	// -------------------------------------------------------------------------
 
-	"layer": "top",
-	"position": "top",
+	"layer": "bottom",
+	"position": "bottom",
 	"height": 21,
 
 	"modules-left": [

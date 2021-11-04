@@ -32,6 +32,18 @@ stow sway
 To activate the changes I reboot the system now. After you reboot you should see a terminal like display manager with a login prompt. 
 You can now login to sway. Use Super+Enter to get a terminal for further configs.
 
+### Swaylock / Swayidle
+To lock your screen on keypress or after some idle time there are official packages for sway.
+Config approach taken from: https://code.krister.ee/lock-screen-in-sway/
+
+You need the following packages:
+```bash
+yay -aS swaylock-effects
+sudo pacman -S swayidle
+```
+
+The rest is in sway's config dir.
+
 ### Clamshell mode
 In the config clamshell mode is already set up accordingly to [the docs](https://github.com/swaywm/sway/wiki#clamshell-mode). But you still need to run the following for it to work perfectly:
 
@@ -166,6 +178,18 @@ Source: https://gitlab.com/WhyNotHugo/shotman/-/tree/main
 ### clipman
 The clipboard manager I'm using. It is one that works native on wayland. Bound to Ctrl+Shift+H to browse the history. To show the history it uses an application launcher. Unfortunatelly I didn't got it working with `sway-launcher-desktop` so `rofi` is needed as well.
 
+To prevent it from storing passwords and secrets from KeePassXC we need to create a little script:
+```
+#!/usr/bin/env bash
+
+app_id=$( swaymsg -t get_tree | jq -r '.. | select(.type?) | select(.focused==true) | .app_id'  )
+if [[ $app_id != "org.keepassxc.KeePassXC" ]]; then
+    # --no-persist so that we preserve rich text:
+    clipman store --no-persist
+fi
+```
+Save this somewhere in your `$PATH` and make it executable.  
+
 Source: https://github.com/yory8/clipman
 
 ### Waybar
@@ -174,7 +198,7 @@ Sway ships with a default bar which can be customized a bit. A much more customi
 Waybar has a seperate config in `~/.config/waybar/`. The `config` file defines all the modules which are displayed and the `style.css` stylies the modules.
 
 To link the config:
-```
+```bash
 cd ~/WALL-E
 stow waybar
 ```
