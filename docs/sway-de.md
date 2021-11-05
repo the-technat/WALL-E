@@ -1,28 +1,30 @@
 # Sway DE
 My Setup of a Wayland Compositor with all the tools needed to be productive, while only having what is really necessary.
 
-## Workflow
+## How to setup
 My workflow for setting things up is to follow this guide with cloning the repo first. All the config files for different programms live in this repo so it's best to clone it first into my home folder so that is can be reached at `~/WALL-E`:
 
-```
+```bash
 git clone https://git.technat.ch/technat/WALL-E.git
 ```
 
 In order to use the config files from this repo I further use `stow` to symlink the files to the correct location, so it's a good idea to install that before starting:
-```
+```bash
 sudo pacman -S stow
 ```
 
-## Sway
-The first thing we need from a basic arch installation is sway (the wayland compositor) and ly which is my [display manager](https://wiki.archlinux.org/title/Display_manager) of choice. Alacritty as the default terminal emulator should also be installed:
+Then we can get started with a cup of ☕.
 
-```
+## Sway
+The first thing we need from a basic arch installation is sway (the wayland compositor) and ly which is my [display manager](https://wiki.archlinux.org/title/Display_manager) of choice. Alacritty as the default terminal emulator should also be installed so that we can do further configs:
+
+```bash
 sudo pacman -S sway alacritty 
 yay -aS ly-git
 ```
 
 Once their installed we can enable the display manager to start at boot and symlink the sway config to it's place:
-```
+```bash
 sudo systemctl enable ly
 sudo systemctl disable getty@tty2.service
 cd ~/WALL-E
@@ -30,7 +32,7 @@ stow sway
 ```
 
 To activate the changes I reboot the system now. After you reboot you should see a terminal like display manager with a login prompt. 
-You can now login to sway. Use Super+Enter to get a terminal for further configs.
+You can now login to sway. Use Super+Enter to launch alacritty. 
 
 ### Swaylock / Swayidle
 To lock your screen on keypress or after some idle time there are official packages for sway.
@@ -42,78 +44,86 @@ yay -aS swaylock-effects
 sudo pacman -S swayidle
 ```
 
-The rest is in sway's config dir.
+The rest is in sway's config dir already configured.
 
 ### Clamshell mode
-In the config clamshell mode is already set up accordingly to [the docs](https://github.com/swaywm/sway/wiki#clamshell-mode). But you still need to run the following for it to work perfectly:
+I'm using my laptop in a dockingstation when working at home. This is called `clamshell mode` as your laptop's screen is closed but the computer is running. The [sway docs](https://github.com/swaywm/sway/wiki#clamshell-mode) tell you how you can configure sway to use this.
 
+Depending on your laptop the output name for your internal screen might be different. You can find the corret name when running `swaymsg -t get_outputs` and looking for your internal display. You need to change the output Name in `~/.config/sway/clamshell.sh`
 
-```bash
-cat <<EOF >/sbin/clamshell
-#!/usr/bin/bash
-if grep -q open /proc/acpi/button/lid/LID/state; then
-    swaymsg output eDP-1 enable
-else
-    swaymsg output eDP-1 disable
-fi
-EOF
-chmod +x /sbin/clamshell
-```
-
-Depending on your laptop the output name for your internal screen might be different. You can find the corret name when running `swaymsg -t get_outputs` and looking for your internal display. 
-
-### Philosohpy about Wayland and XWayland
+### Philosophy about Wayland and XWayland
 Wayland aims to be the new replacement for X. But X is over 20 years old and it's very deep rooted in linux. So a switch is not easy. When using wayland these days you will almost all times run in situations where applicatons don't support wayland or not by default. Luckily there is [XWayland](https://wiki.archlinux.org/title/Wayland#XWayland). But those applications that support wayland should run on wayland right?
 
-So how to manage that. My first approach was to set environment variables in `/etc/environment` that forced applications to use wayland. But then you get an application that uses the same gui libary but doesn't support waylabd. What do you do? You change the same environment variable to force all applications from this libary to use XWayland. Not pretty and not reliable as chaning an environment variables can help one application and refuse another one to start.
+So how to manage that. My first approach was to set environment variables in `/etc/environment` that forced applications to use wayland. But then you get an application that doesn't support wayland but uses the same GUI libary than a programm that you forced to use wayland using environment variables for the GUI libary. How do you solve this? You change the same environment variable to force all applications from this libary to use XWayland. Not pretty and not reliable as chaning an environment variables can help one application and refuse another one to start.
 
-So what I like to do is take the .desktop file of an application that doesn't run with sway **default settings** and modify it so that is launches with the correct environment variables set. To prevent if from beeing overwritten by upgrades. All custom .desktop files should be located in `~/.local/share/applications`. This helps keeping track of which applications needed modifications to run and which ones are working just fine by default. So when we go and configure system utilities now, remember this approach.
+So what I like to do is take the .desktop file of an application that doesn't run with sway **default settings** and modify it so that it launches with the correct environment variables set. To prevent if from beeing overwritten by upgrades. All custom .desktop files should be located in `~/.local/share/applications`. This helps keeping track of which applications needed modifications to run and which ones are working just fine by default. So when we go and configure system utilities now, remember this approach.
+
+Oh and before I forget it, `xwayland` must be installed:
+
+```bash
+sudo pacman -S xorg-xwayland
+```
 
 ## System Utilities
-The sway config assumes that there are some programms for different functionalities already installed. This includes a tool for screenshots, clipboard-management or application launching. Of course you could change those tools in the sway config to the tools of your choice but most of the time you need to make some adjustments so that the tools work together. In this section we are going through all of these system utilities, the one I have choosen and how to make it work with sway.
+As the intro says, sway is not anything. We need some good tooling to be productive. We already put our sway config inf place. Sway's config is optimized to work with a specific set of tools, so we need to install and configure them now.
 
-### Installation
-Let's start by installing all the system utilities:
-```
-sudo pacman -S sway-launcher-desktop rofi python-pip python-setuptools waybar nnn nextcloud-client gnome-keyring xorg-xwayland firefox keepassxc qt5-wayland qt5ct tmux vim zsh
-sudo pacman -S pulseaudio pavucontrol pamixer pulseaudio-bluetooth playerctl code 
-yay -aS nerd-fonts-complete shotman clipman wob brightnessctl dropbox dropbox-cli vmware-workstation
-```
+### Fonts
+We start with fonts, because some applications depend on those fonts. There is project called [Nerd Fonts](https://www.nerdfonts.com/) that collects fonts all over the place and patches them for developer use.
 
-nnn dependencies:
-```
-yay -aS bat viu ffmpegthumbnailer file pdftoppm fontpreview glow sxiv tabbed xdotool jq trash-cli vidir
-```
+In their words:
+> Nerd Fonts patches developer targeted fonts with a high number of glyphs (icons). Specifically to add a high number of extra glyphs from popular ‘iconic fonts’ such as Font Awesome, Devicons, Octicons, and others.
 
-vim plugin dependencies:
+We can install all of them on our system like so:
+```bash
+yay -aS nerd-fonts-complete
 ```
-sudo pacman -S npm nodejs yarn go
-```
-
-This could take a while...
+But this takes a while, the repo with all the fonts is quite big.
 
 ### Alacritty
-The most important programm to configure is the terminal mutliplexer. My choice is `alacritty` as it's the default for swaywm and it has graphics acceleration which makes it super fast.
-It has a config file located at `~/.config/alacritty/alacritty.yml` and some themes in the same folder. We just symlink the entire config folder:
+We already installed alacritty (and use it now for setup), but we haven't configured it. Alacritty has a config file in yaml where we can set some exiting things that make us more productive (yes, also fonts ;)). 
 
-```
+So let's install the config file:
+```bash
 cd ~/WALL-E
 stow alacritty
 ```
 
-Note: The alacritty config uses `FiraCode Nerd Font` as the font for the terminal. If you have installed the `nerd-fonts-complete` package from above, this will work. Otherwise you may need to change the font or install this font directly from [here](https://www.nerdfonts.com/font-downloads).
+As you may guess, the font used by alacritty is one of the Nerd Fonts, so now you definitely need them ;)
 
-### zsh
-I'm using zsh with the [oh-my-zsh](https://ohmyz.sh/) framework. Let's install that too now.
+### Waybar
+Sway ships with a default status bar which can be customized a bit. A much more customizable bar is `waybar`. 
 
-```
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-rm ~/.zshrc
+Waybar has a seperate config in `~/.config/waybar/`. The `config` file defines all the modules which are displayed and the `style.css` stylies the modules. I like an informative status bar and have therefore configured waybar to use solarized dark theme and a style I like.
+
+We install and link the config as follows:
+```bash
+sudo pacman -S waybar
 cd ~/WALL-E
-stow zsh
+stow waybar
 ```
 
-### vim
+[Waybar Repo](https://github.com/Alexays/Waybar)
+
+Note: Waybar also uses Nerd Fonts ;)
+
+### Application launcher
+When using a wayland compositor you must launch your apps somehow. For this you need an application launcher. 
+`sway-launcher-desktop` is my application launcher of choice. It has a keybinding $mod+Space to launch it.
+It is also responsible to autostart applications using some config in sway's config file.
+
+Applications which want autostart need to have a .desktop file in `~/.config/autostart/` 
+
+We can install it like so:
+```bash
+sudo pacman -S sway-launcher-desktop
+```
+
+[sway-launcher-desktop Repo](https://github.com/Biont/sway-launcher-desktop)
+
+### Editors
+When it comes to my fa
+
+#### vim
 My favourite editor. Hopefully already installed, but my `.vimrc` is missing:
 
 ```
@@ -125,7 +135,7 @@ For plugins to be used we need [vim-plug](https://github.com/junegunn/vim-plug).
 
 Note: Some of the plugins have external dependencies that have to be installed first. But this was already done at the beginning of this chapter.
 
-### Code (OSS)
+#### Code (OSS)
 For coding it's sometimes easier to use an editor like vs code instead of vim.
 So here are the relevant configs I need:
 ```json
@@ -155,6 +165,38 @@ And the extensions:
 - Terraform (hashicorp)
 - Vim (vscodevim)
 - YAML (Redhat)
+
+
+## Installation
+Let's start by installing all the system utilities:
+```
+sudo pacman -S rofi python-pip python-setuptools nnn nextcloud-client gnome-keyring xorg-xwayland firefox keepassxc qt5-wayland qt5ct tmux vim zsh
+sudo pacman -S pulseaudio pavucontrol pamixer pulseaudio-bluetooth playerctl code 
+yay -aS shotman clipman wob brightnessctl dropbox dropbox-cli vmware-workstation
+```
+
+nnn dependencies:
+```
+yay -aS bat viu ffmpegthumbnailer file pdftoppm fontpreview glow sxiv tabbed xdotool jq trash-cli vidir
+```
+
+vim plugin dependencies:
+```
+sudo pacman -S npm nodejs yarn go
+```
+
+This could take a while...
+
+
+### zsh
+I'm using zsh with the [oh-my-zsh](https://ohmyz.sh/) framework. Let's install that too now.
+
+```
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+rm ~/.zshrc
+cd ~/WALL-E
+stow zsh
+```
 
 ### tmux
 With a tiling window manager like swaywm it's not really necessary to use tmux but let's set it up:
@@ -191,21 +233,6 @@ fi
 Save this somewhere in your `$PATH` and make it executable.  
 
 Source: https://github.com/yory8/clipman
-
-### Waybar
-Sway ships with a default bar which can be customized a bit. A much more customizable bar is `waybar`. 
-
-Waybar has a seperate config in `~/.config/waybar/`. The `config` file defines all the modules which are displayed and the `style.css` stylies the modules.
-
-To link the config:
-```bash
-cd ~/WALL-E
-stow waybar
-```
-
-Source: https://github.com/Alexays/Waybar
-
-Note: Waybar also uses FiraCode Nerd Font as it's font so make sure you have this installed. 
 
 ### Audio
 If we want to play some music we need some software for sounds. 
@@ -266,14 +293,6 @@ While setting up my own nnn config I realized that most of the nnn plugins are j
 * `t:preview-tabbed` - File preview with correct programm - usefull for image sorting
 
 Source: https://github.com/jarun/nnn
-
-### Application launcher
-`sway-launcher-desktop` is my application launcher. It has a keybinding $mod+Space to launch it.
-It is also responsible to autostart applications using some config in sway's config file.
-
-Application which want autostart need to have a .desktop file in `~/.config/autostart/` 
-
-Source: https://github.com/Biont/sway-launcher-desktop
 
 ### Dropbox
 The `dropbox-cli autostart y` command places a .desktop file in `~.config/autostart` which will execute dropbox when sway instance is started. This is because the sway-launcher-desktop application is told to execute .desktop files in this directory when sway starts. See the end of the sway config for more details.
