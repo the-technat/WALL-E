@@ -1,0 +1,16 @@
+{
+    "workbench.startupEditor": "readme",
+    "workbench.colorTheme": "Solarized Dark",
+    "editor.fontFamily": "'FiraCode Nerd Font', 'monospace', monospace, 'Droid Sans Fallback'",
+    "editor.tabSize": 2,
+    "workbench.preferredDarkColorTheme": "Solarized Dark",
+    "workbench.preferredLightColorTheme": "Solarized Light",
+    "workbench.sideBar.location": "right",
+    "workbench.editor.closeOnFileDelete": true,
+    "go.autocompleteUnimportedPackages": true,
+    "workbench.enableExperiments": false,
+    "window.menuBarVisibility": "toggle",
+    "explorer.confirmDelete": false,
+    "git.confirmSync": false,
+    "redhat.telemetry.enabled": false
+}

@@ -96,6 +96,7 @@ Sway ships with a default status bar which can be customized a bit. A much more 
 Waybar has a seperate config in `~/.config/waybar/`. The `config` file defines all the modules which are displayed and the `style.css` stylies the modules. I like an informative status bar and have therefore configured waybar to use solarized dark theme and a style I like.
 
 We install and link the config as follows:
+
 ```bash
 sudo pacman -S waybar
 cd ~/WALL-E
@@ -107,6 +108,7 @@ stow waybar
 Note: Waybar also uses Nerd Fonts ;)
 
 ### Application launcher
+
 When using a wayland compositor you must launch your apps somehow. For this you need an application launcher. 
 `sway-launcher-desktop` is my application launcher of choice. It has a keybinding $mod+Space to launch it.
 It is also responsible to autostart applications using some config in sway's config file.
@@ -114,6 +116,8 @@ It is also responsible to autostart applications using some config in sway's con
 Applications which want autostart need to have a .desktop file in `~/.config/autostart/` 
 
 We can install it like so:
+
+
 ```bash
 sudo pacman -S sway-launcher-desktop
 ```
@@ -121,43 +125,35 @@ sudo pacman -S sway-launcher-desktop
 [sway-launcher-desktop Repo](https://github.com/Biont/sway-launcher-desktop)
 
 ### Editors
-When it comes to my fa
+
+When it comes to my favourite editor it depends on the use case. For most things I use vim with some customization. But there are use cases where VS Code (OSS) is better. Mostly when writting Code. I haven't found a good solution for IDE / Debugging Plugins in vim.
 
 #### vim
-My favourite editor. Hopefully already installed, but my `.vimrc` is missing:
 
-```
+vim should be installed already, but the config file is missing and some dependencies for plugins:
+
+```bash
+sudo pacman -S go nodejs yarn npm
 cd ~/WALL-E
 stow vim
 ```
 
 For plugins to be used we need [vim-plug](https://github.com/junegunn/vim-plug). It will install itself when starting vim for the first time as well as installing all the plugins.
 
-Note: Some of the plugins have external dependencies that have to be installed first. But this was already done at the beginning of this chapter.
-
 #### Code (OSS)
+
 For coding it's sometimes easier to use an editor like vs code instead of vim.
-So here are the relevant configs I need:
-```json
-{
-    "workbench.startupEditor": "readme",
-    "workbench.colorTheme": "Solarized Dark",
-    "editor.fontFamily": "'FiraCode Nerd Font', 'monospace', monospace, 'Droid Sans Fallback'",
-    "editor.tabSize": 2,
-    "workbench.preferredDarkColorTheme": "Solarized Dark",
-    "workbench.preferredLightColorTheme": "Solarized Light",
-    "workbench.sideBar.location": "right",
-    "workbench.editor.closeOnFileDelete": true,
-    "go.autocompleteUnimportedPackages": true,
-    "workbench.enableExperiments": false,
-    "window.menuBarVisibility": "toggle",
-    "explorer.confirmDelete": false,
-    "git.confirmSync": false,
-    "redhat.telemetry.enabled": false
-}
+
+You install it like so:
+
+```bash
+sudo pacman -S code
+cd ~/WALL-E
+stow code
 ```
 
-And the extensions:
+Those are the extensions I like to install:
+
 - Go (golang)
 - Docker (ms-azuretools)
 - Git Graph (mhutchie)
@@ -165,114 +161,142 @@ And the extensions:
 - Terraform (hashicorp)
 - Vim (vscodevim)
 - YAML (Redhat)
+- MarkdownLint (DavidAnson)
 
-
-## Installation
-Let's start by installing all the system utilities:
-```
-sudo pacman -S rofi python-pip python-setuptools nnn nextcloud-client gnome-keyring xorg-xwayland firefox keepassxc qt5-wayland qt5ct tmux vim zsh
-sudo pacman -S pulseaudio pavucontrol pamixer pulseaudio-bluetooth playerctl code 
-yay -aS shotman clipman wob brightnessctl dropbox dropbox-cli vmware-workstation
-```
-
-nnn dependencies:
-```
-yay -aS bat viu ffmpegthumbnailer file pdftoppm fontpreview glow sxiv tabbed xdotool jq trash-cli vidir
-```
-
-vim plugin dependencies:
-```
-sudo pacman -S npm nodejs yarn go
-```
-
-This could take a while...
-
+Keybindings not default:
+- Add Cursor Below -> Ctrl+Alt+Down
+- Add Cursor Above -> Ctrl+Alt+Up
+- Copy Line Up -> Shift+Alt+Up
+- Copy Line Down -> Shift+Alt+Down
 
 ### zsh
-I'm using zsh with the [oh-my-zsh](https://ohmyz.sh/) framework. Let's install that too now.
 
-```
+My shell of choice is ZSH using the [oh-my-zsh](https://ohmyz.sh/) framework. 
+
+```bash
+sudo pacman -S zsh
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 rm ~/.zshrc
 cd ~/WALL-E
 stow zsh
 ```
 
+You must enter your password to change the shell of your user.
+
 ### tmux
+
+Sometimes it's useful to have a terminal multiplexer. Although you could also spawn a new terminal window. I have a `tmux.conf` file with some usefull customizations I prefer. So let's set this up.
 With a tiling window manager like swaywm it's not really necessary to use tmux but let's set it up:
 
-```
+```bash
+sudo pacman -S tmux
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 cd ~/WALL-E
 stow tmux
 tmux # prefix + I to install plugins
-``` 
+```  
 
-Note: You need to adjust the terminal colors of your terminal emulator to match solarized dark theme. Otherwise the colors aren't okay.
-
-### shotman
-Shotman is a utility to do screenshots. It's linked to the keybinding $mod+Shift+S. It has no special configuration except the keybinding which is set in sway's config. 
-
-Just note that it is written in python and needs `pip` and `setuptools` installed.
-
-Source: https://gitlab.com/WhyNotHugo/shotman/-/tree/main
+Note: You need to adjust the terminal colors of your terminal emulator to match solarized theme. Otherwise the colors look bad because tmux has a solarized dark color scheme set.
 
 ### clipman
-The clipboard manager I'm using. It is one that works native on wayland. Bound to Ctrl+Shift+H to browse the history. To show the history it uses an application launcher. Unfortunatelly I didn't got it working with `sway-launcher-desktop` so `rofi` is needed as well.
 
-To prevent it from storing passwords and secrets from KeePassXC we need to create a little script:
+Sway by default only has a shared clipboard inside a container. That's not really useful. One of the most popular clipboard managers for wayland is [clipman](https://github.com/yory8/clipman).
+I have bound it to the shortcut Ctrl+Shift+H for history browsing and use `rofi` to show the history.
+
+Install it:
+
+```bash
+sudo pacman -S rofi
+yay -aS clipman
 ```
-#!/usr/bin/env bash
 
-app_id=$( swaymsg -t get_tree | jq -r '.. | select(.type?) | select(.focused==true) | .app_id'  )
-if [[ $app_id != "org.keepassxc.KeePassXC" ]]; then
-    # --no-persist so that we preserve rich text:
-    clipman store --no-persist
-fi
+### shotman
+
+[Shotman](https://gitlab.com/WhyNotHugo/shotman/-/tree/main) is a utility to do screenshots. It's linked to the keybinding $mod+Shift+S. It has no special configuration except the keybinding which is set in sway's config. 
+
+Install it:
+
+```bash
+sudo pacman -S python-pip python-setuptools
+yay -aS shotman
 ```
-Save this somewhere in your `$PATH` and make it executable.  
 
-Source: https://github.com/yory8/clipman
+### Brightness
+
+To change the brightness of the screen we use a tool called [brightnessctl](https://github.com/Hummer12007/brightnessctl).
+The keybindings are set in sway's config.
+
+Install it:
+
+```bash
+yay -aS brightnessctl
+```
+
+#### Wob
+
+To display a nice status bar how much brightness we have we use [wob](https://github.com/francma/wob) to display a progress bar.
+Wob has some configs in sway's config. If you want to use it for other progress bar things, there is a variable `$WOBSOCK` where you can put percentages in.
+
+Install it:
+
+```bash
+yay -aS wob
+```
 
 ### Audio
+
 If we want to play some music we need some software for sounds. 
 For [general purpose audio](https://wiki.archlinux.org/index.php/Sound_system) `pulseaudio` in combination with `alsa` is used.
 
 The `pulseaudio` package is the most obvious one there. For bluetooth devices the `pulseuadio-bluetooth` is needed. 
 The `pavucontrol` is a GUI to confiure `pulseaudio`. The `pamixer` and `playerctl` utilies are used to control volume and music with keybindings which are defined in sway.
 
+Install all of them:
+
+```bash
+sudo pacman -S pulseaudio pavucontorl pamixer pulseaudio-bluetooth playerctl
+```
+
 #### Volume
+
 To change the volume the `pamixer` utility is used. It is a cli communicating with `pulseaudio` It has the ability to get the current volume and therefore display the progress using `wob`.
 
+
+#### Microphone
+
+To mute the microphonse we use `pactl` directly and the keybinding Ctrl+Win+Alt+Space.
+
 #### Music
+
 To control music, play and pause we use `playerctl`. Also a CLI which uses keybindings in sway's config to control the music streams.
 
 #### Bluetooth Audio
+
 To load the necessary bluetooth modules on startup we need to add them to the pulseaudio config:
 
-```
+```bash
 cat <<EOF >>/etc/pulse/system.pa
 ### Load bluetooth modules
 load-module module-bluetooth-policy
 load-module module-bluetooth-discover
 EOF
+systemctl --user restart pulseaudio
 ```
 
-### Brightness
-To change the brightness of the screen we use a tool called `brightnessctl`.  
-
-The keybindings are set in sway's config so that it should already work.
-To display a nice status bar how much brightness we have we use `wob` to display a progress bar.
-
-Source: https://github.com/Hummer12007/brightnessctl
-Source: https://github.com/francma/wob
-
 ### File Manager
+
 I use nnn as my file manager as it can handle image previews and much more while beeing fast. 
+
+Install it and dependencies:
+
+```bash
+sudo pacman -S nnn
+yay -aS bat viu ffmpegthumbnailer file pdftoppm fontpreview glow sxiv tabbed xdotool jq trash-cli vidir
+```
 
 But just installing nnn is not enough, it needs to be configured. This is done using some environment variables. If you have stowed my zsh config the vars are already set.
 
-Otherwise export them somewhere in rc file:
+Otherwise export them somewhere in an rc file:
 
 ```
 cat ~/WALL-E/zsh/.zshenv | grep "nnn Vars" -A 20
@@ -286,27 +310,43 @@ curl -Ls https://raw.githubusercontent.com/jarun/nnn/master/plugins/getplugs | s
 
 Now you can find the plugins in `~/.config/nnn/plugins`. Start using them by exporting the `NNN_PLUG` variable. 
 
-While setting up my own nnn config I realized that most of the nnn plugins are just helpers to integrate with other programms out there. That's why you end up installing some more tools to work perfectly with nnn. They are listed in a separated install command at the top of this chapter.
+While setting up my own nnn config I realized that most of the nnn plugins are just helpers to integrate with other programms out there. That's why you end up installing some more tools to work perfectly with nnn. 
 
 #### Plugins
-* `p:preview-tui` - File preview in terminal or tmux pane, very basic 
-* `t:preview-tabbed` - File preview with correct programm - usefull for image sorting
+
+- `p:preview-tui` - File preview in terminal or tmux pane, very basic 
+- `t:preview-tabbed` - File preview with correct programm - usefull for image sorting
 
 Source: https://github.com/jarun/nnn
-
 ### Dropbox
-The `dropbox-cli autostart y` command places a .desktop file in `~.config/autostart` which will execute dropbox when sway instance is started. This is because the sway-launcher-desktop application is told to execute .desktop files in this directory when sway starts. See the end of the sway config for more details.
+
+To get dropbox running we install it:
+
+```bash
+yay -aS dropbox dropbox-cli
+```
+
+The `dropbox-cli autostart y` command places a .desktop file in `~.config/autostart` which will execute dropbox when sway is started. This is because the sway-launcher-desktop application is told to execute .desktop files in this directory when sway starts. See the end of the sway config for more details.
 
 Docs and further informations: https://wiki.archlinux.org/title/Dropbox
 
 ### Nextcloud sync client
-The nextcloud-client want's to save nextcloud credentials in gnome keyring. So this package has to be installed first. Nextcloud-Client will create a default keyring and ask for a master password when setting up the nextcloud-client. 
+
+The nextcloud-client want's to save nextcloud credentials in gnome keyring. So this package has to be installed too. Nextcloud-Client will create a default keyring and ask for a master password when setting up the nextcloud-client. 
 Then on every login you will be prompted for this master password
 
+Install it:
+
+```bash
+sudo pacman -S gnome-keyring nextcloud-client
+```
+
 ### Firefox
+
 Firefox can run nativally on Wayland when forcing it do do so:
 
-```
+```bash
+sudo pacman -S firefox
 cp /usr/share/applications/firefox.desktop ~/.local/share/applications/firefox.desktop
 sed -i 's/Exec=/Exec=env MOZ_ENABLE_WAYLAND=1 /g' ~/.local/share/applications/firefox.desktop
 ```
@@ -314,12 +354,22 @@ sed -i 's/Exec=/Exec=env MOZ_ENABLE_WAYLAND=1 /g' ~/.local/share/applications/fi
 For more informations and known problems see [here](https://wiki.archlinux.org/title/Firefox).
 
 ### vmware-workstation
-Enter the license:
+
+For educational purposes I need vmware workstation. 
+
+Install it:
+
+```bash
+yay -aS vmware-workstation
 ```
+
+Easiest way to enter the license:
+
+```bash
 sudo /usr/lib/vmware/bin/vmware-vmx-debug --new-sn XXXXX-XXXXX-XXXXX-XXXXX-XXXXX
 ```
 
-And enable the networking service:
+Enable the networking service:
 ```
 sudo systemctl enable vmware-networks --now
 ```
@@ -329,6 +379,7 @@ Note: To enter the license you need to be root. But launching vmware with waylan
 Note2: If you get an error saying that `vmmon` is not loaded. This can probably be because the package `linux-headers` is not installed on the system
 
 #### Networking in vmware
+
 If you have a vmnet that is host-only, you can only set a fixed ip subnet in the `vmware-netcfg` (where vmware will take the first address of the subnet for the host!). But there's no way to set dns or any other ip than the first one. So here's how you can create a NetworkManager connection to make this host-only adapter configurable by NetworkManager:
 
 ```
@@ -359,7 +410,8 @@ method=auto
 ```
 
 #### Workaround for vmware-netcfg
-When running vmware-netcfg as root, the following error appears:
+
+When running vmware-netcfg as root (to change something in the networking settings), the following error appears:
 ```
 Authorization required, but no authorization protocol specified
 
@@ -375,6 +427,7 @@ xhost si:localuser:root
 More informations on running vmware: https://wiki.archlinux.org/title/VMware.
 
 ### KeePassXC
+
 KeePassXC is using qt5. When launching with default settings there is an error:
 ```
 qt.qpa.plugin: Could not find the Qt platform plugin "wayland" in ""
@@ -383,17 +436,20 @@ qt.qpa.plugin: Could not find the Qt platform plugin "wayland" in ""
 
 This is easily fixed by installing the wayland plugin for qt5: `qt5-wayland`.
 
-Then it launches. But we can do even more. The [arch linux wiki]() points out that some QT applications, including KeePassXC have missing functionality on Sway. To solve this we also install `qt5ct` and set an environment variable in the .desktop file of keepass:
+Then it launches. But we can do even more. The [arch linux wiki](https://wiki.archlinux.org/title/Wayland#GUI_libraries) points out that some QT applications, including KeePassXC have missing functionality on Sway. To solve this we also install `qt5ct` and set an environment variable in the .desktop file of keepass:
 
-```
+```bash
+sudo pacman -S keepassxc qt5-wayland qt5ct
 cp /usr/share/applications/org.keepassxc.KeePassXC.desktop ~/.local/share/applications/org.keepassxc.KeePassXC.desktop
 sed -i 's/Exec=/Exec=env QT_QPA_PLATFORMTHEME=qt5ct /g' ~/.local/share/applications/org.keepassxc.KeePassXC.desktop
 ```
 
 ### p3x-onenote
+
 An electron app for OneNote.
 Source: https://github.com/patrikx3/onenote
 Downloaded the AppImage as described and put a desktop file in `~/.local/share/applications/p3x-onenote.desktop`:
+
 ```
 [Desktop Entry]
 Version=1.0
@@ -407,37 +463,38 @@ Terminal=false
 ```
 
 ### USB Drives automount
+
 The following articles are helpful:
 - https://github.com/coldfix/udiskie/wiki/Usage
 - https://wiki.archlinux.org/title/Udisks
 
 Install the following packages:
+
 ```bash
 yay -S udisks2 udiskie
 ```
 
 There are two ways of running `udiskie`:
+
 1. Systemd-service as user
 2. Exec in sway config
 
 If you want option 1, install and enable the service:
+
 ```bash
 yay -a udiskie-systemd-git
 systemctl --user enable --now udiskie.service
 ```
+
 Note: This version does not support a tray icon unless you edit the service file.
 
 For option 2 add the following to your sway config:
+
 ```
 exec udiskie -Nt &
 ```
 
 If you notice that udiskie does not mount your thumb-driver you may want to check [here](https://github.com/coldfix/udiskie/wiki/Permissions) for permission errors.
-
-
-## Known Issues and fixes
-### GTK+ aplpications take 20 seconds to start
-See https://github.com/swaywm/sway/wiki#gtk-applications-take-20-seconds-to-start
 
 ## Further reading
 * [https://wiki.archlinux.org/title/Wayland#GUI_libraries](https://wiki.archlinux.org/title/Wayland#GUI_libraries)
