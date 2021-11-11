@@ -210,15 +210,23 @@ sudo pacman -S rofi
 yay -aS clipman
 ```
 
-### shotman
+### grim & swappy
+Screenshots under Wayland can be done with different tools. I use `grim` in combination with `swappy` to edit them on the fly. To make handling easier `grimshot` as a wrapper to grim is used.
 
-[Shotman](https://gitlab.com/WhyNotHugo/shotman/-/tree/main) is a utility to do screenshots. It's linked to the keybinding $mod+Shift+S. It has no special configuration except the keybinding which is set in sway's config. 
-
-Install it:
+Let's installt them:
 
 ```bash
-sudo pacman -S python-pip python-setuptools
-yay -aS shotman
+sudo pacman -S grim swappy
+yay -aS grimshot
+```
+
+To launch it we use keybindings in sway's config. 
+
+However `swappy` uses a config:
+
+```bash
+cd ~/WALL-E
+stow swappy
 ```
 
 ### Brightness
