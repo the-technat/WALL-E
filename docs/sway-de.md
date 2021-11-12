@@ -504,6 +504,14 @@ exec udiskie -Nt &
 
 If you notice that udiskie does not mount your thumb-driver you may want to check [here](https://github.com/coldfix/udiskie/wiki/Permissions) for permission errors.
 
+### PDF Viewer
+For PDFs you need a reader. There are many [options](https://wiki.archlinux.org/title/PDF,_PS_and_DjVu). I tried some of them and setteled on `xreader`:
+
+```bash
+sudo pacman -S xreader
+xdg-mime default xreader.desktop application/pdf
+```
+
 ## Further reading
 * [https://wiki.archlinux.org/title/Wayland#GUI_libraries](https://wiki.archlinux.org/title/Wayland#GUI_libraries)
 * [https://wiki.archlinux.org/title/List_of_applications/Documents](https://wiki.archlinux.org/title/List_of_applications/Documents) 
