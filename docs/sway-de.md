@@ -512,6 +512,20 @@ sudo pacman -S xreader
 xdg-mime default xreader.desktop application/pdf
 ```
 
+### Notifications
+To display notifications [mako](https://github.com/emersion/mako) is used.
+
+Install it:
+
+```bash
+sudo pacman -S mako libnotiy
+systemctl enable --now mako
+cd ~/WALL-E
+stow mako
+```
+
+You can use `makoctl` to control notifications or run Shift+alt+space to dismiss them all.
+
 ## Further reading
 * [https://wiki.archlinux.org/title/Wayland#GUI_libraries](https://wiki.archlinux.org/title/Wayland#GUI_libraries)
 * [https://wiki.archlinux.org/title/List_of_applications/Documents](https://wiki.archlinux.org/title/List_of_applications/Documents) 
