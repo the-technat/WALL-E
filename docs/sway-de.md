@@ -254,41 +254,62 @@ yay -aS wob
 ### Audio
 
 If we want to play some music we need some software for sounds. 
-For [general purpose audio](https://wiki.archlinux.org/index.php/Sound_system) `pulseaudio` in combination with `alsa` is used.
+For [general purpose audio](https://wiki.archlinux.org/index.php/Sound_system) the audio server `pulseaudio` on top of the kernel component `alsa` is used.
 
-The `pulseaudio` package is the most obvious one there. For bluetooth devices the `pulseuadio-bluetooth` is needed. 
-The `pavucontrol` is a GUI to confiure `pulseaudio`. The `pamixer` and `playerctl` utilies are used to control volume and music with keybindings which are defined in sway.
-
-Install all of them:
+So we need to install `pulseaudio` alone with some additional software:
 
 ```bash
-sudo pacman -S pulseaudio pavucontorl pamixer pulseaudio-bluetooth playerctl
+sudo pacman -S pulseaudio pavucontrol pulseaudio-bluetooth pulseaudio-alsa 
 ```
 
-#### Volume
-
-To change the volume the `pamixer` utility is used. It is a cli communicating with `pulseaudio` It has the ability to get the current volume and therefore display the progress using `wob`.
-
-
-#### Microphone
-
-To mute the microphonse we use `pactl` directly and the keybinding Ctrl+Win+Alt+Space.
-
-#### Music
-
-To control music, play and pause we use `playerctl`. Also a CLI which uses keybindings in sway's config to control the music streams.
+* the `pulseaudio` package contains the audio server daemon itself
+* `pulseaudio-alsa` makes sure that ALSA uses pulseaudio instead of doing anything directly with applications.
+* `pavucontrol` is a nice GUI to configure pulseaudio
+* `pulseaudio-bluetooth` is used for bluetooth support  
 
 #### Bluetooth Audio
 
-To load the necessary bluetooth modules on startup we need to add them to the pulseaudio config:
+[Bluetooth Headset using Pulseaudio](https://wiki.archlinux.org/title/Bluetooth_headset#Headset_via_Bluez5/PulseAudio)
+To load the necessary bluetooth modules in pulseaudio on startup we need to add them to the pulseaudio config:
 
 ```bash
 cat <<EOF >>/etc/pulse/system.pa
 ### Load bluetooth modules
 load-module module-bluetooth-policy
 load-module module-bluetooth-discover
+load-module module-switch-on-connect
 EOF
 systemctl --user restart pulseaudio
+```
+
+The module `load-module module-switch-on-connect` changes pulseaudios output device as soon as a bluetooth headset is connected. For this to happen automatically you need to `trust` the bluetooth device. 
+
+#### Volume
+
+To change the volume you can either use the `pavucontrol` utility or `volumectl`.
+
+Install it:
+
+```bash
+yay -aS volumectl
+```
+
+Note: volumectl will display a progress bar using mako and always sets the volume for the default sink.
+
+#### Microphone
+
+To mute the microphonse we use `pactl` directly and the keybinding Ctrl+Win+Alt+Space.
+
+A little script `mic-mute.sh` checks wether the default source is currently muted or not and toggles that state. It sends a notification indicating the new state.
+
+#### Media Player Controls
+
+To control music, play and pause we use `playerctl`. The keybindings for that are set in sway' config.
+
+But we need to install it:
+
+```bash
+sudo pacman -S playerctl
 ```
 
 ### File Manager

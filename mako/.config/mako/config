@@ -1,5 +1,5 @@
 background-color=#073642
-progress-color=source #dc322f
+progress-color=source #268bd2
 text-color=#839496
 border-color=#073642
 padding=10
@@ -12,7 +12,6 @@ actions=1
 max-visible=5
 default-timeout=6000
 margin=36,28
-icon-path=~/.local/share/icons/Solarized-Dark-Green-Numix
 
-[urgency=high]
-ignore-timeout=1
+[urgency=critical]
+text-color=#dc322f
