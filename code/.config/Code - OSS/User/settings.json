@@ -14,5 +14,6 @@
     "git.confirmSync": false,
     "redhat.telemetry.enabled": false,
     "explorer.confirmDragAndDrop": false,
-    "vim.useSystemClipboard": true
+    "vim.useSystemClipboard": true,
+    "php.validate.executablePath": "/sbin/php" 
 }
