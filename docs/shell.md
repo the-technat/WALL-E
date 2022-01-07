@@ -38,8 +38,3 @@ Note: You need to adjust the terminal colors of your terminal emulator to match 
 sudo pacman -S ranger
 stow ranger
 ```
-
-## SSH / GPG Key management
-
-According to [this blog post](https://www.dzombak.com/blog/2021/02/Securing-my-personal-SSH-infrastructure-with-Yubikeys.html) my new ssh situation will look like that:
-

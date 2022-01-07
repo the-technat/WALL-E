@@ -1,0 +1,6 @@
+[user]
+	email = technat@technat.ch
+	name = technat
+	signingkey = 9316C11B4AE58FC9
+[pull]
+	rebase = true
