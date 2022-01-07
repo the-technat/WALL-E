@@ -27,3 +27,4 @@ export ICONLOOKUP=1
 export GUI=1
 export NNN_TRASH=1
 export NNN_OPENER="/home/technat/.config/nnn/plugins/nuke"
+export NNN_BMS='d:~/Documents/Schulmaterial/;t:~/Documents/Informatik/technat.cloud/'
