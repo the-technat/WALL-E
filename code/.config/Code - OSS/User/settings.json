@@ -15,5 +15,6 @@
     "redhat.telemetry.enabled": false,
     "explorer.confirmDragAndDrop": false,
     "vim.useSystemClipboard": true,
-    "php.validate.executablePath": "/sbin/php" 
+    "php.validate.executablePath": "/sbin/php",
+    "terminal.external.linuxExec": "kitty"
 }

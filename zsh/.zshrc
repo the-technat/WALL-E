@@ -102,7 +102,5 @@ fi
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# use n instead of nnn to invoke nnn and cd on quit
-if [ -f /usr/share/nnn/quitcd/quitcd.bash_zsh ]; then
-      source /usr/share/nnn/quitcd/quitcd.bash_zsh
-fi
+# https://github.com/ranger/ranger/wiki/Common-Changes#ranger-shell-prompt-indicator
+if [ -n "$RANGER_LEVEL" ]; then export PS1="[ranger]$PS1"; fi
