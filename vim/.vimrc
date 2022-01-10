@@ -1,14 +1,12 @@
 " .vimrc of Technat (https://technat.ch)
-" credits to https://github.com/amix/vimrc (used as inspiration)
-
 """"""""""""""""""""""""""""""""
 " vim-plug
 """"""""""""""""""""""""""""""""
-" install if not present
+" install vim-plug if not present
 if empty(glob('~/.vim/autoload/plug.vim'))
     silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
             \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    autocmd VimEnter * PlugInstall | source ~/.vimrc 
+    autocmd VimEnter * PlugInstall | source ~/.vimrc
 endif
 
 " Run PlugInstall if there are missing plugins
@@ -25,20 +23,30 @@ call plug#begin('~/.vim/plugged')
 "------ Styling Plugins ------
 " https://github.com/altercation/vim-colors-solarized
 Plug 'altercation/vim-colors-solarized'
-" https://github.com/itchyny/lightline.vim
-Plug 'itchyny/lightline.vim'
+" https://github.com/vim-airline/vim-airline
+Plug 'vim-airline/vim-airline'
+" https://github.com/vim-airline/vim-airline-themes#vim-airline-themes--
+Plug 'vim-airline/vim-airline-themes'
 " https://github.com/airblade/vim-gitgutter
 Plug 'airblade/vim-gitgutter'
+" https://github.com/Yggdroot/indentLine
+Plug 'Yggdroot/indentLine'
 
-"------ Editor Plugins ------
+"------ Editor Features------
+" https://github.com/jreybert/vimagit
+Plug 'jreybert/vimagit'
 " https://github.com/tpope/vim-commentary
 Plug 'tpope/vim-commentary'
-" https://github.com/editorconfig/editorconfig-vim#readme
+" https://github.com/editorconfig/editorconfig-vim
 Plug 'editorconfig/editorconfig-vim'
 " https://github.com/christoomey/vim-system-copy
 Plug 'christoomey/vim-system-copy'
+" https://github.com/mattn/emmet-vim
+Plug 'mattn/emmet-vim'
 
-"------ IDE Plugins ------
+"------ IDE ------
+" https://github.com/neoclide/coc.nvim
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " https://github.com/dense-analysis/ale
 Plug 'dense-analysis/ale'
 
@@ -47,12 +55,39 @@ Plug 'dense-analysis/ale'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " https://github.com/hashivim/vim-terraform
 Plug 'hashivim/vim-terraform'
-" https://github.com/mattn/emmet-vim
-Plug 'mattn/emmet-vim'
+" https://github.com/kevinoid/vim-jsonc
+Plug 'kevinoid/vim-jsonc'
 
 " Initialize plugin system
 call plug#end()
 
+""""""""""""""""""""""""""""""""
+" Plugin Configs
+""""""""""""""""""""""""""""""""
+" vim-terraform
+let g:terraform_align=1 " align equal sings when saving
+let g:terraform_fmt_on_save=1 " run fmt when saving
+
+" vim-go
+let g:go_code_completion_enabled = 0 " done by coc
+let g:go_doc_popup_window = 1 "triggered by pressing k
+let g:go_fmt_command = "goimports"
+let g:go_auto_type_info = 1
+let g:go_auto_sameids = 0
+
+" ale
+let g:ale_disable_lsp = 1
+let g:ale_fix_on_save = 1
+let g:ale_sign_error = '●'
+let g:ale_sign_warning = '.'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+
+" airline
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#formatter = 'default'
+let g:airline_theme='solarized'
 
 """"""""""""""""""""""""""""""""
 " General
@@ -61,7 +96,7 @@ call plug#end()
 set nocompatible
 
 " show line numbers
-set number 
+set number
 
 " Do not save backup files.
 set nobackup
@@ -97,14 +132,14 @@ au FocusLost,WinLeave * :silent! w
 " Ignore case when searching
 set ignorecase
 
-" When searching try to be smart about cases 
+" When searching try to be smart about cases
 set smartcase
 
 " Highlight search results
 set hlsearch
 
 " Makes search act like search in modern browsers
-set incsearch 
+set incsearch
 
 " Return to last edit position when opening files (You want this!)
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
@@ -130,24 +165,28 @@ set shiftwidth=2
 " Set tab width to 2 colums
 set tabstop=2
 
+" You can also define tabstop,shiftwidth per file ending
+" autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+
 set ai "Auto indent
 set si "Smart indent
 set wrap "Wrap lines
+
 
 """"""""""""""""""""""""""""""""
 " Look and feel
 """"""""""""""""""""""""""""""""
 " Enable syntax highlighting
-syntax enable 
+syntax enable
 
 " Highlight cursor line underneath the cursor horizontally.
 set cursorline
 
 " fix lightline not showing statusline
-set laststatus=2 
+set laststatus=2
 
 "remove current mode status bar at bottom
-set noshowmode 
+set noshowmode
 
 " configure colorscheme
 set background=dark " or dark
@@ -155,9 +194,9 @@ colorscheme solarized
 
 " Function can be added to status line for a warning/error count
 function! LinterStatus() abort
-    let l:counts = ale#statusline#Count(bufnr(''))    
+    let l:counts = ale#statusline#Count(bufnr(''))
     let l:all_errors = l:counts.error + l:counts.style_error
-    let l:all_non_errors = l:counts.total - l:all_errors    
+    let l:all_non_errors = l:counts.total - l:all_errors
     return l:counts.total == 0 ? 'OK' : printf(
         \   '%d⨉ %d⚠ ',
         \   all_non_errors,
@@ -167,21 +206,6 @@ endfunction
 " set statusline+=%=
 " set statusline+=\ %{LinterStatus()}
 
-""""""""""""""""""""""""""""""""
-" Plugin Configs
-""""""""""""""""""""""""""""""""
-" vim-terraform
-let g:terraform_align=1 " align equal sings when saving
-let g:terraform_fmt_on_save=1 " run fmt when saving
-
-" ale
-" Set this variable to 1 to fix files when you save them.
-let g:ale_fix_on_save = 1
-let g:ale_sign_error = '●'
-let g:ale_sign_warning = '.'
-
-" lightline
-let g:lightline = {'colorscheme': 'solarized',}
 
 """"""""""""""""""""""""""""""""
 " Keybindings
@@ -204,7 +228,7 @@ noremap <leader>pp :setlocal paste!<cr>
 " ------ Editor ------
 " clear search results
 noremap ,<space> :nohlsearch<CR>
-" Move a line of text using <leader>+[jk] 
+" Move a line of text using <leader>+[jk]
 vnoremap <leader>k :m'>+<cr>`<my`>mzgv`yo`z
 nnoremap <leader>k mz:m-2<cr>`z
 vnoremap <leader>j :m'<-2<cr>`>my`<mzgv`yo`z

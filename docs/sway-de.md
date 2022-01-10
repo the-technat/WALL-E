@@ -20,10 +20,11 @@ Then we can get started with a cup of ☕.
 
 ## Sway
 
-The first thing we need from a basic arch installation is sway (the wayland compositor) and ly which is my [display manager](https://wiki.archlinux.org/title/Display_manager) of choice. Alacritty as the default terminal emulator should also be installed so that we can do further configs:
+The first thing we need from a basic arch installation is sway (the wayland compositor) and ly which is my [display manager](https://wiki.archlinux.org/title/Display_manager) of choice. 
+Kitty as my favourite terminal emulator should also be installed so that we can do further configs:
 
 ```bash
-sudo pacman -S sway alacritty 
+sudo pacman -S sway kitty
 yay -aS ly-git
 ```
 
@@ -37,7 +38,7 @@ stow sway
 ```
 
 To activate the changes I reboot the system now. After you reboot you should see a terminal like display manager with a login prompt.
-You can now login to sway. Use Super+Enter to launch alacritty.
+You can now login to sway. Use Super+Enter to launch kitty.
 
 ### Swaylock / Swayidle
 
@@ -92,19 +93,6 @@ yay -aS nerd-fonts-complete
 
 But this takes a while, the repo with all the fonts is huge.
 
-### Alacritty
-
-We already installed alacritty (and use it now for setup), but we haven't configured it. Alacritty has a config file in yaml where we can set some exiting things that make us more productive (yes, also fonts ;)).
-
-So let's install the config file:
-
-```bash
-cd ~/WALL-E
-stow alacritty
-```
-
-As you may guess, the font used by alacritty is one of the Nerd Fonts, so now you definitely need them ;)
-
 ### Waybar
 
 Sway ships with a default status bar which can be customized a bit. A much more customizable bar is `waybar`.
@@ -121,7 +109,7 @@ stow waybar
 
 [Waybar Repo](https://github.com/Alexays/Waybar)
 
-Note: Waybar also uses Nerd Fonts ;)
+Note: My Waybar config uses [Nerd Fonts](https://www.nerdfonts.com/). 
 
 ### Application launcher
 
@@ -139,23 +127,7 @@ sudo pacman -S sway-launcher-desktop
 
 [sway-launcher-desktop Repo](https://github.com/Biont/sway-launcher-desktop)
 
-### Editors
-
-When it comes to my favourite editor it depends on the use case. For most things I use vim with some customization. But there are use cases where VS Code (OSS) is better. Mostly when writting Code. I haven't found a good solution for IDE / Debugging Plugins in vim.
-
-#### vim
-
-vim should be installed already, but the config file is missing and some dependencies for plugins:
-
-```bash
-sudo pacman -S go nodejs yarn npm
-cd ~/WALL-E
-stow vim
-```
-
-For plugins to be used we need [vim-plug](https://github.com/junegunn/vim-plug). It will install itself when starting vim for the first time as well as installing all the plugins.
-
-#### Code (OSS)
+### Code (OSS)
 
 For coding it's sometimes easier to use an editor like vs code instead of vim.
 
