@@ -78,7 +78,7 @@ Terraform:
 
 ```bash
 sudo pacman -S terraform 
-yay -As terraform-docs
+yay -As terraform-docs terraform-lsp
 ```
 
 YAML:
@@ -102,6 +102,12 @@ There are a bunch of plugins set in my `.vimrc` file. All the required tools sho
 ```bash
 cd ~/WALL-E
 stow vim
+```
+
+Unfortunatelly there is currently no way to install coc languageservers using the vimrc, so do this manually:
+
+```bash
+vim +CocInstall coc-go 
 ```
 
 Btw for plugins to be used we need [vim-plug](https://github.com/junegunn/vim-plug). It will install itself when starting vim for the first time as well as installing all the plugins.
