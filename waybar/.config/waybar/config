@@ -13,7 +13,7 @@
 	// -------------------------------------------------------------------------
 
 	"layer": "bottom",
-	"position": "bottom",
+	"position": "top",
 	"height": 21,
 
 	"modules-left": [
