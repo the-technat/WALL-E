@@ -8,7 +8,7 @@ So this Guide shows how I configured my Shell environment on Arch using [sway](h
 
 ## Terminal Emulator
 
-When you use a graphical environment you don't have the TTY directly, so you need some sort of a terminal emulator to work with. The [sway-de](./sway-de.md) guide already installed [kitty](https://sw.kovidgoyal.net/kitty/) as my prefered and configured terminal emulator. 
+When you use a graphical environment you don't have the TTY directly, so you need some sort of a terminal emulator to work with. The [sway-de](./sway-de.md) guide already installed [kitty](https://sw.kovidgoyal.net/kitty/) as my prefered and configured terminal emulator.
 
 I launch it using Space+Enter. The cool thing about it is that you can customize and configure it to your likings, so I got my own config file:
 
@@ -17,7 +17,7 @@ cd ~/WALL-E
 stow kitty
 ```
 
-## Shell 
+## Shell
 
 A Terminal Emulator launches a shell by default. My prefered one is ZSH using the [oh-my-zsh](https://ohmyz.sh/) framework to configure it.
 
@@ -31,7 +31,7 @@ stow zsh
 ```
 
 Note: You must enter your password to change the shell of your user.
-  
+ 
 ## tmux (Orphaned)
 
 Prior to kitty I used tmux to have multiple virtual terminals. Now with kitty you can do this at it's own.
@@ -44,7 +44,7 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 cd ~/WALL-E
 stow tmux
 tmux # prefix + I to install plugins
-```  
+```
 
 Note: You need to adjust the terminal colors of your terminal emulator to match solarized theme. Otherwise the colors look bad because tmux has a solarized dark color scheme set.
 
@@ -77,7 +77,7 @@ sudo pacman -S nodejs npm
 Terraform:
 
 ```bash
-sudo pacman -S terraform 
+sudo pacman -S terraform
 yay -As terraform-docs terraform-lsp
 ```
 
@@ -107,7 +107,7 @@ stow vim
 Unfortunatelly there is currently no way to install coc languageservers using the vimrc, so do this manually:
 
 ```bash
-vim +CocInstall coc-go 
+vim +CocInstall coc-go
 ```
 
 Btw for plugins to be used we need [vim-plug](https://github.com/junegunn/vim-plug). It will install itself when starting vim for the first time as well as installing all the plugins.
@@ -118,5 +118,6 @@ Btw for plugins to be used we need [vim-plug](https://github.com/junegunn/vim-pl
 
 ```bash
 sudo pacman -S ranger
+yay -As dragon-drag-and-drop
 stow ranger
 ```
