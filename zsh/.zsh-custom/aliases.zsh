@@ -12,6 +12,7 @@ alias -s yaml=vim
 alias -s go=vim
 alias -s json=vim
 alias -s md=vim
+alias -g tfgen="terraform-docs md ./ --output-file README.md"
 
 ##################
 # Kitty related
