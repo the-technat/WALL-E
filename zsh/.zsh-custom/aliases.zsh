@@ -13,7 +13,7 @@ alias -s go=vim
 alias -s json=vim
 alias -s md=vim
 alias -g tfgen="terraform-docs md ./ --output-file README.md"
-alias -g gss="git status"
+alias -g gss="git status -s"
 
 ##################
 # Kitty related
