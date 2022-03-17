@@ -276,7 +276,7 @@ set laststatus=2
 set noshowmode
 
 " configure colorscheme
-set background=dark " or dark
+set background=light " or dark
 colorscheme solarized
 
 " Function can be added to status line for a warning/error count
