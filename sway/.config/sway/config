@@ -1,8 +1,11 @@
-# Technat's Config for sway
-# ~/.config/sway/config
-#
-# Read `man 5 sway` for a complete reference.
-
+## =============================================================================
+##
+## Sway configuration (https://code.immerda.ch/technat/wall-e)
+##
+## Configuration reference: `man 5 sway`
+## Configuration docs: https://wiki.technat.cloud/en/Linux/sway-de 
+##
+## =============================================================================
 
 ### Variables
 #
@@ -19,6 +22,7 @@ set $term foot
 #set $menu dmenu_path | dmenu | xargs swaymsg exec --
 # Solarized Light
 #set $menu bemenu-run -i \
+#    -H 21 \
 #    --tb "#eee8d5" \
 #    --tf "#586e75" \
 #    --fb "#eee8d5" \
@@ -37,6 +41,7 @@ set $term foot
 #    "$@" -m "$(swayfocused)" -p ">"
 # Solarized Dark
 set $menu bemenu-run -i \
+    -H 21 \
     --tb "#002b36" \
     --tf "#93a1a1" \
     --fb "#002b36" \

@@ -1,4 +1,11 @@
 #!/bin/sh
+## =============================================================================
+##
+## Part of Sway configuration (https://code.immerda.ch/technat/wall-e)
+##
+## Used to lock the screen with a keybinding 
+##
+## =============================================================================
 # Times the screen off and puts it to background
 swayidle \
   timeout 10 'swaymsg "output * dpms off"' \
