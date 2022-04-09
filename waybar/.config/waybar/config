@@ -1,6 +1,6 @@
 // =============================================================================
 //
-// Waybar configuration (https://git.technat.ch/technat/WALL-E)
+// Waybar configuration (https://code.immerda.ch/technat/wall-e)
 //
 // Configuration reference: https://github.com/Alexays/Waybar/wiki/Configuration
 // Configuration base: https://git.sr.ht/~begs/dotfiles/
@@ -24,7 +24,7 @@
 	],
 
 	"modules-right": [
-    "custom/arrow0",
+                "custom/arrow0",
 		"tray",
 		"custom/arrow1",
 		"pulseaudio",
