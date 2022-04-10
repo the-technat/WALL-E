@@ -65,12 +65,16 @@ set $menu bemenu-run -i \
     --fn "font pango:rubik 11" \
     "$@" -m "$(swayfocused)" -p ">"
 
+# Start your launcher
+bindsym $mod+d exec $menu
+
 ###########################
 # Cliphist
 # Docs: https://github.com/sentriz/cliphist
 # Requires: cliphist-bin, xdg-utils, wl-clipboard, jq (for wrapper)
 ###########################
 exec wl-paste --watch ~/.config/sway/cliphist.sh
+# Solarized Dark
 bindsym Shift+Ctrl+h exec cliphist list | \
     bemenu -H 21 \
     --tb "#002b36" \
@@ -92,29 +96,64 @@ bindsym Shift+Ctrl+h exec cliphist list | \
     cliphist decode | \
     wl-copy 
 
+# Solarized Light
+#bindsym Shift+Ctrl+h exec cliphist list | \
+#    bemenu -H 21 \
+#    --tb "#eee8d5" \
+#    --tf "#586e75" \
+#    --fb "#eee8d5" \
+#    --ff "#586e75" \
+#    --nb "#eee8d5" \
+#    --nf "#586e75" \
+#    --hb "#eee8d5" \
+#    --hf "#268bd2" \
+#    --fbb "#eee8d5" \
+#    --fbf "#586e75" \
+#    --sb "#eee8d5" \
+#    --sf "#586e75" \
+#    --scb "#eee8d5" \
+#    --scf "#586e75" \
+#    --fn "font pango:rubik 11" \
+#    "$@" -m "$(swayfocused)" -p ">" | \
+#    cliphist decode | \
+#    wl-copy 
+
 ###########################
 # kitty
 # Docs:
 # Required: kitty
 ###########################
 set $term foot
+# Start a terminal
+bindsym $mod+Return exec $term
 
-### Output configuration
+
+###########################
+# Displays & Apperance
+###########################
 # Wallpaper
 output "*" bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-#output eDP-1 resolution 1920x1080 position 1920,0
+
 default_border none
 default_floating_border none
 for_window [shell="xwayland"] title_format "<span>[X] %title゜</span>"
 font pango:Rubik 11
 
+###########################
+# Status Bar:
+# Docs: https://github.com/Alexays/Waybar
+# Requires: waybar, ttf-rubik
+###########################
+bar {
+    swaybar_command waybar
+}
 
-### Idle configuration
-# https://code.krister.ee/lock-screen-in-sway
-# idle lock:
-# 1. turn screen off in 9min 30sec
-# 2. lock screen in 10min (30s after screen off)
-# 3. lock screen when going to sleep
+###########################
+# Screen lock
+# Docs: https://code.krister.ee/lock-screen-in-sway/
+# Requires: swaylock-effects, swayidle
+###########################
+# Define what happens when you should lock (requires swaylock-effects)
 set $lock swaylock \
     --clock \
     --indicator \
@@ -124,42 +163,49 @@ set $lock swaylock \
     --effect-blur 4x2 \
     --datestr "%a %e.%m.%Y" \
     --timestr "%k:%M"
+# To manually lock the screen we call a script
+set $lockman exec bash ~/.config/sway/lockman.sh
+bindsym Alt+Shift+q exec $lockman
+# Configure idle locking
 exec swayidle -w \
   timeout 600 $lock \
   timeout 570 'swaymsg "output * dpms off"' \
   resume 'swaymsg "output * dpms on"' \
   before-sleep $lock
 
-# manual lock
-set $lockman exec sh ~/.config/sway/lockman.sh
-bindsym Alt+Shift+q exec $lockman
+###########################
+# Clamshell Mode
+# Docs: https://github.com/swaywm/sway/wiki#clamshell-mode
+###########################
+set $laptop eDP-1
+bindswitch --reload --locked lid:on output $laptop disable
+bindswitch --reload --locked lid:off output $laptop enable
+exec_always ~/.config/sway/clamshell.sh
 
-### Input configuration
-#
-# Example configuration:
-#
-#   input "2:14:SynPS/2_Synaptics_TouchPad" {
-#       dwt enabled
-#       tap enabled
-#       natural_scroll enabled
-#       middle_emulation enabled
-#   }
-#
-# You can get the names of your inputs by running: swaymsg -t get_inputs
-# Read `man 5 sway-input` for more information about this section.
+###########################
+# Inputs
+###########################
+input "type:keyboard" {
+    xkb_layout "us,us(intl)"
+}
 
-### Key bindings
+# Switch between keyboard layouts
+# bindsym Alt+Space input type:keyboard xkb_switch_layout next
+# Not working: https://github.com/swaywm/sway/issues/6011
+# Workaround:
+bindsym Alt+Space exec swaymsg -t get_inputs -r \
+| jq '[.[] | select(.type == "keyboard") | .xkb_active_layout_index][0] - 1 | fabs' \
+| xargs swaymsg 'input type:keyboard xkb_switch_layout'
+
+###########################
+# Keybindings (general)
+# All keybindings not particular to an app's functionality
+###########################
 #
 # Basics:
 #
-    # Start a terminal
-    bindsym $mod+Return exec $term
-
     # Kill focused window
     bindsym $mod+Shift+q kill
-
-    # Start your launcher
-    bindsym $mod+d exec $menu
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -286,38 +332,7 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
-#
-# Status Bar:
-#
-# Read `man 5 sway-bar` for more information about this section.
-bar {
-    swaybar_command waybar
-}
-
-#bar {
-#   position top
-
-    # When the status_command prints a new line to stdout, swaybar updates.
-    # The default just shows the current date and time.
-#   status_command while date +'%Y-%m-%d %I:%M:%S %p'; do sleep 1; done
-
-#   colors {
-#       statusline #ffffff
-#       background #323232
-#       inactive_workspace #32323200 #32323200 #5c5c5c
-#   }
-#}
-
+# for sway stuff coming with the package
 include /etc/sway/config.d/*
 
-#
-# Swaylock / Swayidle
-#
-#
-# Clamshell Mode
-#
-# https://github.com/swaywm/sway/wiki#clamshell-mode
-set $laptop eDP-1
-bindswitch --reload --locked lid:on output $laptop disable
-bindswitch --reload --locked lid:off output $laptop enable
-exec_always ~/.config/sway/clamshell.sh
+

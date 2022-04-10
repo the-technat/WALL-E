@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/sbin/env sh
 ## =============================================================================
 ##
 ## Part of Sway configuration (https://code.immerda.ch/technat/wall-e)
