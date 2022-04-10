@@ -7,8 +7,9 @@
 ##
 ## =============================================================================
 
-### Variables
-#
+###########################
+# General Variables
+###########################
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
 # Home row direction keys, like vim
@@ -16,10 +17,14 @@ set $left h
 set $down j
 set $up k
 set $right l
-# Your preferred terminal emulator
-set $term foot
-# Your preferred application launcher
+
+###########################
+# bemenu
+# Docs: https://github.com/Cloudef/bemenu
+# Requires: bemenu
+###########################
 #set $menu dmenu_path | dmenu | xargs swaymsg exec --
+
 # Solarized Light
 #set $menu bemenu-run -i \
 #    -H 21 \
@@ -39,6 +44,7 @@ set $term foot
 #    --scf "#586e75" \
 #    --fn "font pango:rubik 11" \
 #    "$@" -m "$(swayfocused)" -p ">"
+
 # Solarized Dark
 set $menu bemenu-run -i \
     -H 21 \
@@ -59,6 +65,39 @@ set $menu bemenu-run -i \
     --fn "font pango:rubik 11" \
     "$@" -m "$(swayfocused)" -p ">"
 
+###########################
+# Cliphist
+# Docs: https://github.com/sentriz/cliphist
+# Requires: cliphist-bin, xdg-utils, wl-clipboard, jq (for wrapper)
+###########################
+exec wl-paste --watch ~/.config/sway/cliphist.sh
+bindsym Shift+Ctrl+h exec cliphist list | \
+    bemenu -H 21 \
+    --tb "#002b36" \
+    --tf "#93a1a1" \
+    --fb "#002b36" \
+    --ff "#93a1a1" \
+    --nb "#002b36" \
+    --nf "#93a1a1" \
+    --hb "#002b36" \
+    --hf "#859900" \
+    --fbb "#002b36" \
+    --fbf "#93a1a1" \
+    --sb "#002b36" \
+    --sf "#93a1a1" \
+    --scb "#002b36" \
+    --scf "#93a1a1" \
+    --fn "font pango:rubik 11" \
+    "$@" -m "$(swayfocused)" -p ">" | \
+    cliphist decode | \
+    wl-copy 
+
+###########################
+# kitty
+# Docs:
+# Required: kitty
+###########################
+set $term foot
 
 ### Output configuration
 # Wallpaper
