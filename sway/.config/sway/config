@@ -19,6 +19,22 @@ set $up k
 set $right l
 
 ###########################
+# Mako (Notifications)
+# Docs: https://github.com/emersion/mako
+# Requires: mako
+###########################
+# Launch mako with sway session
+exec mako
+
+###########################
+# Wob
+# Docs:
+# Requires: wob (aur)
+###########################
+set $WOBSOCK $XDG_RUNTIME_DIR/wob.sock
+exec rm -f $WOBSOCK && mkfifo $WOBSOCK && tail -f $WOBSOCK | wob
+
+###########################
 # bemenu
 # Docs: https://github.com/Cloudef/bemenu
 # Requires: bemenu
@@ -117,6 +133,33 @@ bindsym Shift+Ctrl+h exec cliphist list | \
 #    "$@" -m "$(swayfocused)" -p ">" | \
 #    cliphist decode | \
 #    wl-copy 
+
+
+###########################
+# Brightness
+# Docs: https://github.com/Hummer12007/brightnessctl/
+# Requires: brightnessctl
+###########################
+bindsym XF86MonBrightnessDown exec brightnessctl set 5%- | sed -En 's/.*\(([0-9]+)%\).*/\1/p' > $WOBSOCK
+bindsym XF86MonBrightnessUp exec brightnessctl set +5% | sed -En 's/.*\(([0-9]+)%\).*/\1/p' > $WOBSOCK
+
+
+###########################
+# Sound Controls
+# Docs: 
+###########################
+# Media player controls
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+
+# Volume Control
+bindsym XF86AudioRaiseVolume exec volumectl up
+bindsym XF86AudioLowerVolume exec volumectl down 
+bindsym XF86AudioMute exec volumectl toggle 
+
+# Input control
+bindsym $mod+Alt+Ctrl+Space exec ~/.config/sway/mic-mute.s
 
 ###########################
 # kitty
