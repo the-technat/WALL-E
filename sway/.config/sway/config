@@ -27,6 +27,22 @@ set $right l
 exec mako
 
 ###########################
+# Screenshot
+# Docs: 
+# Requires: grim, grimshot, swappy
+###########################
+
+# Screenshot // Screenshot active display
+bindsym --locked Ctrl+Alt+s exec /sbin/grimshot --notify save output - | swappy -f - & SLIGHT=$(light -G) && light -A 30 && sleep 0.1 && light -S $SLIGHT
+
+# # Screenshot // Screenshot current window
+bindsym Shift+Alt+s exec /sbin/grimshot --notify save active - | swappy -f - & SLIGHT=$(light -G) && light -A 30 && sleep 0.1 && light -S $SLIGHT
+
+# Screenshot // Screenshot selected region
+bindsym $mod+Shift+s exec /sbin/grimshot --notify save area - | swappy -f - && SLIGHT=$(light -G) && light -A 30 && sleep 0.1 && light -S $SLIGHT
+
+
+###########################
 # Wob
 # Docs:
 # Requires: wob (aur)
@@ -159,14 +175,14 @@ bindsym XF86AudioLowerVolume exec volumectl down
 bindsym XF86AudioMute exec volumectl toggle 
 
 # Input control
-bindsym $mod+Alt+Ctrl+Space exec ~/.config/sway/mic-mute.s
+bindsym $mod+Alt+Ctrl+Space exec ~/.config/sway/mic-mute.sh
 
 ###########################
 # kitty
 # Docs:
 # Required: kitty
 ###########################
-set $term foot
+set $term kitty
 # Start a terminal
 bindsym $mod+Return exec $term
 
@@ -248,7 +264,7 @@ bindsym Alt+Space exec swaymsg -t get_inputs -r \
 # Basics:
 #
     # Kill focused window
-    bindsym $mod+Shift+q kill
+    bindsym ctrl+q kill
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
