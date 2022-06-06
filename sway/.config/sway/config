@@ -18,6 +18,15 @@ set $down j
 set $up k
 set $right l
 
+
+###########################
+# Dex (app autostart)
+# Docs: https://github.com/jceb/dex
+# Requires: dex (AUR)
+###########################
+# Launch dex with sway session
+exec dex -a
+
 ###########################
 # Mako (Notifications)
 # Docs: https://github.com/emersion/mako
