@@ -1,0 +1,32 @@
+#################
+# General
+#################
+# Source secret config values from encryted file
+source "gpg -dq $HOME/.my-pwds.gpg |"
+set my_user=technat@technat.ch
+set realname="Nathanael Liechti"
+set from="technat@technat.ch"
+set use_from=yes
+set ssl_force_tls=yes
+set ssl_starttls=yes
+
+#################
+# IMAP
+#################
+set folder=imaps://mail.infomaniak.com:993/
+set imap_user=$my_user
+set imap_pass=$my_pass
+set spoolfile=+INBOX
+set imap_check_subscribed
+set header_cache=~/.cache/mutt
+set message_cachedir=~/.cache/mutt
+unset imap_passive
+set imap_keepalive=300
+set mail_check=30
+set postponed = +INBOX/Drafts
+
+#################
+# SMTP
+#################
+set smtp_pass=$my_pass
+set smtp_url=smtps://$my_user@mail.infomaniak.com
