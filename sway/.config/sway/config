@@ -207,6 +207,15 @@ default_floating_border none
 for_window [shell="xwayland"] title_format "<span>[X] %title゜</span>"
 font pango:Rubik 11
 
+set $gnome-schema org.gnome.desktop.interface
+
+exec_always {
+    gsettings set $gnome-schema gtk-theme 'Solarized-Dark'
+    # gsettings set $gnome-schema icon-theme 'Your icon theme'
+    # gsettings set $gnome-schema cursor-theme 'Your cursor Theme'
+    # gsettings set $gnome-schema font-name 'Your font name'
+}
+
 ###########################
 # Status Bar:
 # Docs: https://github.com/Alexays/Waybar
