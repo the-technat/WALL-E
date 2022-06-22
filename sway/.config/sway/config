@@ -18,6 +18,12 @@ set $down j
 set $up k
 set $right l
 
+###########################
+# passmenu (password select)
+# Docs: https://www.passwordstore.org/
+# Requires: passmenu.sh
+###########################
+bindsym $mod+p exec ~/.config/sway/passmenu.sh 
 
 ###########################
 # Dex (app autostart)
@@ -116,7 +122,7 @@ bindsym $mod+d exec $menu
 ###########################
 exec wl-paste --watch ~/.config/sway/cliphist.sh
 # Solarized Dark
-bindsym Shift+Ctrl+h exec cliphist list | \
+bindsym $mod+y exec cliphist list | \
     bemenu -H 21 \
     --tb "#002b36" \
     --tf "#93a1a1" \
@@ -210,7 +216,8 @@ font pango:Rubik 11
 set $gnome-schema org.gnome.desktop.interface
 
 exec_always {
-    gsettings set $gnome-schema gtk-theme 'Solarized-Dark'
+    # gsettings set $gnome-schema gtk-theme 'Solarized-Dark'
+    gsettings set $gnome-schema gtk-theme 'NumixSolarizedDarkBlue'
     # gsettings set $gnome-schema icon-theme 'Your icon theme'
     # gsettings set $gnome-schema cursor-theme 'Your cursor Theme'
     # gsettings set $gnome-schema font-name 'Your font name'
