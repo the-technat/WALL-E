@@ -34,6 +34,14 @@ bindsym $mod+p exec ~/.config/sway/passmenu.sh
 exec dex -a
 
 ###########################
+# udiskie (usb automount)
+# Docs: https://github.com/coldfix/udiskie/wiki
+# Requires: udiskie, udisks2
+###########################
+# Launch at sway start
+exec udiskie -Nt &
+
+###########################
 # Mako (Notifications)
 # Docs: https://github.com/emersion/mako
 # Requires: mako

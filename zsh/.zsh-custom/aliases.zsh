@@ -2,7 +2,7 @@
 # General
 ##################
 alias ll="ranger"
-alias l="ls -lahF" 
+alias l="ls -lahF --hyperlink=auto --color=auto" 
 
 ##################
 # Editing
@@ -18,8 +18,10 @@ alias -g gss="git status -s"
 ##################
 # Kitty related
 ##################
-# https://sw.kovidgoyal.net/kitty/faq/#i-get-errors-about-the-terminal-being-unknown-or-opening-the-terminal-failing-when-sshing-into-a-different-computer
 alias ssh="kitty +kitten ssh"
+alias icat="kitty +kitten icat"
+alias hg="kitty +kitten hyperlinked_grep"
+alias diff="kitty +kitten diff"
 
 ##################
 # Kubernetes
