@@ -2,7 +2,8 @@
 # General
 #################
 # Source secret config values from encryted file
-source "gpg -dq $HOME/.my-pwds.gpg |"
+# source "gpg -dq $HOME/.my-pwds.gpg |"
+source $HOME/.config/mutt/.my-pwds
 set my_user=technat@technat.ch
 set realname="Nathanael Liechti"
 set from="technat@technat.ch"
